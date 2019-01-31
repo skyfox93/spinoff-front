@@ -1,0 +1,80 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+.guide{position:absolute;right:30px;background-color:lightgray;border-radius:10px;padding:1em;}
+	#hiddenInputs{display:none;}
+	#blurCanvas,#tempCanvas {width:500px;float:left;position:absolute;margin-top:100px;z-index:0;display:none;}
+	#image {width:500px;border:solid green 10px;float:left;position:absolute;margin-top:100px;;display:none;z-index:0;}
+	#controls{display:none;}
+	#canvas3{width:500px;float:left;position:absolute;margin-top:100px;;display:none;z-index:0;}
+	#c,#c2,#c3{float:left;position:absolute;opacity:1;margin-top:100px;}
+	.border {margin-left:50px;}
+	#c4{float:left;position:absolute;opacity:1;margin-top:100px;opacity:0;}
+	.border {margin-left:50px;}
+	.hide {display:none;}
+	#strengthtext{width:500px;background-color:lightgray;height:50px;border-style:solid; border-radius:10px;}
+	#bottombar{background-color:slategrey;opacity:1;width:500px;}
+	.show {float:left;height:50px;background-color:lightgrey;border-radius:10px;margin:0;font-size:15px}
+	.tools{padding:0;;width:500px;background-color:slategray;height:100px;}
+    .image {width:500px;height:50px;color:black;text-align:right;background-color:grey; opacity:1;
+    position:absolute;display:inline-block;font-size: 200%;top:50px;}
+	.slider{display:block;width:250px;margin:0px;height:50px;}
+	#wrap {width:700px;height:400px;position:relative;}
+	#maskb {background-color:white;display:none;}
+	#step2{position:absolute;}
+	#file{display:none;}
+	#color{width:40px;}
+	#fill,#clear{float:right;margin:0 5px;font-size:1em}
+	#blur{margin-left:100px;}
+	input[type="range"]
+
+{
+    width: 100px;
+    margin: 0px;
+    padding: 5px;
+    outline: none;
+    background-color: transparent;
+    -webkit-appearance: none;
+}
+
+input[type="range"]:focus
+{
+    outline: none;
+}
+
+input[type="range"]::-webkit-slider-runnable-track
+{margin:0px;
+    width: 100%;
+    height: 4px;
+    background: #CCC;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+input[type="range"]:focus::-webkit-slider-runnable-track
+{
+    background:#00AD7A;
+}
+
+input[type="range"]::-webkit-slider-thumb
+{
+    height: 22px;
+    width: 22px;
+    margin-top: -10px;
+    border:1px solid #00AD7A;
+    background: #00AD7A;
+    border-radius: 50%;
+    cursor: pointer;
+    -webkit-appearance: none;
+}
