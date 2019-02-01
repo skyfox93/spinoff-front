@@ -11,6 +11,8 @@ class PhotosContainer extends React.Component{
     user={photo.user}
     baseUrl={this.props.baseUrl}
     numSpinoffs={photo.spinoffs && photo.spinoffs.length}
+    canSpinOff={!!photo.spinoffs}
+
     />
 
   )

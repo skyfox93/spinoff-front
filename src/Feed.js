@@ -13,6 +13,8 @@ class Feed extends React.Component{
     photos:[],
     selectedPhotoId: null,
     editingPhotoId: null,
+    displayOriginal:false
+
   }
 
   getSelectedPhoto=()=>{
@@ -113,7 +115,7 @@ class Feed extends React.Component{
     return adapter.getPhotos(2).then(
       photos => this.setState({photos: photos})
     )
-    ///.then(()=>this.setState({selectedPhotoId:14}))
+    .then(()=>this.setState({selectedPhotoId:14}))
   }
 
   componentDidMount(){
@@ -123,8 +125,9 @@ class Feed extends React.Component{
   render () {
   const selected=this.getSelectedPhoto()
   const editing=this.getEditingPhoto()
+  const dispOriginal=this.state.displayOriginal
   console.log(selected)
-     if(selected && !editing){
+     if(selected && !editing && !dispOriginal){
        return <div>
          <Photo
            id={selected.id}
@@ -133,6 +136,7 @@ class Feed extends React.Component{
            baseUrl={baseUrl}
            user={selected.user}
            numSpinoffs={selected.spinoffs.length}
+           canSpinOff={!!selected.spinoffs}
            />
          <PhotosContainer photos={selected.spinoffs} baseUrl={baseUrl} />
        </div>
