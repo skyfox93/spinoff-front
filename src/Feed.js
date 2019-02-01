@@ -2,17 +2,46 @@ import React from 'react'
 import Adapter from './Adapter'
 import PhotosContainer from './PhotosContainer'
 import Photo from './Photo'
+import Editor from'./Editor'
+
 const baseUrl='http://localhost:3000'
 const adapter=Adapter(baseUrl+'/api/v1')
+
 class Feed extends React.Component{
 
   state={
     photos:[],
-    selectedPhotoId: null
+    selectedPhotoId: null,
+    editingPhotoId: null,
   }
 
-  getCurrentPhoto=()=>{
-    return this.state.photos.find((photo)=>photo.id===this.state.selectedPhotoId)
+  getSelectedPhoto=()=>{
+    if(!this.state.selectedPhotoId){ return}
+    return this.state.photos.find((photo)=>
+      photo.id===this.state.selectedPhotoId||
+        photo.spinoffs.find(spinoff=>
+          spinoff.id===this.state.selectedPhotoId
+        )
+    )
+  }
+  getEditingPhoto=()=>{
+    if(!this.state.editingPhotoId){ return}
+    return this.state.photos.find((photo)=>
+      photo.id===this.state.editingPhotoId||
+        photo.spinoffs.find(spinoff=>
+          spinoff.id===this.state.editingPhotoId
+        )
+    )
+  }
+
+
+
+  editPhoto=(photoID)=> {
+    this.setState({editingPhotoId:photoID})
+  }
+  viewPhoto=(photoID)=>{
+    this.setState({selectedPhotoId:photoID})
+
   }
 
   addComment= (content, photoId)=>{
@@ -83,28 +112,37 @@ class Feed extends React.Component{
   fetchPhotos= ()=>{
     return adapter.getPhotos(2).then(
       photos => this.setState({photos: photos})
-    ).then(()=>this.setState({selectedPhotoId:14}))
+    )
+    ///.then(()=>this.setState({selectedPhotoId:14}))
   }
 
   componentDidMount(){
     this.fetchPhotos()
+    //.then(this.setState({editingPhotoId:14}))
   }
   render () {
-  const selected=this.state.selectedPhotoId
-  const photo=this.getCurrentPhoto()
+  const selected=this.getSelectedPhoto()
+  const editing=this.getEditingPhoto()
   console.log(selected)
-     return selected ?
-       <div>
+     if(selected && !editing){
+       return <div>
          <Photo
-           id={photo.id}
-           url={photo.file.url}
-           comments={photo.comments}
+           id={selected.id}
+           url={selected.file.url}
+           comments={selected.comments}
            baseUrl={baseUrl}
+           user={selected.user}
+           numSpinoffs={selected.spinoffs.length}
            />
-         <PhotosContainer photos={photo.spinoffs} baseUrl={baseUrl}/>
+         <PhotosContainer photos={selected.spinoffs} baseUrl={baseUrl} />
        </div>
-     :
-      <PhotosContainer photos={this.state.photos} baseUrl={baseUrl}/>
+     }
+     else if (editing){
+       return <Editor url={editing.file.url} baseUrl={baseUrl}/>
+     }
+     else{
+    return   <PhotosContainer photos={this.state.photos} baseUrl={baseUrl} />
+    }
   }
 }
 export default Feed

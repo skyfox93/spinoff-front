@@ -39,7 +39,7 @@ initEditor(this.editorC.current,stackBlurImage)
             <canvas id='tempCanvas'></canvas><br/>
             <div className='border'>
               <div className='wrapper' id={'wrap'}>
-              	<img src={"Guide.jpg"} id='image'></img>
+              	<img src={this.props.baseUrl+this.props.url} id='image' crossOrigin = "Anonymous"></img>
               	<canvas id={'canvas3'}></canvas>
               	<canvas id="c3" width="500" height="750"></canvas>
               	<canvas id="c2" width="500" height="750"></canvas>

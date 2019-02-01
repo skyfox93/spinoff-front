@@ -5,6 +5,8 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Feed from'./Feed'
+import Editor from'./Editor'
+
 import Adapter from './Adapter'
 
 class App extends Component {
@@ -14,7 +16,7 @@ class App extends Component {
   }
 
 
- 
+
 
 
   render() {

@@ -17,8 +17,11 @@ function initEditor(editorC, stackBlurImage) {
 
   var boost = editorC.querySelector('#boost');
   var boost2 = editorC.querySelector('#boost2');
+  var image = editorC.querySelector('#image');
+
   var imageObj = new Image();
-  //imageObj.src="1.jpg";
+  imageObj.crossOrigin = "Anonymous";
+  imageObj.src=image.src;
 
   var brsize = editorC.querySelector('#brsize');
   var brstrength = editorC.querySelector('#brstrength');
@@ -45,8 +48,7 @@ function initEditor(editorC, stackBlurImage) {
   });
 
 
-  var image = editorC.querySelector('#image');
-
+/////
   imageObj.onload = function() {
 
     // DEFINE ELEMENTS
@@ -157,7 +159,7 @@ function initEditor(editorC, stackBlurImage) {
       context3.globalAlpha = 1;
       context3.globalCompositeOperation = 'multiply';
       //	context3.drawImage(el3, 0, 0, canvas3.width, canvas3.height);
-      context3.globalCompositeOperation = 'overlay';
+      context3.globalCompositeOperation = 'color';
       context3.drawImage(el3, 0, 0, canvas3.width, canvas3.height);
       // REPLACE WITH ORIGNAL DEPENDING ON EFFECT STRENGTH SLIDER
       context3.globalAlpha = 1 - brstrength.value / 10;
@@ -263,7 +265,7 @@ function initEditor(editorC, stackBlurImage) {
         var dist = distanceBetween(lastPoint, currentPoint);
         var angle = angleBetween(lastPoint, currentPoint);
 
-        if (dist > size / 15) {
+        if (dist > size / 10) {
 
            var x = lastPoint.x + (Math.sin(angle) * size / 4);
            var y = lastPoint.y + (Math.cos(angle) * size / 4);
@@ -314,14 +316,14 @@ function initEditor(editorC, stackBlurImage) {
       if (boost2.checked) {
         el.style.opacity = 0;
         el2.style.opacity = 0;
-        el3.style.opacity = 0.5;
+        el3.style.opacity = 0.7;
       } else {
         if (sharp.checked) {
           el.style.opacity = 0
-          el2.style.opacity = 0.5;
+          el2.style.opacity = 0.7;
         }
         if (boost.checked) {
-          el.style.opacity = 0.5
+          el.style.opacity = 0.7
           el2.style.opacity = 0;
         }
       }
@@ -345,19 +347,17 @@ function initEditor(editorC, stackBlurImage) {
       var dist = distanceBetween(lastPoint, currentPoint);
       var angle = angleBetween(lastPoint, currentPoint);
 
-      if (dist > size / 15) {
+      if (dist > size /10) {
 
-        var x = lastPoint.x + (Math.sin(angle) * size / 4);
-      var y = lastPoint.y + (Math.cos(angle) * size / 4);
+        var x = lastPoint.x + (Math.sin(angle) * size /10);
+      var y = lastPoint.y + (Math.cos(angle) * size / 10);
 
-        var radgrad2 = ctx2.createRadialGradient(x, y, 10, x, y, size / 2);
+        var radgrad2 = ctx2.createRadialGradient(x, y, size/4, x, y, size / 2);
         radgrad2.addColorStop(0, 'rgba(0,255,0,1)');
-        radgrad2.addColorStop(0.5, 'rgba(255,255,255,0.3)');
         radgrad2.addColorStop(1, 'rgba(0,255,0,0)');
 
-        var radgrad = ctx.createRadialGradient(x, y, 10, x, y, size / 2);
+        var radgrad = ctx.createRadialGradient(x, y, size/4, x, y, size / 2);
         radgrad.addColorStop(0, 'rgba(255,0,0,1)');
-        radgrad.addColorStop(0.5, 'rgba(255,0,0,0.3)');
         radgrad.addColorStop(1, 'rgba(255,0,0,0)');
 
         function convertHex(hex, opacity) {
@@ -370,9 +370,8 @@ function initEditor(editorC, stackBlurImage) {
           return result;
         }
 
-        var radgrad3 = ctx3.createRadialGradient(x, y, 10, x, y, size / 2);
+        var radgrad3 = ctx3.createRadialGradient(x, y, size/16, x, y, size / 2);
         radgrad3.addColorStop(0, `${color.value}`);
-        radgrad3.addColorStop(0.5, `${convertHex(color.value,0.5)}`);
         radgrad3.addColorStop(1, `${convertHex(color.value,0)}`);
         ctx.fillStyle = radgrad;
         ctx2.fillStyle = radgrad2;
@@ -397,6 +396,7 @@ function initEditor(editorC, stackBlurImage) {
           ctx3.globalCompositeOperation = "source-over";
         }
         lastPoint = currentPoint;
+        adjust()
       }
 
 
@@ -522,7 +522,7 @@ function initEditor(editorC, stackBlurImage) {
     load();
     adjust();
   }
-
+////////
   editorC.querySelector('#dismiss').addEventListener('click', function() {
     editorC.querySelector('#guide').classList.toggle("hide"); console.log('hide');
   });

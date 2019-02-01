@@ -8,7 +8,11 @@ class PhotosContainer extends React.Component{
     id={photo.id}
     comments={photo.comments}
     url={photo.file.url}
-    baseUrl={this.props.baseUrl}/>
+    user={photo.user}
+    baseUrl={this.props.baseUrl}
+    numSpinoffs={photo.spinoffs && photo.spinoffs.length}
+    />
+
   )
   }
 
