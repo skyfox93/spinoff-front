@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 //import { Stage, Sprite, AppConsumer } from '@inlet/react-pixi'
 // import * as PIXI from 'pixi.js'
 // import { ConvolutionFilter } from '@pixi/filter-convolution';
+import Adapter from './Adapter'
 import stackBlurImage from './blurFunction.js'
 import logo from './logo.svg';
 import initEditor from './editor_plugin_2.js'
+
+let adapter=Adapter('http://localhost:3000/api/v1')
 class Editor extends Component {
   constructor(props) {
     super(props);
@@ -20,11 +23,14 @@ handleselectedFile = (event) => {
 
   }
 
+
   componentDidMount(){
-initEditor(this.editorC.current,stackBlurImage)
+initEditor(this.editorC.current,stackBlurImage,this.props.savePhoto,this.props.existingImg)
   }
 
   render() {
+    console.log('RENDER EDITOR')
+
     return (
         <div id="container" ref={this.editorC}>
     	    <img className={'show'} src="openi.jpg" id='open'></img>
@@ -39,7 +45,7 @@ initEditor(this.editorC.current,stackBlurImage)
             <canvas id='tempCanvas'></canvas><br/>
             <div className='border'>
               <div className='wrapper' id={'wrap'}>
-              	<img src={this.props.baseUrl+this.props.url} id='image' crossOrigin = "Anonymous"></img>
+              {this.props.url?	<img src={this.props.baseUrl+this.props.url} id='image' crossOrigin = "Anonymous"></img>: <img src='Guide.jpeg' id='image' crossOrigin = "Anonymous"></img> }
               	<canvas id={'canvas3'}></canvas>
               	<canvas id="c3" width="500" height="750"></canvas>
               	<canvas id="c2" width="500" height="750"></canvas>

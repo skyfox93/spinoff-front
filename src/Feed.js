@@ -13,8 +13,7 @@ class Feed extends React.Component{
     photos:[],
     selectedPhotoId: null,
     editingPhotoId: null,
-    displayOriginal:false
-
+    createNew: false
   }
 
   getSelectedPhoto=()=>{
@@ -35,8 +34,21 @@ class Feed extends React.Component{
         )
     )
   }
-
-
+  addPhoto=()=>{
+    this.setState({createNew:true})
+  }
+  savePhoto=(data, removeListeners)=>{
+    const id=this.props.user.id
+    adapter.postPhoto(
+      id,{
+        photo:{file:data, user_id:id, like_count:0}
+      })
+    .then(()=>{
+      removeListeners()
+      this.setState({editingPhotoId:null})
+    })
+    .catch(alert('sorry, something went wrong.'))
+  }
 
   editPhoto=(photoID)=> {
     this.setState({editingPhotoId:photoID})
@@ -115,7 +127,7 @@ class Feed extends React.Component{
     return adapter.getPhotos(2).then(
       photos => this.setState({photos: photos})
     )
-    .then(()=>this.setState({selectedPhotoId:14}))
+    //.then(()=>this.setState({selectedPhotoId:14}))
   }
 
   componentDidMount(){
@@ -125,9 +137,8 @@ class Feed extends React.Component{
   render () {
   const selected=this.getSelectedPhoto()
   const editing=this.getEditingPhoto()
-  const dispOriginal=this.state.displayOriginal
   console.log(selected)
-     if(selected && !editing && !dispOriginal){
+     if(selected && !editing ){
        return <div>
          <Photo
            id={selected.id}
@@ -137,16 +148,46 @@ class Feed extends React.Component{
            user={selected.user}
            numSpinoffs={selected.spinoffs.length}
            canSpinOff={!!selected.spinoffs}
+           spinOffPhoto={this.spinoffPhoto}
+           viewPhoto={this.viewPhoto}
+           editPhoto={this.editPhoto}
+
+
            />
-         <PhotosContainer photos={selected.spinoffs} baseUrl={baseUrl} />
+         <PhotosContainer
+         photos={selected.spinoffs}
+         baseUrl={baseUrl}
+         spinOffPhoto={this.spinoffPhoto}
+         viewPhoto={this.viewPhoto}
+         editPhoto={this.editPhoto}
+         />
        </div>
-     }
-     else if (editing){
-       return <Editor url={editing.file.url} baseUrl={baseUrl}/>
-     }
-     else{
-    return   <PhotosContainer photos={this.state.photos} baseUrl={baseUrl} />
-    }
+       }
+       else if (editing||this.state.createNew){
+         return <Editor
+
+         url={editing && editing.file.url}
+         id={editing && editing.id}
+         baseUrl={baseUrl}
+         //photo will save as belonging to currentUser
+         currentUserID={this.props.user.id}
+         baseUrl={baseUrl}
+         savePhoto={this.savePhoto}
+         existingImg={!this.state.createNew}
+         />
+
+       }
+
+       else{
+        return <><button onClick={this.addPhoto}> New Post </button>
+        <PhotosContainer
+        photos={this.state.photos}
+        baseUrl={baseUrl}
+        editPhoto={this.editPhoto}
+        viewPhoto={this.viewPhoto}
+        />
+        </>
+      }
   }
 }
 export default Feed

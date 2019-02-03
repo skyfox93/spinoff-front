@@ -6,23 +6,26 @@ import logo from './logo.svg';
 import './App.css';
 import Feed from'./Feed'
 import Editor from'./Editor'
+import SignIn from'./forms/SignIn'
+
 
 import Adapter from './Adapter'
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {file: null}
+
+  state={
+    currentUser:null
   }
 
-
-
+  updateCurrentUser=(user=>
+  this.setState({user:user}))
 
 
   render() {
     return (
       <div className="App">
-      <Feed/>
+      {this.state.user ? <Feed user={this.state.user}/> : <SignIn updateCurrentUser={this.updateCurrentUser}/>}
+
   </div>
     );
   }

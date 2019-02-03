@@ -1,4 +1,4 @@
-function initEditor(editorC, stackBlurImage) {
+function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
   var saveBtn = editorC.querySelector('#saveBtn');
   var sharp = editorC.querySelector('#sharpen');
   var erase = editorC.querySelector('#resize');
@@ -21,7 +21,7 @@ function initEditor(editorC, stackBlurImage) {
 
   var imageObj = new Image();
   imageObj.crossOrigin = "Anonymous";
-  imageObj.src=image.src;
+  if (existingImg){imageObj.src = image.src;}
 
   var brsize = editorC.querySelector('#brsize');
   var brstrength = editorC.querySelector('#brstrength');
@@ -53,7 +53,7 @@ function initEditor(editorC, stackBlurImage) {
 
     // DEFINE ELEMENTS
     var blurCanvas = editorC.querySelector('#blurCanvas');
-    image.src = imageObj.src;
+    // if theres an exiting Img, load it.
     var context = blurCanvas.getContext('2d');
     var ratio = imageObj.height / imageObj.width;
     blurCanvas.width = 500;
@@ -142,7 +142,7 @@ function initEditor(editorC, stackBlurImage) {
       // SCREEN THE IMAGE TO MATCH THE LIGHTEN FILTER
       context3.globalCompositeOperation = "overlay";
       context3.fillStyle = "white";
-      context3.globalAlpha = 0.3;
+      context3.globalAlpha = 0.5;
       context3.fillRect(0, 0, canvas3.width, canvas3.height);
 
 
@@ -156,9 +156,9 @@ function initEditor(editorC, stackBlurImage) {
       context3.globalCompositeOperation = 'destination-atop';
       context3.drawImage(tempCanvas, 0, 0, canvas3.width, canvas3.height);
       //COLOR-BURN
-      context3.globalAlpha = 1;
-      context3.globalCompositeOperation = 'multiply';
-      //	context3.drawImage(el3, 0, 0, canvas3.width, canvas3.height);
+      context3.globalAlpha = 0.8;
+      context3.globalCompositeOperation = 'color';
+      //context3.drawImage(el3, 0, 0, canvas3.width, canvas3.height);
       context3.globalCompositeOperation = 'color';
       context3.drawImage(el3, 0, 0, canvas3.width, canvas3.height);
       // REPLACE WITH ORIGNAL DEPENDING ON EFFECT STRENGTH SLIDER
@@ -180,7 +180,7 @@ function initEditor(editorC, stackBlurImage) {
       */
       setTimeout(function() {
         inprocess = 0;
-      }, 400);
+      }, 300);
 
 
 
@@ -225,10 +225,13 @@ function initEditor(editorC, stackBlurImage) {
       adjust();
       setTimeout(function() {
         inprocess1 = 0;
-      }, 100);
+      }, 300);
+    }
+    function removeListeners(){
+
     }
     var saveimage = function() {
-      image.src = canvas3.toDataURL("image/jpeg", 1.0);
+      postPhoto(canvas3.toDataURL("image/jpeg", 1.0),removeListeners)
       image.style.display = "inline";
       canvas3.style.display = "none";
       el.style.display = "none";

@@ -17,9 +17,8 @@ render(){
             style={{width:'500px'}}
             />
             <div className='photo-UI'>
-            {this.props.canSpinOff ? <a>{`${this.props.numSpinoffs} spinoffs`}</a>: null}
-            {this.props.canSpinOff ? <button>Spinoff </button>: null}
-
+            {this.props.canSpinOff ? <a onClick={()=>this.props.viewPhoto(this.props.id)}>{`${this.props.numSpinoffs} spinoffs`}</a>: null}
+            {this.props.canSpinOff ? <button onClick={()=>this.props.editPhoto(this.props.id)}>Spinoff </button>: null}
             </div>
             <Comments comments={this.props.comments}/>
 
