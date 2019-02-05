@@ -35,8 +35,20 @@ class Feed extends React.Component{
   }
 
   getSpinoffs=()=>{
-    let id= this.state.selectedPhotoId
-  return this.state.photos.filter(photo=> photo.id === id)
+    let selected=this.getSelectedPhoto()
+    let id=selected.id
+  return this.state.photos.filter(photo=> photo.photo_id === id)
+  }
+
+  getSelectedPhoto=()=>{
+    // find the selected photo, if its not the original, look for the original one.
+    // if you can't find the original, select the spinoff
+   let selPhoto= this.state.selectedPhotoId && this.state.photos.find(photo=> photo.id===this.state.selectedPhotoId)
+   let original=(selPhoto && selPhoto.photo_id) ?
+     this.state.photos.find(photo=> photo.id===selPhoto.photo_id)
+     : selPhoto
+  return  original
+
   }
 
 
@@ -53,10 +65,7 @@ class Feed extends React.Component{
   getEditingPhoto=()=>{
     if(!this.state.editingPhotoId){ return}
     return this.state.photos.find((photo)=>
-      photo.id===this.state.editingPhotoId||
-        photo.spinoffs.find(spinoff=>
-          spinoff.id===this.state.editingPhotoId
-        )
+      photo.id===this.state.editingPhotoId
     )
   }
 
@@ -65,14 +74,17 @@ class Feed extends React.Component{
     this.setState({createNew:true})
   }
   savePhoto=(data, removeListeners)=>{
+    const editing=this.getEditingPhoto()
+    const photo_id= editing && (editing.photo_id || editing.id)
+
     const id=this.props.user.id
     adapter.postPhoto(
       id,{
-        photo:{file:data, user_id:id, like_count:0}
+        photo:{file:data, user_id:id, like_count:0, photo_id: photo_id  }
       })
     .then((photo)=>{
       removeListeners()
-      let newPhotos=[photo, ...photos]
+      let newPhotos=[photo, ...this.state.photos]
       this.setState({editingPhotoId:null})
     })
     .catch(alert('sorry, something went wrong.'))
@@ -102,11 +114,12 @@ class Feed extends React.Component{
            comments={selected.comments}
            baseUrl={baseUrl}
            user={selected.user}
-           numSpinoffs={selected.spinoffs_count}
-           canSpinOff={true}
+           numSpinoffs={selected.spinoff_count}
+           canSpinOff={'yes'}
            spinOffPhoto={this.spinoffPhoto}
            viewPhoto={this.viewPhoto}
            editPhoto={this.editPhoto}
+           showingOrig={true}
            />
          <PhotosContainer
          photos={this.getSpinoffs()}
@@ -114,13 +127,12 @@ class Feed extends React.Component{
          spinOffPhoto={this.spinoffPhoto}
          viewPhoto={this.viewPhoto}
          editPhoto={this.editPhoto}
-         canSpinOff={true}
+         showingOrig={true}
          />
        </div>
        }
        else if (editing||this.state.createNew){
          return <Editor
-
          url={editing && editing.file.url}
          id={editing && editing.id}
          baseUrl={baseUrl}
@@ -142,6 +154,8 @@ class Feed extends React.Component{
         baseUrl={baseUrl}
         editPhoto={this.editPhoto}
         viewPhoto={this.viewPhoto}
+        canSpinOff={true}
+        showInfo={true}
         />
         </>
       }

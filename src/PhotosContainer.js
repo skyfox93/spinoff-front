@@ -11,9 +11,10 @@ class PhotosContainer extends React.Component{
     user={photo.user}
     baseUrl={this.props.baseUrl}
     numSpinoffs={photo.spinoff_count}
-    canSpinOff={this.props.canSpinOff}
     editPhoto={this.props.editPhoto}
     viewPhoto={this.props.viewPhoto}
+    photo_id={photo.photo_id}
+    showingOrig={this.props.showingOrig}
     />
 
   )

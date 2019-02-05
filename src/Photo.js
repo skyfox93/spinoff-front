@@ -17,11 +17,15 @@ render(){
             style={{width:'500px'}}
             />
             <div className='photo-UI'>
-            {this.props.canSpinOff ? <a onClick={()=>this.props.viewPhoto(this.props.id)}>{`${this.props.numSpinoffs} spinoffs`}</a>: null}
-            {this.props.canSpinOff ? <button onClick={()=>this.props.editPhoto(this.props.id)}>Spinoff </button>: null}
+            <a onClick={()=>this.props.viewPhoto(this.props.id)}>{
+              this.props.photo_id ?
+                !this.props.showingOrig ? 'View Original': null
+              : `${this.props.numSpinoffs} spinoffs`}
+                </a>
+            {this.props.photo_id ?
+              null : <button onClick={()=>this.props.editPhoto(this.props.id)}>Spinoff </button>}
             </div>
             <Comments comments={this.props.comments}/>
-
           </div>
   }
 
