@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 //import { Stage, Sprite, AppConsumer } from '@inlet/react-pixi'
 // import * as PIXI from 'pixi.js'
 // import { ConvolutionFilter } from '@pixi/filter-convolution';
-import Adapter from './Adapter'
+import adapter from './Adapter'
 import stackBlurImage from './blurFunction.js'
 import logo from './logo.svg';
 import initEditor from './editor_plugin_2.js'
 
-let adapter=Adapter('http://localhost:3000/api/v1')
 class Editor extends Component {
   constructor(props) {
     super(props);

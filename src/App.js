@@ -7,8 +7,6 @@ import './App.css';
 import Feed from'./Feed'
 import Editor from'./Editor'
 import SignIn from'./forms/SignIn'
-
-
 import Adapter from './Adapter'
 
 class App extends Component {

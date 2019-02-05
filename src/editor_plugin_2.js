@@ -180,7 +180,7 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
       */
       setTimeout(function() {
         inprocess = 0;
-      }, 300);
+      }, 50);
 
 
 
@@ -520,7 +520,7 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
         eraser = 0;
       }
     }
-    brstrength.addEventListener('change', adjust)
+    brstrength.addEventListener('input', adjust)
 
     load();
     adjust();

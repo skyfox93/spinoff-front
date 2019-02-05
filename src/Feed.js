@@ -1,11 +1,12 @@
 import React from 'react'
-import Adapter from './Adapter'
+import adapter from './Adapter'
 import PhotosContainer from './PhotosContainer'
 import Photo from './Photo'
 import Editor from'./Editor'
+import Friends from './Friends'
+import Requests from './Requests'
 
 const baseUrl='http://localhost:3000'
-const adapter=Adapter(baseUrl+'/api/v1')
 
 class Feed extends React.Component{
 
@@ -124,7 +125,7 @@ class Feed extends React.Component{
 
 
   fetchPhotos= ()=>{
-    return adapter.getPhotos(2).then(
+    return adapter.getProfile(this.props.user.id).then(
       photos => this.setState({photos: photos})
     )
     //.then(()=>this.setState({selectedPhotoId:14}))
@@ -151,8 +152,6 @@ class Feed extends React.Component{
            spinOffPhoto={this.spinoffPhoto}
            viewPhoto={this.viewPhoto}
            editPhoto={this.editPhoto}
-
-
            />
          <PhotosContainer
          photos={selected.spinoffs}
@@ -180,6 +179,8 @@ class Feed extends React.Component{
 
        else{
         return <><button onClick={this.addPhoto}> New Post </button>
+        <Friends userId={this.props.user.id}/>
+        <Requests userId={this.props.user.id}/>
         <PhotosContainer
         photos={this.state.photos}
         baseUrl={baseUrl}
