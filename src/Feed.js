@@ -14,10 +14,34 @@ class Feed extends React.Component{
     photos:[],
     selectedPhotoId: null,
     editingPhotoId: null,
-    createNew: false
+    createNew: false,
+    selected: null,
   }
 
-  getSelectedPhoto=()=>{
+
+
+  /*viewPhoto= (selPhoto)=>{
+    let spinoffs= this.state.photos.filter(photo=> photo.id===sellPhoto.id)
+    let photo= {...photo, spinoffs: spinoffs}
+    this.state.selected=spinoffs
+  }*/
+
+  viewPhoto=(photo_id)=>{
+    this.setState({selectedPhotoId:photo_id})
+  }
+
+  editPhoto=(photo_id)=>{
+    this.setState({editingPhotoId:photo_id})
+  }
+
+  getSpinoffs=()=>{
+    let id= this.state.selectedPhotoId
+  return this.state.photos.filter(photo=> photo.id === id)
+  }
+
+
+
+  updateSelectedPhoto=()=>{
     if(!this.state.selectedPhotoId){ return}
     return this.state.photos.find((photo)=>
       photo.id===this.state.selectedPhotoId||
@@ -35,6 +59,8 @@ class Feed extends React.Component{
         )
     )
   }
+
+
   addPhoto=()=>{
     this.setState({createNew:true})
   }
@@ -44,88 +70,17 @@ class Feed extends React.Component{
       id,{
         photo:{file:data, user_id:id, like_count:0}
       })
-    .then(()=>{
+    .then((photo)=>{
       removeListeners()
+      let newPhotos=[photo, ...photos]
       this.setState({editingPhotoId:null})
     })
     .catch(alert('sorry, something went wrong.'))
   }
 
-  editPhoto=(photoID)=> {
-    this.setState({editingPhotoId:photoID})
-  }
-  viewPhoto=(photoID)=>{
-    this.setState({selectedPhotoId:photoID})
-
-  }
-
-  addComment= (content, photoId)=>{
-    return adapter.postComment(content,photoId)
-    .then(
-      comment=>{
-        let newPhotos= this.state.photos.map(
-          (photo)=>{
-            if (photo.id===photoId){
-              return {...photo, comments: [...photo.comments,comment]}
-            }
-            else{
-              let updatedSpinoffs=photo.spinoffs.map(
-                spinoff=>{
-                  return (spinoff.id===photo.id)?
-                    {...spinoff, comments: [...spinoff.comments, comment]}
-                    : spinoff
-                }
-              )
-              return {...photo, spinoffs:updatedSpinoffs}
-            }
-          }
-        )
-      }
-    )
-  }
-
-
-
-  editComment= (content,photoId,commentId)=>{
-    return adapter.postComment(content,photoId)
-    .then(
-      comment=>{
-       let updatedPhotos= this.state.photos.map(
-          (photo)=>{
-            if (photo.id===photoId){
-              let updatedComments=photo.comments.map(comment=>{
-                return comment.id === commentId ?
-                  {...comment, content: content}
-                  : comment
-              })
-              return {...photo, comments:updatedComments}
-            }
-            else{
-              let updatedSpinoffs=photo.spinoffs.map(
-                spinoff=>{
-                  if(spinoff.id===photo.id){
-                    let updatedComments=spinoff.comments.map(
-                      comment=>{
-                        return comment.id === commentId ?
-                          {...comment, content: content}
-                          : comment
-                      }
-                    )
-                    return {...spinoff, comments:updatedComments}
-                  }
-                }
-              )
-              return {...photo, spinoffs:updatedSpinoffs}
-            }
-          }
-        )
-      }
-    )
-  }
-
 
   fetchPhotos= ()=>{
-    return adapter.getProfile(this.props.user.id).then(
+    return adapter.getFeed(this.props.user.id).then(
       photos => this.setState({photos: photos})
     )
     //.then(()=>this.setState({selectedPhotoId:14}))
@@ -147,18 +102,19 @@ class Feed extends React.Component{
            comments={selected.comments}
            baseUrl={baseUrl}
            user={selected.user}
-           numSpinoffs={selected.spinoffs.length}
-           canSpinOff={!!selected.spinoffs}
+           numSpinoffs={selected.spinoffs_count}
+           canSpinOff={true}
            spinOffPhoto={this.spinoffPhoto}
            viewPhoto={this.viewPhoto}
            editPhoto={this.editPhoto}
            />
          <PhotosContainer
-         photos={selected.spinoffs}
+         photos={this.getSpinoffs()}
          baseUrl={baseUrl}
          spinOffPhoto={this.spinoffPhoto}
          viewPhoto={this.viewPhoto}
          editPhoto={this.editPhoto}
+         canSpinOff={true}
          />
        </div>
        }

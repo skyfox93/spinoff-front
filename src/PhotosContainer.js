@@ -10,8 +10,8 @@ class PhotosContainer extends React.Component{
     url={photo.file.url}
     user={photo.user}
     baseUrl={this.props.baseUrl}
-    numSpinoffs={photo.spinoffs && photo.spinoffs.length}
-    canSpinOff={!!photo.spinoffs}
+    numSpinoffs={photo.spinoff_count}
+    canSpinOff={this.props.canSpinOff}
     editPhoto={this.props.editPhoto}
     viewPhoto={this.props.viewPhoto}
     />
