@@ -86,6 +86,14 @@ input[type="range"]::-webkit-slider-thumb
 button {
   margin: 10px;
 }
-search-bar{
+.search-bar{
   width:300px;
+  padding:20px;
+}
+.collection-item{
+border: 2px solid lightgrey;
+padding:10px
+}
+.card{
+  box-shadow: 5px;
 }

@@ -103,64 +103,70 @@ class Feed extends React.Component{
     //.then(this.setState({editingPhotoId:14}))
   }
   render () {
-  const selected=this.getSelectedPhoto()
-  const editing=this.getEditingPhoto()
-  console.log(selected)
-     if(selected && !editing ){
-       return <div style={{width:'500px', margin: '20px, auto', display: 'inline-block'}}>
-         <Photo
-           id={selected.id}
-           url={selected.file.url}
-           comments={selected.comments}
+    const selected=this.getSelectedPhoto()
+    const editing=this.getEditingPhoto()
+    console.log(selected)
+
+
+    if(!editing){
+      return  <><button onClick={this.addPhoto}> New Post </button>
+      <Friends userId={this.props.user.id}/>
+      <Requests userId={this.props.user.id}/>
+      <div style={{width:'500px', margin: '20px, auto', display: 'inline-block'}}>
+      <PhotosContainer
+      photos={this.state.photos}
+      baseUrl={baseUrl}
+      editPhoto={this.editPhoto}
+      viewPhoto={this.viewPhoto}
+      canSpinOff={true}
+      showInfo={true}
+      />
+      </div>
+
+      {selected ?
+        <div style={{width:'100%', height:'100%', left:'0px', top:'0px', display: 'inline-block',position:'absolute',overflow: 'scroll',backgroundColor:'white'}}>
+        <div style={{width:'500px', margin: '20px, auto', display: 'inline-block', backgroundColor: 'grey'}}>
+
+          <Photo
+            id={selected.id}
+            url={selected.file.url}
+            comments={selected.comments}
+            baseUrl={baseUrl}
+            user={selected.user}
+            numSpinoffs={selected.spinoff_count}
+            canSpinOff={'yes'}
+            spinOffPhoto={this.spinoffPhoto}
+            viewPhoto={this.viewPhoto}
+            editPhoto={this.editPhoto}
+            showingOrig={true}
+            />
+          <PhotosContainer
+          photos={this.getSpinoffs()}
+          baseUrl={baseUrl}
+          spinOffPhoto={this.spinoffPhoto}
+          viewPhoto={this.viewPhoto}
+          editPhoto={this.editPhoto}
+          showingOrig={true}
+          />
+      </div>
+      </div>
+
+      : null}
+      </>
+    }
+
+     if (editing||this.state.createNew){
+           return <Editor
+           url={editing && editing.file.url}
+           id={editing && editing.id}
            baseUrl={baseUrl}
-           user={selected.user}
-           numSpinoffs={selected.spinoff_count}
-           canSpinOff={'yes'}
-           spinOffPhoto={this.spinoffPhoto}
-           viewPhoto={this.viewPhoto}
-           editPhoto={this.editPhoto}
-           showingOrig={true}
-           />
-         <PhotosContainer
-         photos={this.getSpinoffs()}
-         baseUrl={baseUrl}
-         spinOffPhoto={this.spinoffPhoto}
-         viewPhoto={this.viewPhoto}
-         editPhoto={this.editPhoto}
-         showingOrig={true}
-         />
-       </div>
-       }
-       else if (editing||this.state.createNew){
-         return <Editor
-         url={editing && editing.file.url}
-         id={editing && editing.id}
-         baseUrl={baseUrl}
-         //photo will save as belonging to currentUser
-         currentUserID={this.props.user.id}
-         baseUrl={baseUrl}
-         savePhoto={this.savePhoto}
-         existingImg={!this.state.createNew}
-         />
-
-       }
-
-       else{
-        return <><button onClick={this.addPhoto}> New Post </button>
-        <Friends userId={this.props.user.id}/>
-        <Requests userId={this.props.user.id}/>
-        <div style={{width:'500px', margin: '20px, auto', display: 'inline-block'}}>
-        <PhotosContainer
-        photos={this.state.photos}
-        baseUrl={baseUrl}
-        editPhoto={this.editPhoto}
-        viewPhoto={this.viewPhoto}
-        canSpinOff={true}
-        showInfo={true}
-        />
-        </div>
-        </>
-      }
+           //photo will save as belonging to currentUser
+           currentUserID={this.props.user.id}
+           baseUrl={baseUrl}
+           savePhoto={this.savePhoto}
+           existingImg={!this.state.createNew}
+           />}
+    else {return null}
   }
 }
 export default Feed

@@ -1,9 +1,5 @@
 
 function Adapter(baseUrl){
-  function getProfile(userId){
-  return fetch(`${baseUrl}/users/${userId}/photos`)
-    .then(resp=> resp.ok ? resp.json(): Promise.reject(resp.json()))
-  }
 
   function getFeed(userId){return fetch(`${baseUrl}/users/${userId}/feed`)
     .then(resp=> resp.ok ? resp.json(): Promise.reject(resp.json()))
@@ -59,6 +55,11 @@ function Adapter(baseUrl){
 
   function getRequests(userId){
     return fetch(`${baseUrl}/users/${userId}/requests`)
+    .then(resp=> resp.json())
+  }
+
+  function getProfile(userId){
+    return fetch(`${baseUrl}/users/${userId}/profile_photos`)
     .then(resp=> resp.json())
   }
 

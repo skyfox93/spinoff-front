@@ -142,7 +142,7 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
       // SCREEN THE IMAGE TO MATCH THE LIGHTEN FILTER
       context3.globalCompositeOperation = "overlay";
       context3.fillStyle = "white";
-      context3.globalAlpha = 0.3;
+      context3.globalAlpha = 0.5;
       context3.fillRect(0, 0, canvas3.width, canvas3.height);
 
 
@@ -179,8 +179,8 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
       }
       */
       setTimeout(function() {
-        inprocess = 50;
-      }, 0);
+        inprocess = 0;
+      }, 50);
 
 
 
@@ -252,7 +252,6 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
 
 
     ctx.lineJoin = ctx.lineCap = 'round';
-
     var isDrawing, lastPoint;
     let size = 80;
     //USING GLOBAL VARIABLES isDrawing and lastPoint
@@ -262,8 +261,8 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
         e.preventDefault();
 
         var currentPoint = {
-          x: e.targetTouches[0].pageX - 55,
-          y: e.targetTouches[0].pageY - 115
+          x: e.targetTouches[0].pageX - rect.left,
+          y: e.targetTouches[0].pageY - rect.top
         };
         var dist = distanceBetween(lastPoint, currentPoint);
         var angle = angleBetween(lastPoint, currentPoint);
@@ -316,6 +315,7 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
     }
 
     function showMask(e) {
+
       if (boost2.checked) {
         el.style.opacity = 0;
         el2.style.opacity = 0;
@@ -333,19 +333,20 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
       size = brsize.value;
       isDrawing = true;
       lastPoint = {
-        x: e.pageX - 55,
-        y: e.pageY - 105
+        x: e.pageX - rect.left,
+        y: e.pageY - rect.top
       }
     }
+    const rect = el.getBoundingClientRect();
     el.onmousedown = showMask;
     el.ontouchstart = showMask;
 
     el.onmousemove = function(e) {
       if (!isDrawing) return;
-
+      console.log(rect.top)
       var currentPoint = {
-        x: e.pageX - 55,
-        y: e.pageY - 115
+        x: e.pageX -rect.left,
+        y: e.pageY -rect.top
       };
       var dist = distanceBetween(lastPoint, currentPoint);
       var angle = angleBetween(lastPoint, currentPoint);
