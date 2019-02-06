@@ -87,7 +87,7 @@ class Feed extends React.Component{
       let newPhotos=[photo, ...this.state.photos]
       this.setState({editingPhotoId:null})
     })
-    .catch(alert('sorry, something went wrong.'))
+    .catch((error)=> alert('sorry,something went wrong'))
   }
 
 
@@ -107,7 +107,7 @@ class Feed extends React.Component{
   const editing=this.getEditingPhoto()
   console.log(selected)
      if(selected && !editing ){
-       return <div>
+       return <div style={{width:'500px', margin: '20px, auto', display: 'inline-block'}}>
          <Photo
            id={selected.id}
            url={selected.file.url}
@@ -149,6 +149,7 @@ class Feed extends React.Component{
         return <><button onClick={this.addPhoto}> New Post </button>
         <Friends userId={this.props.user.id}/>
         <Requests userId={this.props.user.id}/>
+        <div style={{width:'500px', margin: '20px, auto', display: 'inline-block'}}>
         <PhotosContainer
         photos={this.state.photos}
         baseUrl={baseUrl}
@@ -157,6 +158,7 @@ class Feed extends React.Component{
         canSpinOff={true}
         showInfo={true}
         />
+        </div>
         </>
       }
   }

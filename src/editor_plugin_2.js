@@ -142,7 +142,7 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
       // SCREEN THE IMAGE TO MATCH THE LIGHTEN FILTER
       context3.globalCompositeOperation = "overlay";
       context3.fillStyle = "white";
-      context3.globalAlpha = 0.5;
+      context3.globalAlpha = 0.3;
       context3.fillRect(0, 0, canvas3.width, canvas3.height);
 
 
@@ -179,8 +179,8 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
       }
       */
       setTimeout(function() {
-        inprocess = 0;
-      }, 50);
+        inprocess = 50;
+      }, 0);
 
 
 

@@ -42,21 +42,17 @@ class Friends extends React.Component{
     }
   }
   results=()=> {
-    return <div>
-      <div>
+    return <div className="collection">
       {this.state.following.map(
-        (result=> <div><span>{result.displayname}</span><span>Friends</span></div>)
+        (result=> <div class="collection-item"><span>{result.displayname}</span><span>Friends</span></div>)
       )}
-      </div>
-      <div>
       {this.state.noRelation.map(
         (result=>
-          <div><span>{result.displayname}</span><button onClick={()=>this.requestFollow(result.id)} >{result.requested ? "Requested": "Follow"}</button></div>
+          <div className="collection-item"><span>{result.displayname}</span><button onClick={()=>this.requestFollow(result.id)} >{result.requested ? "Requested": "Follow"}</button></div>
       ))}
-      </div>
       {this.state.requested.map(
         (result=>
-          <div><span>{result.displayname}</span><button onClick={()=>this.requestFollow(result.id)} >Requested</button></div>
+          <div className="collection-item"><span>{result.displayname}</span><button onClick={()=>this.requestFollow(result.id)} >Requested</button></div>
       ))}
       </div>
 
@@ -65,7 +61,7 @@ class Friends extends React.Component{
   render(){
 
     return <div>
-    <input type='text' onKeyUp={this.handleChange} value={this.state.name} placeholder='Search Users'/>
+    <input className="search-bar" type='text' onKeyUp={this.handleChange} value={this.state.name} placeholder='Search Users'/>
     { this.results()}
     </div>
 

@@ -61,6 +61,10 @@ input[type="range"]::-webkit-slider-runnable-track
     border-radius: 7px;
     cursor: pointer;
 }
+.photo_header{
+  background-color: grey;
+  color:white
+}
 
 input[type="range"]:focus::-webkit-slider-runnable-track
 {
@@ -77,4 +81,11 @@ input[type="range"]::-webkit-slider-thumb
     border-radius: 50%;
     cursor: pointer;
     -webkit-appearance: none;
+}
+
+button {
+  margin: 10px;
+}
+search-bar{
+  width:300px;
 }

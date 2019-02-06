@@ -9,8 +9,8 @@ const Comments=(props=>
 class Photo extends React.Component{
 
 render(){
-  return <div key={this.props.id}>
-
+  return <div className='card' key={this.props.id} style={{width:'500px', margin: '20px, auto', display: 'inline-block'}}>
+          <div>@{this.props.user.displayname}</div>
           <img
 
             src={this.props.baseUrl+this.props.url}

@@ -25,9 +25,9 @@ class Requests extends React.Component{
 
  render(){
    return <div style={{float:'right'}}>
-   <div> Requests</div>
+   <div className="collection"> Requests</div>
   {this.state.requesting.map(user=>
-     <div>{user.displayname}
+     <div class="collection-item">{user.displayname}
       <button onClick={()=>this.acceptRequest(user.id)}>
         {user.accepted ? "Request Accepted" : "Accept Request"}
       </button>
