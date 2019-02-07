@@ -1,16 +1,20 @@
 
 function Adapter(baseUrl){
 
-  function getFeed(userId){return fetch(`${baseUrl}/users/${userId}/feed`)
+  function getFeed(userId,token){
+    return fetch(`${baseUrl}/users/${userId}/feed`,{
+      headers: {'Authorization' : token}
+    })
     .then(resp=> resp.ok ? resp.json(): Promise.reject(resp.json()))
   }
 
-  function postPhoto(userId,data){
+  function postPhoto(userId,data,token){
     return fetch(`${baseUrl}/users/${userId}/photos`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "accepts": "application/json"
+        "accepts": "application/json",
+        'Authorization': token
       },
       body: JSON.stringify(data)
 
@@ -18,18 +22,21 @@ function Adapter(baseUrl){
     .then(resp=> resp.ok ? resp.json(): Promise.reject(resp.json()))
 
   }
-  function search (userId,query){
-  return fetch(`${baseUrl}/search?id=${userId}&name=${query}`)
+  function search (userId,query,token){
+  return fetch(`${baseUrl}/search?id=${userId}&name=${query}`,{
+    headers: {'Authorization' : token}
+})
   .then(resp=>resp.json())
   }
 
-  function requestFollow (followerId,followeeId){
+  function requestFollow (followerId,followeeId,token){
       return fetch(`${baseUrl}/friendships`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "accepts": "application/json"
+          "accepts": "application/json",
+          'Authorization': token
         },
         body: JSON.stringify({friendship:{follower_id: followerId, followee_id: followeeId}})
       }
@@ -37,13 +44,14 @@ function Adapter(baseUrl){
     .then(resp=>resp.json())
   }
 
-  function acceptFollow (userId,followerId){
+  function acceptFollow (userId,followerId,token){
       return fetch(`${baseUrl}/users/${userId}/accept`,
       {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          "accepts": "application/json"
+          "accepts": "application/json",
+          'Authorization': token
         },
         body: JSON.stringify({
           friendship:{accepted:true,follower_id:followerId}
@@ -53,13 +61,18 @@ function Adapter(baseUrl){
     .then(resp=>resp.json())
   }
 
-  function getRequests(userId){
-    return fetch(`${baseUrl}/users/${userId}/requests`)
+  function getRequests(userId,token){
+    return fetch(`${baseUrl}/users/${userId}/requests`,{
+      headers: {'Authorization' : token}
+  })
     .then(resp=> resp.json())
   }
 
-  function getProfile(userId){
-    return fetch(`${baseUrl}/users/${userId}/profile_photos`)
+  function getProfile(userId,token){
+    return fetch(`${baseUrl}/users/${userId}/profile_photos`,{
+      headers: {'Authorization' : token}
+  }
+    )
     .then(resp=> resp.json())
   }
 

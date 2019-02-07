@@ -1,5 +1,6 @@
 import React from 'react'
 import adapter from './Adapter'
+import { List} from 'semantic-ui-react'
 class Friends extends React.Component{
 
   state= {
@@ -17,7 +18,7 @@ class Friends extends React.Component{
         user.id===followeeId ? {...user, requested:true} : user
     )
       this.setState({noRelation})
-    adapter.requestFollow(this.props.userId,followeeId)
+    adapter.requestFollow(this.props.userId,followeeId, this.props.token)
 
   }
 
@@ -25,7 +26,7 @@ class Friends extends React.Component{
     let value=e.target.value
     if(value.length>1){
       this.setState({loading:true})
-      adapter.search(this.props.userId,value)
+      adapter.search(this.props.userId,value,this.props.token)
       .then(data=>{
         console.log(data)
         // if no results, set results to empty array
@@ -40,30 +41,44 @@ class Friends extends React.Component{
         })
       })
     }
+    else{this.setState({
+      noRelation:[],
+      following:[],
+      requested: [],
+    })
+  }
   }
   results=()=> {
-    return <div className="collection">
+    return <List size='big'>
       {this.state.following.map(
-        (result=> <div class="collection-item"><span>{result.displayname}</span><span>Friends</span></div>)
+        (result=> <List.Item><List.Header><span>{result.displayname}</span><span>Friends</span></List.Header></List.Item>)
       )}
       {this.state.noRelation.map(
         (result=>
-          <div className="collection-item"><span>{result.displayname}</span><button onClick={()=>this.requestFollow(result.id)} >{result.requested ? "Requested": "Follow"}</button></div>
+          <List.Item ><List.Header>
+<span>{result.displayname}</span><button onClick={()=>this.requestFollow(result.id)} >{result.requested ? "Requested": "Follow"}</button></List.Header>
+</List.Item>
       ))}
       {this.state.requested.map(
         (result=>
-          <div className="collection-item"><span>{result.displayname}</span><button onClick={()=>this.requestFollow(result.id)} >Requested</button></div>
+          <List.Item><List.Header><span>{result.displayname}</span><button onClick={()=>this.requestFollow(result.id)} >Requested</button></List.Header></List.Item>
       ))}
-      </div>
+      </List>
 
   }
 
   render(){
 
-    return <div>
+    return <>
     <input className="search-bar" type='text' onKeyUp={this.handleChange} value={this.state.name} placeholder='Search Users'/>
-    { this.results()}
-    </div>
+    {this.state.noRelation.length>0 || this.state.following.length>0 || this.state.requested.length>0 ?
+      <div style={{width:'100%',position:'absolute',zIndex:'1',}}>
+      <div className='collection'>
+     {this.results()}
+    </div></div> : null
+
+    }
+    </>
 
   }
 }

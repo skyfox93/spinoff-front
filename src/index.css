@@ -27,8 +27,8 @@ code {
 	#bottombar{background-color:slategrey;opacity:1;width:500px;}
 	.show {float:left;height:50px;background-color:lightgrey;border-radius:10px;margin:0;font-size:15px}
 	.tools{padding:0;;width:500px;background-color:slategray;height:100px;}
-    .image {width:500px;height:50px;color:black;text-align:right;background-color:grey; opacity:1;
-    position:absolute;display:inline-block;font-size: 200%;top:50px;}
+    /*.image {width:500px;height:50px;color:black;text-align:right;background-color:grey; opacity:1;
+    position:absolute;display:inline-block;font-size: 200%;top:50px;}*/
 	.slider{display:block;width:250px;margin:0px;height:50px;}
 	#wrap {width:700px;height:400px;position:relative;}
 	#maskb {background-color:white;display:none;}
@@ -84,16 +84,20 @@ input[type="range"]::-webkit-slider-thumb
 }
 
 button {
-  margin: 10px;
+  margin: 0, 20px;
 }
+span {margin:20px;}
 .search-bar{
   width:300px;
-  padding:20px;
-}
-.collection-item{
-border: 2px solid lightgrey;
-padding:10px
+  padding:10px;
 }
 .card{
   box-shadow: 5px;
+}
+.collection{
+  background-color: lightgrey;
+  border-radius: 10px;
+  padding:20px;
+  width:500px;
+  margin:auto;
 }

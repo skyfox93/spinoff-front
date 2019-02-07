@@ -7,7 +7,7 @@ class Requests extends React.Component{
   }
 
   acceptRequest=(followerId)=>{
-    adapter.acceptFollow(this.props.userId,followerId)
+    adapter.acceptFollow(this.props.userId,followerId,this.props.token)
     const requesting=this.state.requesting.map(user=>{
     return user.id=followerId ? {...user, accepted:true} : user
     })
@@ -15,7 +15,7 @@ class Requests extends React.Component{
   }
 
   componentDidMount(){
-    adapter.getRequests(this.props.userId).then(
+    adapter.getRequests(this.props.userId,this.props.token).then(
       requests=>{
         console.log(requests)
         this.setState({requesting:requests})
@@ -25,7 +25,7 @@ class Requests extends React.Component{
 
  render(){
    return <div style={{float:'right'}}>
-   <div className="collection"> Requests</div>
+   <div> Requests</div>
   {this.state.requesting.map(user=>
      <div className="collection-item">{user.displayname}
       <button onClick={()=>this.acceptRequest(user.id)}>

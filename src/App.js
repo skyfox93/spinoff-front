@@ -17,8 +17,11 @@ class App extends Component {
     currentUser:null
   }
 
-  updateCurrentUser=(user=>
-  this.setState({user:user}))
+  updateCurrentUser=(json=>{
+  this.setState({user:json.user,token:json.token})
+  localStorage.setItem('token',json.token)
+  }
+  )
 
 
   render() {
@@ -26,7 +29,7 @@ class App extends Component {
       <div className="App">
       {this.state.user ?
         <>
-          <Feed user={this.state.user}/>
+          <Feed user={this.state.user} token={this.state.token}/>
         </>
         : <SignIn updateCurrentUser={this.updateCurrentUser}/>}
 

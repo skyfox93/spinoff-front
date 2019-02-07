@@ -29,6 +29,9 @@ class Feed extends React.Component{
   viewPhoto=(photo_id)=>{
     this.setState({selectedPhotoId:photo_id})
   }
+  deSelect=(photo_id)=>{
+    this.setState({selectedPhotoId:null})
+  }
 
   editPhoto=(photo_id)=>{
     this.setState({editingPhotoId:photo_id})
@@ -81,7 +84,7 @@ class Feed extends React.Component{
     adapter.postPhoto(
       id,{
         photo:{file:data, user_id:id, like_count:0, photo_id: photo_id  }
-      })
+      },this.props.token)
     .then((photo)=>{
       removeListeners()
       let newPhotos=[photo, ...this.state.photos]
@@ -92,7 +95,7 @@ class Feed extends React.Component{
 
 
   fetchPhotos= ()=>{
-    return adapter.getFeed(this.props.user.id).then(
+    return adapter.getFeed(this.props.user.id,this.props.token).then(
       photos => this.setState({photos: photos})
     )
     //.then(()=>this.setState({selectedPhotoId:14}))
@@ -109,10 +112,18 @@ class Feed extends React.Component{
 
 
     if(!editing){
-      return  <><button onClick={this.addPhoto}> New Post </button>
-      <Friends userId={this.props.user.id}/>
-      <Requests userId={this.props.user.id}/>
-      <div style={{width:'500px', margin: '20px, auto', display: 'inline-block'}}>
+      return  <>
+      <div style={{width:'100%',position:'absolute',zIndex:'1',}}>
+      <div style={{display:'inline-block',margin:'0px,auto',backgroundColor:'white',width:'100%',height:'50px'}}>
+      <button onClick={this.addPhoto}> New Post </button>
+      <Friends userId={this.props.user.id} token={this.props.token}/>
+
+      <Requests userId={this.props.user.id} token={this.props.token}/>
+
+      </div>
+      </div>
+        <div style={{top:'50px',width:'100%', height:'80%', left:'0px', display: 'inline-block',position:'absolute',overflow: 'scroll',backgroundColor:'white'}}>
+      <div style={{width:'500px', margin: '50px, auto', display: 'inline-block'}}>
       <PhotosContainer
       photos={this.state.photos}
       baseUrl={baseUrl}
@@ -122,11 +133,16 @@ class Feed extends React.Component{
       showInfo={true}
       />
       </div>
+      </div>
 
       {selected ?
-        <div style={{width:'100%', height:'100%', left:'0px', top:'0px', display: 'inline-block',position:'absolute',overflow: 'scroll',backgroundColor:'white'}}>
-        <div style={{width:'500px', margin: '20px, auto', display: 'inline-block', backgroundColor: 'grey'}}>
 
+        <div style={{width:'100%',height:'100%',left:'0px', top:'0px', display: 'inline-block',position:'fixed', zIndex: '2'}}>
+        <div style={{height:'100%',width:'100%', padding:'10px', display: 'inline-block', backgroundColor:'grey'}}>
+        <span>Viewing Photo</span><button onClick={this.deSelect}> Back to Feed </button>
+
+        <div style={{height:'100%',overflow: 'scroll',backgroundColor:'white'}}>
+        <div>
           <Photo
             id={selected.id}
             url={selected.file.url}
@@ -140,6 +156,7 @@ class Feed extends React.Component{
             editPhoto={this.editPhoto}
             showingOrig={true}
             />
+            </div>
           <PhotosContainer
           photos={this.getSpinoffs()}
           baseUrl={baseUrl}
@@ -148,6 +165,7 @@ class Feed extends React.Component{
           editPhoto={this.editPhoto}
           showingOrig={true}
           />
+      </div>
       </div>
       </div>
 

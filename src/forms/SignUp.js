@@ -1,5 +1,5 @@
 import React from 'react'
-class SignInForm extends React.Component {
+class SignUpForm extends React.Component {
   state = {
     user:{username: '',
     password: ''
@@ -17,7 +17,7 @@ class SignInForm extends React.Component {
     event.preventDefault()
     // console.log(this.state)
 
-    fetch(`http://localhost:3000/api/v1/login`, {
+    fetch(`http://localhost:3000/api/v1/users`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -30,7 +30,6 @@ class SignInForm extends React.Component {
         json => {
           if(resp.ok){
             this.props.updateCurrentUser(json)
-            debugger
             //this.props.fetchMyStuff(json.id)
           }
           else{
@@ -51,7 +50,7 @@ class SignInForm extends React.Component {
     console.log('login rendereddd')
     return (
       <div className="login">
-      <h2> Login Form</h2>
+      <h2>  SignUp </h2>
       {this.state.error ? <div>{this.state.error}</div> :null}
         <form onSubmit={this.handleSubmit}>
           <label htmlFor="username">Username</label>
@@ -74,11 +73,11 @@ class SignInForm extends React.Component {
           />
           <input
           className="ui input"
- type="submit" value="Login" />
+ type="submit" value="SignUp" />
         </form>
       </div>
     )
   }
 }
 
-export default SignInForm
+export default SignUpForm
