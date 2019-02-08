@@ -116,10 +116,8 @@ class Feed extends React.Component{
       <div style={{width:'100%',position:'absolute',zIndex:'1',}}>
       <div style={{display:'inline-block',margin:'0px,auto',backgroundColor:'white',width:'100%',height:'50px'}}>
       <button onClick={this.addPhoto}> New Post </button>
-      <Friends userId={this.props.user.id} token={this.props.token}/>
-
       <Requests userId={this.props.user.id} token={this.props.token}/>
-
+      <Friends userId={this.props.user.id} token={this.props.token}/>
       </div>
       </div>
         <div style={{top:'50px',width:'100%', height:'80%', left:'0px', display: 'inline-block',position:'absolute',overflow: 'scroll',backgroundColor:'white'}}>

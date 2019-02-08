@@ -1,5 +1,7 @@
 import React from 'react'
 import adapter from './Adapter'
+import { Popup, Icon, Label } from 'semantic-ui-react'
+
 class Requests extends React.Component{
 
   state = {
@@ -24,16 +26,23 @@ class Requests extends React.Component{
   }
 
  render(){
-   return <div style={{float:'right'}}>
-   <div> Requests</div>
-  {this.state.requesting.map(user=>
-     <div className="collection-item">{user.displayname}
-      <button onClick={()=>this.acceptRequest(user.id)}>
-        {user.accepted ? "Request Accepted" : "Accept Request"}
-      </button>
-      </div>
-   )}
-    </div>
+   return <Popup
+   on='click'
+   trigger={<div className='menu-right'
+>Requests  <Label color='red' floating>
+        {this.state.requesting.length}
+      </Label></div>}
+   position='bottom left'>
+   {this.state.requesting.map(user=>
+      <div className="collection-item">{user.displayname}
+       <button onClick={()=>this.acceptRequest(user.id)}>
+         {user.accepted ? "Request Accepted" : "Accept Request"}
+       </button>
+       </div>
+    )}
+   </Popup>
+
+
  }
 }
  export default Requests

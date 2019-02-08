@@ -5,6 +5,7 @@ class SignUpForm extends React.Component {
     password: ''
   },
   error: null,
+  file: null
   }
 
   handleChange = event => {
@@ -71,9 +72,12 @@ class SignUpForm extends React.Component {
             onChange={this.handleChange}
             value={this.state.password}
           />
-          <input
+          <input type='file' accept='*/img'>
+        <div> Profile Pic  <input type={"file"} name={"file"} id={"file" }accept={"image/*"} /></div>
+        {<ReactCrop src="localhost:3000/uploads/photo/file/37/file.jpeg" />}
           className="ui input"
  type="submit" value="SignUp" />
+
         </form>
       </div>
     )

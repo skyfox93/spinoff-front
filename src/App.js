@@ -20,8 +20,13 @@ class App extends Component {
   updateCurrentUser=(json=>{
   this.setState({user:json.user,token:json.token})
   localStorage.setItem('token',json.token)
+  localStorage.setItem('user', JSON.stringify(json.user))
   }
   )
+  componentDidMount(){
+    this.setState({token:localStorage.getItem('token')})
+    this.setState({user: JSON.parse(localStorage.getItem('user'))})
+  }
 
 
   render() {
