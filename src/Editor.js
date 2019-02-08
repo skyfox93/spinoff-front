@@ -41,7 +41,7 @@ initEditor(this.editorC.current,stackBlurImage,this.props.savePhoto,this.props.e
              <input type={'checkbox'} id={'boost2'}/>
             </div>
             <canvas id='blurCanvas'></canvas>
-            <canvas id='tempCanvas'></canvas><br/>
+            <canvas id='tempCanvas'></canvas>
             <div className='border'>
               <div className='wrapper' id={'wrap'}>
               {this.props.url?	<img src={this.props.baseUrl+this.props.url} id='image' crossOrigin = "Anonymous"></img>: <img src='Guide.jpeg' id='image' crossOrigin = "Anonymous"></img> }

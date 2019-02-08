@@ -30,11 +30,12 @@ class SignUpForm extends React.Component {
     event.preventDefault()
     // console.log(this.state)
 
-    fetch(`http://localhost:3000/api/v1/users`, {
-      method: 'POST',
+    fetch(`http://localhost:3000/api/v1/users/${this.props.userId}`, {
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
-        Accepts: 'application/json',
+        'Accepts': 'application/json',
+        'Authorization': this.props.token
       },
       body: JSON.stringify({
         user:{...this.state.user, avatar:this.state.preview}
