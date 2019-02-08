@@ -110,4 +110,6 @@ span {margin:20px;}
 }
 .user-avatar {
   font-size: 1.5em;
+  height:50px;
+  margin-right:10px;
 }

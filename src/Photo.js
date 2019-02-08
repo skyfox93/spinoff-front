@@ -12,7 +12,7 @@ class Photo extends React.Component{
 
 render(){
   return <Card raised className='card' key={this.props.id} style={{width:'500px', margin: '20px, auto', display: 'inline-block'}}>
-          <Card.Content>@{this.props.user.displayname}</Card.Content>
+          <Card.Content><img src={this.props.baseUrl+this.props.user.avatar.url} className='user-avatar'/>@{this.props.user.displayname}</Card.Content>
           <Image
 
             src={this.props.baseUrl+this.props.url}
