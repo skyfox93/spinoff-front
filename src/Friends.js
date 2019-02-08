@@ -1,6 +1,6 @@
 import React from 'react'
 import adapter from './Adapter'
-import { List} from 'semantic-ui-react'
+import {Popup, Image, List} from 'semantic-ui-react'
 class Friends extends React.Component{
 
   state= {
@@ -49,19 +49,21 @@ class Friends extends React.Component{
   }
   }
   results=()=> {
-    return <List size='big'>
+    let baseUrl=this.props.baseUrl
+    return <List size='small'>
       {this.state.following.map(
-        (result=> <List.Item><List.Header><span>{result.displayname}</span><span>Friends</span></List.Header></List.Item>)
+        (result=><List.Item><List.Header><Image src={baseUrl+result.avatar.url} className='user-avatar' avatar /><span>{result.displayname}</span><span>Friends</span></List.Header></List.Item>)
       )}
       {this.state.noRelation.map(
         (result=>
-          <List.Item ><List.Header>
+          <List.Item ><List.Header><Image src={this.props.baseUrl+result.avatar.url} className='user-avatar'  avatar />
 <span>{result.displayname}</span><button onClick={()=>this.requestFollow(result.id)} >{result.requested ? "Requested": "Follow"}</button></List.Header>
 </List.Item>
       ))}
       {this.state.requested.map(
         (result=>
-          <List.Item><List.Header><span>{result.displayname}</span><button onClick={()=>this.requestFollow(result.id)} >Requested</button></List.Header></List.Item>
+          <List.Item><List.Header><Image src={this.props.baseUrl+result.avatar.url} className='user-avatar' avatar />
+<span>{result.displayname}</span><button onClick={()=>this.requestFollow(result.id)} >Requested</button></List.Header></List.Item>
       ))}
       </List>
 
@@ -70,14 +72,15 @@ class Friends extends React.Component{
   render(){
 
     return <>
-    <input className="search-bar" type='text' onKeyUp={this.handleChange} value={this.state.name} placeholder='Search Users'/>
+    <Popup
+    on='focus'
+    trigger={<input className="search-bar" type='text' onKeyUp={this.handleChange} value={this.state.name} placeholder='Search Users'/>}
+    >
     {this.state.noRelation.length>0 || this.state.following.length>0 || this.state.requested.length>0 ?
-      <div style={{width:'100%',position:'absolute',zIndex:'1',}}>
       <div className='collection'>
      {this.results()}
-    </div></div> : null
-
-    }
+    </div> : null}
+    </Popup>
     </>
 
   }

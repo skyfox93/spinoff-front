@@ -117,7 +117,7 @@ class Feed extends React.Component{
       <div style={{display:'inline-block',margin:'0px,auto',backgroundColor:'white',width:'100%',height:'50px'}}>
       <button onClick={this.addPhoto}> New Post </button>
       <Requests userId={this.props.user.id} token={this.props.token}/>
-      <Friends userId={this.props.user.id} token={this.props.token}/>
+      <Friends userId={this.props.user.id} token={this.props.token} baseUrl={baseUrl}/>
       </div>
       </div>
         <div style={{top:'50px',width:'100%', height:'80%', left:'0px', display: 'inline-block',position:'absolute',overflow: 'scroll',backgroundColor:'white'}}>
@@ -136,8 +136,8 @@ class Feed extends React.Component{
       {selected ?
 
         <div style={{width:'100%',height:'100%',left:'0px', top:'0px', display: 'inline-block',position:'fixed', zIndex: '2'}}>
-        <div style={{height:'100%',width:'100%', padding:'10px', display: 'inline-block', backgroundColor:'grey'}}>
-        <span>Viewing Photo</span><button onClick={this.deSelect}> Back to Feed </button>
+        <div style={{height:'100%',width:'100%', paddingBottom:'20px', display: 'inline-block', backgroundColor:'grey'}}>
+        <div style={{padding:'20px'}}><span>Viewing Photo</span><button onClick={this.deSelect}> Back to Feed </button></div>
 
         <div style={{height:'100%',overflow: 'scroll',backgroundColor:'white'}}>
         <div>
