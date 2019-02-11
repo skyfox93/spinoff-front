@@ -1,6 +1,6 @@
 import React from 'react'
 import adapter from './Adapter'
-import {Popup, Image, List} from 'semantic-ui-react'
+import {Popup, Image, List, Button} from 'semantic-ui-react'
 class Friends extends React.Component{
 
   state= {
@@ -57,13 +57,13 @@ class Friends extends React.Component{
       {this.state.noRelation.map(
         (result=>
           <List.Item ><List.Header><Image src={this.props.baseUrl+result.avatar.url} className='user-avatar'  avatar />
-<span>{result.displayname}</span><button onClick={()=>this.requestFollow(result.id)} >{result.requested ? "Requested": "Follow"}</button></List.Header>
+<span>{result.displayname}</span><Button floated='right' onClick={()=>this.requestFollow(result.id)} >{result.requested ? "Requested": "Follow"}</Button></List.Header>
 </List.Item>
       ))}
       {this.state.requested.map(
         (result=>
           <List.Item><List.Header><Image src={this.props.baseUrl+result.avatar.url} className='user-avatar' avatar />
-<span>{result.displayname}</span><button onClick={()=>this.requestFollow(result.id)} >Requested</button></List.Header></List.Item>
+<span>{result.displayname}</span><Button  floated='right' onClick={()=>this.requestFollow(result.id)} >Requested</Button></List.Header></List.Item>
       ))}
       </List>
 
