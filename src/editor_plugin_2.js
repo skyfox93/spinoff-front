@@ -403,6 +403,7 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
     el.ontouchstart = showMask;
 
     el.onmousemove = function(e) {
+      e.preventDefault()
       moveBrPreview(e)
       if (!isDrawing) return;
       var currentPoint = {

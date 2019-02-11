@@ -43,7 +43,7 @@ initEditor(this.editorC.current,stackBlurImage,this.props.savePhoto,this.props.e
             <div className='tool-wrapper'>
             <div className='tools-1'>
               <div className='tools-div'>
-               <img className='show' src="./Icons/savei.jpg" id='saveBtn'></img>
+               <img className='show' src="savei.jpg" id='saveBtn'></img>
                 <img className='show' src="openi.jpg" id='open'></img>
                 <button className='show' id='eraseBTN'>Eraser</button>
                 <button id='help' className='show'>Help</button>
