@@ -2,7 +2,6 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
   var saveBtn = editorC.querySelector('#saveBtn');
   var sharp = editorC.querySelector('#sharpen');
   var erase = editorC.querySelector('#resize');
-  var wrapEl = editorC.querySelector('#wrap');
   var el = editorC.querySelector('#c');
   var el2 = editorC.querySelector('#c2');
   var el3 = editorC.querySelector('#c3');
@@ -19,13 +18,30 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
   var boost2 = editorC.querySelector('#boost2');
   var image = editorC.querySelector('#image');
 
-  var imageObj = new Image();
-  imageObj.crossOrigin = "Anonymous";
-  if (existingImg){imageObj.src = image.src;}
+
 
   var brsize = editorC.querySelector('#brsize');
   var brstrength = editorC.querySelector('#brstrength');
+  var structStrength=editorC.querySelector('#struct-strength');
+  var brightStrength=editorC.querySelector('#br-strength');
+  var clrStrength=editorC.querySelector('#clr-strength')
+  var satStrength=editorC.querySelector('#sat-strength')
 
+  var brGuide=editorC.querySelector('#br-guide')
+  var svg=editorC.querySelector('#svg')
+  // updates the svg responsible for showing how large the brush is
+  function moveBrPreview(e){
+    svg.style.top=e.clientY-100
+    svg.style.left=e.clientX-100
+  }
+  function updateBrPreview(){
+
+    brGuide.setAttribute('r',brsize.value/2.2)
+
+  }
+   var imageObj = new Image();
+  imageObj.crossOrigin = "Anonymous";
+  if (existingImg){imageObj.src = image.src;}
 
   function handleFileSelect(evt) {
     var file = evt.target.files[0];
@@ -55,17 +71,36 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
     var blurCanvas = editorC.querySelector('#blurCanvas');
     // if theres an exiting Img, load it.
     var context = blurCanvas.getContext('2d');
-    var ratio = imageObj.height / imageObj.width;
-    blurCanvas.width = 500;
-    blurCanvas.height = 500 * ratio;
-
-    el.height = 500 * ratio;
-    el2.height = 500 * ratio;
-    el3.height = 500 * ratio;
-    el4.height = 500 * ratio;
-    wrapEl.style.width = blurCanvas.width + 100;
-    wrapEl.style.height = blurCanvas.height + 200;
     var canvas3 = editorC.querySelector('#canvas3');
+    var ratio = imageObj.height / imageObj.width;
+    if(ratio<1){
+      blurCanvas.width = 750;
+      blurCanvas.height = 750 * ratio;
+      el.height = 750 * ratio;
+      el2.height = 750 * ratio;
+      el3.height = 750 * ratio;
+      el4.height = 750 * ratio;
+      canvas3.style.width='750px'
+      canvas3.style.height=750*ratio+'px'
+    }
+    else{blurCanvas.height = 700;
+    blurCanvas.width =  700/ ratio;
+    el.width = 700 / ratio;
+    el2.width = 700/ ratio;
+    el3.width = 700 / ratio;
+    el4.width = 700 / ratio;
+    el.height=700
+    el.height = 700
+    el2.height = 700
+    el3.height = 700
+    el4.height = 700
+
+    canvas3.style.height='700px'
+    canvas3.style.width=700/ratio+'px'
+    }
+
+
+
 
     var tempCanvas = editorC.querySelector('#tempCanvas');
     var context2 = tempCanvas.getContext('2d');
@@ -108,12 +143,19 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
       context3.drawImage(blurCanvas, 0, 0, canvas3.width, canvas3.height);
       context3.globalAlpha = 0.7;
       context3.drawImage(imageObj, 0, 0, canvas3.width, canvas3.height);
-      context3.globalAlpha = 0.5;
+      context3.globalAlpha = 0.7;
       context3.drawImage(blurCanvas, 0, 0, canvas3.width, canvas3.height);
-      context3.globalAlpha = 0.3;
+      context3.globalAlpha = 0.4;
+      context3.drawImage(imageObj, 0, 0, canvas3.width, canvas3.height);
+      context3.globalCompositeOperation = "overlay";
+
+
+
+      context3.globalCompositeOperation = "source-over";
+      context3.globalAlpha = 1-structStrength.value/10;
       context3.drawImage(imageObj, 0, 0, canvas3.width, canvas3.height);
 
-      context3.globalAlpha = 1;
+      context3.globalAlpha =1-satStrength.value/20;
       context3.globalCompositeOperation = "color";
       context3.drawImage(imageObj, 0, 0, canvas3.width, canvas3.height);
       context.globalCompositeOperation = "source-over";
@@ -128,7 +170,7 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
       if (boost.checked) {
         detailsBTN.style.backgroundColor = "red";
       } else {
-        detailsBTN.style.backgroundColor = "lightgrey";
+        detailsBTN.style.backgroundColor = "darkslategrey";
       }
 
       // COPY TO TEMP CANVAS BEFORE PROCEEDING
@@ -137,15 +179,16 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
       if (sharp.checked) {
         SharpenBTN.style.backgroundColor = "green";
       } else {
-        SharpenBTN.style.backgroundColor = "lightgrey";
+        SharpenBTN.style.backgroundColor = "darkslategrey";
       }
       // SCREEN THE IMAGE TO MATCH THE LIGHTEN FILTER
       context3.globalCompositeOperation = "overlay";
-      context3.fillStyle = "white";
-      context3.globalAlpha = 0.5;
+      var s=parseInt(brightStrength.value)
+      context3.fillStyle = `rgb(${s},${s},${s})`
+
+      context3.globalAlpha =1 ;
       context3.fillRect(0, 0, canvas3.width, canvas3.height);
-
-
+      context3.fillStyle = `white`
       context3.globalCompositeOperation = 'source-over';
       context3.globalAlpha = 1;
       // COPY TO TEMP CANVAS
@@ -156,8 +199,7 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
       context3.globalCompositeOperation = 'destination-atop';
       context3.drawImage(tempCanvas, 0, 0, canvas3.width, canvas3.height);
       //COLOR-BURN
-      context3.globalAlpha = 0.8;
-      context3.globalCompositeOperation = 'color';
+      context3.globalAlpha = clrStrength.value/10;
       //context3.drawImage(el3, 0, 0, canvas3.width, canvas3.height);
       context3.globalCompositeOperation = 'color';
       context3.drawImage(el3, 0, 0, canvas3.width, canvas3.height);
@@ -178,9 +220,10 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
 
       }
       */
+      console.log('adjusting')
       setTimeout(function() {
         inprocess = 0;
-      }, 50);
+      }, 10);
 
 
 
@@ -193,10 +236,21 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
       image.style.display = "none;"
       context2.globalCompositeOperation = "source-over";
       // RESIZE IMAGE
-      tempCanvas.width = imageObj.naturalWidth / 2;
-      tempCanvas.height = imageObj.naturalHeight / 2;
-      blurCanvas.width = imageObj.naturalWidth / 2;
-      blurCanvas.height = imageObj.naturalHeight / 2;
+
+      if(imageObj.naturalWidth*imageObj.naturalHeight>2000000){
+        let imgRatio=imageObj.naturalWidth*imageObj.naturalHeight/2000000
+      tempCanvas.width = imageObj.naturalWidth /imgRatio;
+      tempCanvas.height = imageObj.naturalHeight / imgRatio;
+      blurCanvas.width = imageObj.naturalWidth / imgRatio;
+      blurCanvas.height = imageObj.naturalHeight/ imgRatio;
+    }
+      else{
+        tempCanvas.width = imageObj.naturalWidth;
+        tempCanvas.height = imageObj.naturalHeight;
+        blurCanvas.width = imageObj.naturalWidth;
+        blurCanvas.height = imageObj.naturalHeight;
+      }
+
       context2.drawImage(imageObj, 0, 0, tempCanvas.width, tempCanvas.height);
       context.drawImage(tempCanvas, 0, 0, blurCanvas.width, blurCanvas.height);
       // INITIALIZE CANVASES
@@ -208,7 +262,7 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
       imageData = context.getImageData(0, 0, blurCanvas.width, blurCanvas.height);
       greyscale();
       context.putImageData(imageData, 0, 0);
-      stackBlurImage('blurCanvas', 15, editorC);
+      stackBlurImage('blurCanvas', 10, editorC);
       // invert the blurred image
       context.globalCompositeOperation = "difference";
       context.fillStyle = "white";
@@ -217,11 +271,14 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
       // initialize the drawing canvases
       ctx2.fillStyle = "green";
       ctx.fillStyle = "red";
+      ctx3.fillStyle=color.value
       ctx.fillRect(0, 0, el.width, el.height)
+      ctx2.fillRect(0, 0, el.width, el.height)
+      ctx3.fillRect(0, 0, el.width, el.height)
+
       el.style.opacity = 0;
       el2.style.opacity = 0;
       el3.style.opacity = 0;
-      ctx3.fillStyle = "black";
       adjust();
       setTimeout(function() {
         inprocess1 = 0;
@@ -272,17 +329,17 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
            var x = lastPoint.x + (Math.sin(angle) * size / 4);
            var y = lastPoint.y + (Math.cos(angle) * size / 4);
 
-          var radgrad2 = ctx2.createRadialGradient(x, y, 10, x, y, size / 2);
+          var radgrad2 = ctx2.createRadialGradient(x, y, size/8, x, y, size / 2);
           radgrad2.addColorStop(0, 'rgba(255,255,255,1)');
           radgrad2.addColorStop(0.5, 'rgba(255,255,255,0.3)');
           radgrad2.addColorStop(1, 'rgba(0,255,0,0)');
 
-          var radgrad = ctx.createRadialGradient(x, y, 10, x, y, size / 2);
+          var radgrad = ctx.createRadialGradient(x, y, size/8, x, y, size / 2);
           radgrad.addColorStop(0, 'rgba(255,0,0,1)');
           radgrad.addColorStop(0.5, 'rgba(255,0,0,0.3)');
           radgrad.addColorStop(1, 'rgba(255,0,0,0)');
 
-          var radgrad3 = ctx3.createRadialGradient(x, y, 10, x, y, size / 2);
+          var radgrad3 = ctx3.createRadialGradient(x, y, size/8, x, y, size / 2);
           radgrad3.addColorStop(0, 'rgba(0,0,0,1)');
           radgrad3.addColorStop(0.5, 'rgba(0,0,0,0)');
           radgrad3.addColorStop(1, 'rgba(255,0,0,0)');
@@ -313,37 +370,41 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
 
       };
     }
+    const rect = el.getBoundingClientRect();
 
     function showMask(e) {
-
       if (boost2.checked) {
         el.style.opacity = 0;
         el2.style.opacity = 0;
-        el3.style.opacity = 0.7;
+        el3.style.opacity = 0.4;
       } else {
         if (sharp.checked) {
           el.style.opacity = 0
-          el2.style.opacity = 0.7;
+          el2.style.opacity = 0.4;
         }
         if (boost.checked) {
-          el.style.opacity = 0.7
+          el.style.opacity = 0.4
           el2.style.opacity = 0;
         }
       }
-      size = brsize.value;
-      isDrawing = true;
-      lastPoint = {
-        x: e.pageX - rect.left,
-        y: e.pageY - rect.top
+
+      if(e.target===el){
+        size = brsize.value;
+        isDrawing = true;
+        lastPoint = {
+          x: e.pageX - rect.left,
+          y: e.pageY - rect.top
+        }
       }
     }
-    const rect = el.getBoundingClientRect();
+
+
     el.onmousedown = showMask;
     el.ontouchstart = showMask;
 
     el.onmousemove = function(e) {
+      moveBrPreview(e)
       if (!isDrawing) return;
-      console.log(rect.top)
       var currentPoint = {
         x: e.pageX -rect.left,
         y: e.pageY -rect.top
@@ -353,14 +414,14 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
 
       if (dist > size /10) {
 
-        var x = lastPoint.x + (Math.sin(angle) * size /10);
+      var x = lastPoint.x + (Math.sin(angle) * size /10);
       var y = lastPoint.y + (Math.cos(angle) * size / 10);
 
-        var radgrad2 = ctx2.createRadialGradient(x, y, size/4, x, y, size / 2);
+      var radgrad2 = ctx2.createRadialGradient(x, y, 1, x, y, size / 2);
         radgrad2.addColorStop(0, 'rgba(0,255,0,1)');
         radgrad2.addColorStop(1, 'rgba(0,255,0,0)');
 
-        var radgrad = ctx.createRadialGradient(x, y, size/4, x, y, size / 2);
+        var radgrad = ctx.createRadialGradient(x, y, 1, x, y, size / 2);
         radgrad.addColorStop(0, 'rgba(255,0,0,1)');
         radgrad.addColorStop(1, 'rgba(255,0,0,0)');
 
@@ -374,7 +435,7 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
           return result;
         }
 
-        var radgrad3 = ctx3.createRadialGradient(x, y, size/16, x, y, size / 2);
+        var radgrad3 = ctx3.createRadialGradient(x, y, 1, x, y, size / 2);
         radgrad3.addColorStop(0, `${color.value}`);
         radgrad3.addColorStop(1, `${convertHex(color.value,0)}`);
         ctx.fillStyle = radgrad;
@@ -400,44 +461,48 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
           ctx3.globalCompositeOperation = "source-over";
         }
         lastPoint = currentPoint;
-        adjust()
+        requestAnimationFrame(adjust)
       }
 
 
     };
 
     document.onkeypress = function(event) {
+
+
       if (event.keyCode == 93) {
-        brsize.value += 10
+         brsize.value =10+parseInt(brsize.value)
+         updateBrPreview()
+
       };
       if (event.keyCode == 91) {
         brsize.value -= 10
+        updateBrPreview()
+
       };
       if (size < 11) {
         size = 10;
       }
+      if (event.key==='b'){
+        toggleErase()
+      }
     }
-    el.onmouseup = function() {
+    var hideMask = function() {
       el.style.opacity = 0;
       el2.style.opacity = 0;
       el3.style.opacity = 0;
-      adjust();
       isDrawing = false;
       ctx.globalCompositeOperation = 'source-over';
       ctx2.globalCompositeOperation = 'source-over';
       ctx3.globalCompositeOperation = 'source-over';
+      adjust()
     };
 
-    el.ontouchend = function() {
-      adjust();
-      el.style.opacity = 0;
-      el2.style.opacity = 0;
-      el3.style.opacity = 0;
-      isDrawing = false;
-      ctx.globalCompositeOperation = 'source-over';
-      ctx2.globalCompositeOperation = 'source-over';
-      ctx3.globalCompositeOperation = 'source-over';
-    };
+    el.onmouseup=hideMask
+
+
+
+    el.ontouchend = hideMask
 
     function fillMask() {
       if (sharp.checked) {
@@ -473,65 +538,77 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
     var SharpenBTN = editorC.querySelector('#sharpenonly');
     var detailsBTN = editorC.querySelector('#details');
     var eraseBTN = editorC.querySelector('#eraseBTN');
-    var colorBurnBTN = editorC.querySelector('#colorBurn');
+    var colorBurnBTN = editorC.querySelector('#colorburn');
 
 
-    detailsBTN.onclick = function() {
+    detailsBTN.onmousedown = function() {
       boost.checked = true;
       boost2.checked = false;
       sharp.checked = false;
       detailsBTN.style.backgroundColor = "red";
-      SharpenBTN.style.backgroundColor = "grey";
-      colorBurnBTN.style.backgroundColor = "grey";
-      adjust();
+      SharpenBTN.style.backgroundColor = "darkslategrey";
+      colorBurnBTN.style.backgroundColor = "darkslategrey";
     }
 
 
-    SharpenBTN.onclick = function() {
+    SharpenBTN.onmousedown = function() {
       sharp.checked = true;
       boost.checked = false;
       boost2.checked = false;
       SharpenBTN.style.backgroundColor = "green";
-      detailsBTN.style.backgroundColor = "grey";
-      colorBurnBTN.style.backgroundColor = "grey";
+      detailsBTN.style.backgroundColor = "darkslategrey";
+      colorBurnBTN.style.backgroundColor = "darkslategrey";
     }
 
-    colorBurnBTN.onclick = function() {
+    colorBurnBTN.onmousedown = function() {
       boost2.checked = true;
       boost.checked = false;
       colorBurnBTN.style.backgroundColor = "lightBlue";
       sharp.checked = false;
-      erase.checked = false;
-      SharpenBTN.style.backgroundColor = "lightgrey";
-      detailsBTN.style.backgroundColor = "lightgrey";
+      SharpenBTN.style.backgroundColor = "darkslategrey";
+      detailsBTN.style.backgroundColor = "darkslategrey";
     }
 
     editorC.querySelector('#fill').addEventListener('click', fillMask);
     editorC.querySelector('#clear').addEventListener('click', clearMask);
     var eraser = 0;
-
-    eraseBTN.onclick = function() {
+     function enableEraser(){
+      erase.checked = true;
+      eraseBTN.style.backgroundColor = 'yellow';
+      eraser = 1;
+      el.style.cursor='url(eraser.png),auto'
+    }
+    function toggleErase() {
       if (eraser === 0) {
-        erase.checked = true;
-        eraseBTN.style.backgroundColor = 'yellow';
-        eraser = 1;
+
+        enableEraser()
+
       } else {
         eraseBTN.style.backgroundColor = 'grey';
         erase.checked = false;
         eraser = 0;
+        el.style.cursor='url(Editing.png),auto'
+
       }
     }
-    brstrength.addEventListener('input', adjust)
+    eraseBTN.addEventListener('click',toggleErase)
+
+    editorC.querySelector('#tools').addEventListener('input', adjust)
+    //editorC.querySelector('#tools').addEventListener('mousedown', showMask)
+    //editorC.querySelector('#tools').addEventListener('mouseup', hideMask)
+    //editorC.querySelector('#tools').addEventListener('mousedown', enableEraser)
+
 
     load();
-    adjust();
+
+    //adjust();
   }
 ////////
-  editorC.querySelector('#dismiss').addEventListener('click', function() {
-    editorC.querySelector('#guide').classList.toggle("hide"); console.log('hide');
-  });
+
   editorC.querySelector('#help').addEventListener('click', function() {
     editorC.querySelector('#guide').classList.toggle("hide");
   });
+
+  brsize.addEventListener('input',updateBrPreview)
 }
 export default initEditor
