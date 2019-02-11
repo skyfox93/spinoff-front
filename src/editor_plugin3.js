@@ -2,10 +2,6 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
   var saveBtn = editorC.querySelector('#saveBtn');
   var sharp = editorC.querySelector('#sharpen');
   var erase = editorC.querySelector('#resize');
-<<<<<<< HEAD
-  var wrapEl = editorC.querySelector('#wrap');
-=======
->>>>>>> refactor-editor
   var el = editorC.querySelector('#c');
   var el2 = editorC.querySelector('#c2');
   var el3 = editorC.querySelector('#c3');
