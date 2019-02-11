@@ -22,15 +22,6 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
   var boost2 = editorC.querySelector('#boost2');
   var image = editorC.querySelector('#image');
 
-<<<<<<< HEAD
-  var imageObj = new Image();
-  imageObj.crossOrigin = "Anonymous";
-  if (existingImg){imageObj.src = image.src;}
-
-  var brsize = editorC.querySelector('#brsize');
-  var brstrength = editorC.querySelector('#brstrength');
-
-=======
 
 
   var brsize = editorC.querySelector('#brsize');
@@ -55,7 +46,6 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
    var imageObj = new Image();
   imageObj.crossOrigin = "Anonymous";
   if (existingImg){imageObj.src = image.src;}
->>>>>>> refactor-editor
 
   function handleFileSelect(evt) {
     var file = evt.target.files[0];
@@ -85,19 +75,6 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
     var blurCanvas = editorC.querySelector('#blurCanvas');
     // if theres an exiting Img, load it.
     var context = blurCanvas.getContext('2d');
-<<<<<<< HEAD
-    var ratio = imageObj.height / imageObj.width;
-    blurCanvas.width = 500;
-    blurCanvas.height = 500 * ratio;
-
-    el.height = 500 * ratio;
-    el2.height = 500 * ratio;
-    el3.height = 500 * ratio;
-    el4.height = 500 * ratio;
-    wrapEl.style.width = blurCanvas.width + 100;
-    wrapEl.style.height = blurCanvas.height + 200;
-    var canvas3 = editorC.querySelector('#canvas3');
-=======
     var canvas3 = editorC.querySelector('#canvas3');
     var ratio = imageObj.height / imageObj.width;
     if(ratio<1){
@@ -128,7 +105,6 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
 
 
 
->>>>>>> refactor-editor
 
     var tempCanvas = editorC.querySelector('#tempCanvas');
     var context2 = tempCanvas.getContext('2d');
@@ -431,13 +407,8 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
     el.ontouchstart = showMask;
 
     el.onmousemove = function(e) {
-<<<<<<< HEAD
-      if (!isDrawing) return;
-      console.log(rect.top)
-=======
       moveBrPreview(e)
       if (!isDrawing) return;
->>>>>>> refactor-editor
       var currentPoint = {
         x: e.pageX -rect.left,
         y: e.pageY -rect.top
