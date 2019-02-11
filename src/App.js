@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 //import { Stage, Sprite, AppConsumer } from '@inlet/react-pixi'
 // import * as PIXI from 'pixi.js'
 // import { ConvolutionFilter } from '@pixi/filter-convolution';
@@ -29,7 +30,7 @@ class App extends Component {
   )
   componentDidMount(){
     this.setState({token:localStorage.getItem('token')})
-    this.setState({user: JSON.parse(localStorage.getItem('user'))})
+    //this.setState({user: JSON.parse(localStorage.getItem('user'))})
   }
 
 

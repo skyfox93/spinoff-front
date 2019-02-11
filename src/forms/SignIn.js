@@ -1,4 +1,6 @@
 import React from 'react'
+
+import { Button, Divider, Form, Grid, Segment } from 'semantic-ui-react'
 class SignInForm extends React.Component {
   state = {
     user:{username: '',
@@ -48,36 +50,39 @@ class SignInForm extends React.Component {
 
 
   render() {
-    console.log('login rendereddd')
+
     return (
-      <div className="login">
-      <h2> Login Form</h2>
-      {this.state.error ? <div>{this.state.error}</div> :null}
-        <form onSubmit={this.handleSubmit}>
-          <label htmlFor="username">Username</label>
-          <input
-          className="ui input"
+  <Segment placeholder>
+    <Grid columns={2} relaxed='very' stackable>
+      <Grid.Column>
+
+          <Form.Input icon='user' iconPosition='left' label='Username'
             type="text"
             name="username"
             placeholder="Username"
             onChange={this.handleChange}
-            value={this.state.username}
-          />
-          <label htmlFor="password">Password</label>
-          <input
-          className="ui input"
-            type="password"
+            value={this.state.username}/>
+
+          <Form.Input icon='lock' iconPosition='left' label='Password'  type="password"
             name="password"
             placeholder="Password"
             onChange={this.handleChange}
-            value={this.state.password}
-          />
-          <input
-          className="ui input"
- type="submit" value="Login" />
-        </form>
-      </div>
-    )
+            value={this.state.password} />
+
+          <Button content='Login' primary onClick={this.handleSubmit} />
+
+      </Grid.Column>
+
+      <Grid.Column verticalAlign='middle'>
+        <Button content='Sign up' icon='signup' size='big'  />
+      </Grid.Column>
+    </Grid>
+
+    <Divider vertical>Or</Divider>
+  </Segment>
+)
+
+
   }
 }
 
