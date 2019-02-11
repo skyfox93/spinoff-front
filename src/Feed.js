@@ -111,7 +111,7 @@ class Feed extends React.Component{
     console.log(selected)
 
 
-    if(!editing){
+    if(!editing && !this.state.createNew){
       return  <>
       <div style={{width:'100%',position:'absolute',zIndex:'1',}}>
       <div style={{display:'inline-block',margin:'0px,auto',backgroundColor:'white',width:'100%',height:'50px'}}>
