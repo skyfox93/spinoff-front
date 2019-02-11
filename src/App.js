@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 //import { Stage, Sprite, AppConsumer } from '@inlet/react-pixi'
 // import * as PIXI from 'pixi.js'
 // import { ConvolutionFilter } from '@pixi/filter-convolution';
@@ -23,9 +23,9 @@ class App extends Component {
   }
 
   updateCurrentUser=(json=>{
-  this.setState({user:json.user,token:json.token})
-  localStorage.setItem('token',json.token)
-  localStorage.setItem('user', JSON.stringify(json.user))
+    this.setState({user:json.user,token:json.token})
+    localStorage.setItem('token',json.token)
+    localStorage.setItem('user', JSON.stringify(json.user))
   }
   )
   componentDidMount(){
@@ -37,14 +37,29 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-      {this.state.user ?
-        <>
-          {/*<EditUser userId={this.state.user.id} token={this.state.token}/>*/}
-          {<Feed user={this.state.user} token={this.state.token}/>}
-        </>
-        : <SignIn updateCurrentUser={this.updateCurrentUser}/>}
+        <Router>
+          <div>
+            <Route exact path='/'
+              render= { () => <Redirect to='./home' />}
+            />
+            <Route path="/signin"
+              render={(props)=> this.state.user ?
+                 <Redirect to='/home'/>
+                : <SignIn updateCurrentUser={this.updateCurrentUser} history=/>}
+            />
+            <Route path='/signup'
+              render={props=> <SignUp updateCurrentUser={this.updateCurrentUser}/>}
+            />
+            <Route
+              path='/home'
+              render={props => this.state.user ?
+                <Feed user={this.state.user} token={this.state.token}/>
+                : <Redirect to={'/signin'}/>}
+            />
+          </div>
+        </Router>
+      </div>
 
-  </div>
     );
   }
 }

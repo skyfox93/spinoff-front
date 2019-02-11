@@ -1,4 +1,5 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
 
 import { Button, Divider, Form, Grid, Segment } from 'semantic-ui-react'
 class SignInForm extends React.Component {
@@ -15,7 +16,7 @@ class SignInForm extends React.Component {
     })
   }
 
-  handleSubmit = event => {
+  handleLogin = event => {
     event.preventDefault()
     // console.log(this.state)
 
@@ -46,6 +47,10 @@ class SignInForm extends React.Component {
     }
   )
   }
+  // Redirect to Signup page
+  handleRedirect =() =>{
+    this.props.history.push('/signup')
+  }
 
 
 
@@ -69,12 +74,12 @@ class SignInForm extends React.Component {
             onChange={this.handleChange}
             value={this.state.password} />
 
-          <Button content='Login' primary onClick={this.handleSubmit} />
+          <Button content='Login' primary onClick={this.handleLogin} />
 
       </Grid.Column>
 
       <Grid.Column verticalAlign='middle'>
-        <Button content='Sign up' icon='signup' size='big'  />
+        <Button content='Sign up' icon='signup' size='big' onClick={this.handleRedirect} />
       </Grid.Column>
     </Grid>
 
@@ -86,4 +91,4 @@ class SignInForm extends React.Component {
   }
 }
 
-export default SignInForm
+export default withRouter(SignInForm)
