@@ -30,7 +30,7 @@ class App extends Component {
   )
   componentDidMount(){
     this.setState({token:localStorage.getItem('token')})
-    //this.setState({user: JSON.parse(localStorage.getItem('user'))})
+    this.setState({user: JSON.parse(localStorage.getItem('user'))})
   }
 
 
@@ -45,10 +45,10 @@ class App extends Component {
             <Route path="/signin"
               render={(props)=> this.state.user ?
                  <Redirect to='/home'/>
-                : <SignIn updateCurrentUser={this.updateCurrentUser} history=/>}
+                : <SignIn updateCurrentUser={this.updateCurrentUser} />}
             />
             <Route path='/signup'
-              render={props=> <SignUp updateCurrentUser={this.updateCurrentUser}/>}
+              render={props=> this.state.user ? <Redirect to='./home'/> :<SignUp updateCurrentUser={this.updateCurrentUser}/>}
             />
             <Route
               path='/home'

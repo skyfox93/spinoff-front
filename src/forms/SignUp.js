@@ -1,5 +1,6 @@
 import React from 'react'
 import Avatar from 'react-avatar-edit'
+import { Button, Form, Message } from 'semantic-ui-react'
 
 class SignUpForm extends React.Component {
   state = {
@@ -7,7 +8,9 @@ class SignUpForm extends React.Component {
     password: ''
   },
   error: null,
-  preview: null
+  preview: null,
+  isMatch: true
+
   }
 
 
@@ -21,6 +24,10 @@ class SignUpForm extends React.Component {
 
 
   handleChange = event => {
+    if(event.target.name ==='password-confirm'){
+      let isMatch= (this.state.user.password === event.target.value)
+      this.setState({isMatch})
+    }
     this.setState({
       user: {...this.state.user,[event.target.name]: event.target.value}
     })
@@ -29,6 +36,9 @@ class SignUpForm extends React.Component {
   handleSubmit = event => {
     event.preventDefault()
     // console.log(this.state)
+    if (!this.state.isMatch){
+      return
+    }
 
     fetch(`http://localhost:3000/api/v1/users`, {
       method: 'POST',
@@ -63,41 +73,76 @@ class SignUpForm extends React.Component {
 
   render() {
     console.log('login rendereddd')
+
+
     return (
+
       <div className="login">
       <h2>  SignUp </h2>
       {this.state.error ? <div>{this.state.error}</div> :null}
-        <form onSubmit={this.handleSubmit}>
+        <Form warning={!this.state.isMatch} onSubmit={this.handleSubmit}>
+          <Form.Field>
           <label htmlFor="username">Username</label>
           <input
+          required
           className="ui input"
             type="text"
             name="username"
             placeholder="Username"
             onChange={this.handleChange}
-            value={this.state.username}
+            value={this.state.user.username}
           />
+          </Form.Field>
+          <Form.Field>
           <label htmlFor="password">Password</label>
           <input
+          required
           className="ui input"
             type="password"
             name="password"
-            placeholder="Password"
+            placeholder="Enter a Password"
             onChange={this.handleChange}
-            value={this.state.password}
+            value={this.state.user.password}
           />
+          </Form.Field>
+          <Form.Field>
+          <label htmlFor="password">Confirm Password</label>
+          <input
+          required
+          className="ui input"
+            type="password"
+            name="password-confirm"
+            placeholder="Re-Enter your password"
+            onChange={this.handleChange}
+            />
+          {this.state.isMatch===true ? null : <Message
+       warning
+       content='Passwords do not match' />}
+          </Form.Field>
+          <Form.Field>
+          <label htmlFor="displayname">Display Name</label>
+          <input
+            required
+            type="text"
+            name="displayname"
+            placeholder=" Enter a display name"
+            onChange={this.handleChange}
+            value={this.state.user.displayname}
+          />
+          </Form.Field>
+
+        <label>Profile Picture </label>
         <Avatar
-        width={390}
-        height={295}
+        label= 'Upload a picture to display next to your name (Click Here)'
+        width={600}
+        height={100}
         imageWidth={500}
         onCrop={this.onCrop}
         onClose={this.onClose}
         onBeforeFileLoad={this.onBeforeFileLoad}
       />
-      <img src={this.state.preview} alt="Preview" />
-
-        <input className="ui input" type="submit" value="SignUp"/>
-        </form>
+        <Button type="submit"> Sign Up </Button>
+        </Form>
       </div>
     )
   }

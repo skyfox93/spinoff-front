@@ -119,3 +119,10 @@ input[type="range"]::-webkit-slider-thumb
 .tool-wrapper{width:400px;margin:10px;background-color:darkslategray;height:90%;
   position:fixed;z-index:3;left:800px;top:5%;
 }
+.field {
+text-align: left}
+.login {
+  display:inline-block;
+  width:700px;
+  margin:20px,auto;
+}
