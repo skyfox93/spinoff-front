@@ -262,7 +262,7 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
       imageData = context.getImageData(0, 0, blurCanvas.width, blurCanvas.height);
       greyscale();
       context.putImageData(imageData, 0, 0);
-      stackBlurImage('blurCanvas', 10, editorC);
+      stackBlurImage('blurCanvas', 12, editorC);
       // invert the blurred image
       context.globalCompositeOperation = "difference";
       context.fillStyle = "white";

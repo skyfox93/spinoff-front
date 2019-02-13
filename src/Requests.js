@@ -11,7 +11,7 @@ class Requests extends React.Component{
   acceptRequest=(followerId)=>{
     adapter.acceptFollow(this.props.userId,followerId,this.props.token)
     const requesting=this.state.requesting.map(user=>{
-    return user.id=followerId ? {...user, accepted:true} : user
+    return user.id===followerId ? {...user, accepted:true} : user
     })
     this.setState({requesting})
   }

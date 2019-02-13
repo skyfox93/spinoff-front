@@ -1,7 +1,7 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 
-import { Button, Divider, Form, Grid, Segment } from 'semantic-ui-react'
+import { Button, Divider, Form, Grid, Segment, Message } from 'semantic-ui-react'
 class SignInForm extends React.Component {
   state = {
     user:{username: '',
@@ -57,9 +57,12 @@ class SignInForm extends React.Component {
   render() {
 
     return (
+
   <Segment placeholder>
     <Grid columns={2} relaxed='very' stackable>
       <Grid.Column>
+      <Form onSubmit={this.handleLogin}>
+      <Message warn> {this.state.error} </Message>
 
           <Form.Input icon='user' iconPosition='left' label='Username'
             type="text"
@@ -74,8 +77,8 @@ class SignInForm extends React.Component {
             onChange={this.handleChange}
             value={this.state.password} />
 
-          <Button content='Login' primary onClick={this.handleLogin} />
-
+          <Form.Button content='Login' primary  />
+          </Form>
       </Grid.Column>
 
       <Grid.Column verticalAlign='middle'>

@@ -28,9 +28,11 @@ class SignUpForm extends React.Component {
       let isMatch= (this.state.user.password === event.target.value)
       this.setState({isMatch})
     }
-    this.setState({
-      user: {...this.state.user,[event.target.name]: event.target.value}
-    })
+    else{
+      this.setState({
+        user: {...this.state.user,[event.target.name]: event.target.value}
+      })
+    }
   }
 
   handleSubmit = event => {

@@ -112,8 +112,8 @@ input[type="range"]::-webkit-slider-thumb
   font-size: 1em;
 }
 .user-avatar {
-  font-size: 1.5em;
-  height:50px;
+  font-size: 1.2em;
+  height:30px;
   margin-right:10px;
 }
 .tool-wrapper{width:400px;margin:10px;background-color:darkslategray;height:90%;
