@@ -4,12 +4,13 @@ import PhotosContainer from './PhotosContainer'
 import User from './User'
 import { withRouter } from 'react-router-dom'
 const PhotoViewer= (props)=>{
-  const path= 'http://localhost:3000/profile/photo'
+  const path= 'http://localhost:3001/profile/photo'
+  console.log(window.location.href)
   return (
     <div style={{width:'100%',height:'100%',left:'0px', top:'50px', display: 'inline-block',position:'fixed', zIndex:2 }}>
       <div style={{height:'100%',width:'100%', display: 'inline-block' }}>
         <div style={{padding:'20px',backgroundColor:'white'}}><span>{props.profileView ? `@${props.viewingUser.displayname}'s profile` : ' Viewing Original Photo'}</span><button onClick={()=> props.history.push('/')}> Back to Feed </button>
-      {window.location===path ? <button onClick={()=> props.history.push('/profile')}> Back to Profile </button> : null}
+      {window.location.href===path ? <button onClick={()=> props.history.push('/profile')}> Back to Profile </button> : null}
         </div>
 
         <div style={{height:'100%',overflow: 'scroll',backgroundColor:'white'}}>

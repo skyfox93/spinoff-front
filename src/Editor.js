@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Dimmer, Loader} from 'semantic-ui-react'
 //import { Stage, Sprite, AppConsumer } from '@inlet/react-pixi'
 // import * as PIXI from 'pixi.js'
 // import { ConvolutionFilter } from '@pixi/filter-convolution';
@@ -16,23 +17,24 @@ class Editor extends Component {
 
 
 
-handleselectedFile = (event) => {
-  const url=URL.createObjectURL(event.target.files[0]);
-  this.setState({url:url,file:event.target.files[0]},()=>console.log(this.state.file))
-
+  enableLoader=()=> {
+    this.setState({uploading:true})
   }
 
 
   componentDidMount(){
-initEditor(this.editorC.current,stackBlurImage,this.props.savePhoto,this.props.existingImg)
+initEditor(this.editorC.current,stackBlurImage,this.props.savePhoto,this.props.existingImg,this.enableLoader)
   }
 
   render() {
     console.log('RENDER EDITOR')
 
     return (
-        <div id="container" ref={this.editorC}>
 
+        <div id="container" ref={this.editorC}>
+          <Dimmer active={this.state.uploading}>
+            <Loader size='big'>Uploading</Loader>
+          </Dimmer>
     	     <div id='hiddenInputs'>
     		     <input type={"file"} name={"file"} id={"file" }accept={"image/*"} /><br/>
              <input type={'checkbox'} id={'resize'}/>

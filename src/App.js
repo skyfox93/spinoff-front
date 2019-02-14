@@ -14,7 +14,7 @@ import PhotoViewer from './PhotoViewer'
 import Nav from './Nav'
 import Profile from './Profile'
 import adapter from './Adapter'
-
+import {Loader, Dimmer} from 'semantic-ui-react'
 const baseUrl='http://localhost:3000'
 
 class App extends Component {
@@ -22,6 +22,7 @@ class App extends Component {
   state={
     currentUser:null,
     photos:[],
+    loading: true,
     viewingUser:null,
     // Photo viewing && editing
     selectedPhotoId: null,
@@ -64,7 +65,7 @@ class App extends Component {
   // Functions for ProfileViewer
 
   viewProfilePhoto=(photo_id,history)=>{
-    this.setState({sProphilePhotoId:photo_id})
+    this.setState({sProfilePhotoId:photo_id})
     history.push('/profile/photo')
   }
   deSelectProfilePhoto=(photo_id)=>{
@@ -72,26 +73,27 @@ class App extends Component {
   }
 
   getSpinoffs=()=>{
-    let selected=this.getSelectedPhoto()
+    let selected=this.getSelectedPhoto(this.state.selectedPhotoId)
     let id=selected.id
   return this.state.photos.filter(photo=> photo.photo_id === id)
   }
 
   getPSpinoffs=()=>{
-    let selected=this.getSelectedPhoto()
+    let selected=this.getSelectedPhoto(this.state.sProfilePhotoId)
     let id=selected.id
   return this.state.photos.filter(photo=> photo.photo_id === id)
   }
 
-  getSelectedPhoto=()=>{
+  getSelectedPhoto=(id)=>{
     // find the selected photo, if its not the original, look for the original one.
     // if you can't find the original, select the spinoff
-   let selPhoto= this.state.selectedPhotoId && this.state.photos.find(photo=> photo.id===this.state.selectedPhotoId)
+   let selPhoto= this.state.photos.find(photo=> photo.id===id)
    let original=(selPhoto && selPhoto.photo_id) ?
      this.state.photos.find(photo=> photo.id===selPhoto.photo_id)
      : selPhoto
   return  original
 }
+
 
 
   getEditingPhoto=()=>{
@@ -126,9 +128,10 @@ class App extends Component {
 
 
   fetchFeed= ()=>{
-    return adapter.getFeed(this.state.user.id,this.state.token)
+    this.setState({loading:true})
+     adapter.getFeed(this.state.user.id,this.state.token)
     .then(
-      photos => this.setState({photos})
+      photos => this.setState({photos, loading:false})
     )
   }
   profilePhotos=()=> {
@@ -139,12 +142,14 @@ class App extends Component {
   componentDidMount(){
     this.setState({token:sessionStorage.getItem('token')})
     this.setState({user: JSON.parse(sessionStorage.getItem('user'))})
+
   }
 
 
   render() {
 
-    const selected=this.getSelectedPhoto()
+    const selected=this.getSelectedPhoto(this.state.selectedPhotoId)
+    const profileSelected=this.getSelectedPhoto(this.state.sProfilePhotoId)
     const editing=this.getEditingPhoto()
 
     return (
@@ -177,6 +182,9 @@ class App extends Component {
               render={props =>
                 this.state.user ?
                   (!editing && !this.state.createNew) ?
+                  <>
+
+                    <Loader  active={this.state.loading}size='big'>Loading Feed</Loader>
                     <Feed
                       setViewingUser={this.setViewingUser}
                       photos={this.state.photos}
@@ -187,6 +195,7 @@ class App extends Component {
                       showInfo={true}
                       fetchFeed={this.fetchFeed}
                     />
+                    </>
                 : null
               : <Redirect to='/signin'/>
               }
@@ -254,10 +263,10 @@ class App extends Component {
               path='/profile/photo'
               render= {props=>
                 (this.state.user) ?
-                  (selected ?
+                  (profileSelected ?
                     <PhotoViewer
                       setViewingUser={this.setViewingUser}
-                      selected={selected}
+                      selected={profileSelected}
                       photos={this.getPSpinoffs()}
                       baseUrl={baseUrl}
                       viewPhoto={this.viewProfilePhoto}
@@ -268,11 +277,13 @@ class App extends Component {
                 : <Redirect to= '/signin'/>
               }
             />
-
-
-
-
-
+            <Route
+              path={'/edit_user'}
+              render= {props=>
+                (this.state.user) ?
+                     <EditUser updateCurrentUser={this.updateCurrentUser} user={this.state.user} token={this.token}/>
+                  : null }
+              />
           </div>
 
 

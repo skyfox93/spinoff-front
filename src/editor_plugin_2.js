@@ -1,4 +1,4 @@
-function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
+function initEditor(editorC, stackBlurImage,postPhoto,existingImg,enableLoader) {
   var saveBtn = editorC.querySelector('#saveBtn');
   var sharp = editorC.querySelector('#sharpen');
   var erase = editorC.querySelector('#resize');
@@ -288,13 +288,10 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg) {
 
     }
     var saveimage = function() {
+      enableLoader()
+
       postPhoto(canvas3.toDataURL("image/jpeg", 1.0),removeListeners)
-      image.style.display = "inline";
-      canvas3.style.display = "none";
-      el.style.display = "none";
-      el2.style.display = "none";
-      el3.style.display = "none";
-      el4.style.display = "none";
+
     }
     saveBtn.addEventListener('click', saveimage);
 
