@@ -42,6 +42,11 @@ class App extends Component {
     sessionStorage.setItem('user', JSON.stringify(json.user))
   }
   )
+  clearCurrentUser=()=> {
+    this.setState({user:null})
+      sessionStorage.removeItem('user')
+      sessionStorage.removeItem('user')
+    }
 
 // Functions for Main Viewer
   viewPhoto=(photo_id,history)=>{
@@ -114,7 +119,7 @@ class App extends Component {
     .then((photo)=>{
       removeListeners()
       let newPhotos=[photo, ...this.state.photos]
-      this.setState({editingPhotoId:null})
+      this.setState({editingPhotoId:null,createNew:null})
     })
     .catch((error)=> alert('sorry,something went wrong'))
   }
@@ -149,11 +154,13 @@ class App extends Component {
         <Router>
           <div>
           <Nav
+          setViewingUser={this.setViewingUser}
           addPhoto={this.addPhoto}
           user={this.state.user}
           token={this.state.token}
           baseUrl={baseUrl}
           user={this.state.user}
+          signout={this.clearCurrentUser}
           />
           <div style={{height:'50px'}}>
             </div>
@@ -219,7 +226,7 @@ class App extends Component {
                      savePhoto={this.savePhoto}
                      existingImg={!this.state.createNew}
                     />
-                  : null)
+                  : <Redirect to='/'/>)
                 : <Redirect to= '/signin'/>
               }
             />

@@ -52,7 +52,7 @@ class Friends extends React.Component{
     let baseUrl=this.props.baseUrl
     return <List size='small'>
       {this.state.following.map(
-        (result=><List.Item><List.Header><Image src={baseUrl+result.avatar.url} className='user-avatar' avatar /><span>{result.displayname}</span><span>Friends</span></List.Header></List.Item>)
+        (result=><List.Item><List.Header><Image src={baseUrl+result.avatar.url} className='user-avatar' avatar /><span>{result.displayname}<Button disabled floated='right'>Friends</Button></span></List.Header></List.Item>)
       )}
       {this.state.noRelation.map(
         (result=>
