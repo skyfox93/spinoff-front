@@ -12,7 +12,7 @@ class Photo extends React.Component{
 
 render(){
   return <Card raised className='card' key={this.props.id} style={{width: '500px', margin: '20px, auto', display: 'inline-block',backgroundColor:'white'}}>
-          <Card.Content>{this.props.id}<img src={this.props.baseUrl+this.props.user.avatar.url} className='user-avatar'/><a  onClick={()=>{this.props.setViewingUser(this.props.user);this.props.history.push('./profile')}}>@{this.props.user.displayname}</a></Card.Content>
+          <Card.Content><img src={this.props.baseUrl+this.props.user.avatar.url} className='user-avatar'/><a  onClick={()=>{this.props.setViewingUser(this.props.user);this.props.history.push('./profile')}}>id:{this.props.id}@{this.props.user.displayname}</a></Card.Content>
           <div style={{width:'100%', backgroundColor:'rgb(75,75,75)', height:'100%'}} >
           <Card.Content style={{width:'500px', height:'400px',backgroundImage:`url(${this.props.baseUrl+this.props.url})`,backgroundSize:'contain', backgroundPosition: 'center', backgroundRepeat: 'no-repeat'}}>
           </Card.Content>

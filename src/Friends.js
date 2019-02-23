@@ -1,6 +1,7 @@
 import React from 'react'
 import adapter from './Adapter'
 import {Popup, Image, List, Button} from 'semantic-ui-react'
+import {Link } from 'react-router-dom'
 class Friends extends React.Component{
 
   state= {
@@ -52,18 +53,18 @@ class Friends extends React.Component{
     let baseUrl=this.props.baseUrl
     return <List size='small'>
       {this.state.following.map(
-        (result=><List.Item><List.Header><Image src={baseUrl+result.avatar.url} className='user-avatar' avatar /><span onClick={this.props.setViewingUser}>{result.displayname}</span><Button disabled floated='right'>Friends</Button></List.Header></List.Item>)
+        (result=><List.Item><List.Header><Image src={baseUrl+result.avatar.url} className='user-avatar' avatar /><Link to='/profile' onClick={()=>this.props.setViewingUser(result)}>{result.displayname}</Link><Button disabled floated='right'>Friends</Button></List.Header></List.Item>)
       )}
       {this.state.noRelation.map(
         (result=>
           <List.Item ><List.Header><Image src={this.props.baseUrl+result.avatar.url} className='user-avatar'  avatar />
-<span onClick={this.props.setViewingUser}>{result.displayname}</span><Button floated='right' onClick={()=>this.requestFollow(result.id)} >{result.requested ? "Requested": "Follow"}</Button></List.Header>
+<Link to='/profile' onClick={()=>this.props.setViewingUser(result)}>{result.displayname}</Link><Button floated='right' onClick={()=>this.requestFollow(result.id)} >{result.requested ? "Requested": "Follow"}</Button></List.Header>
 </List.Item>
       ))}
       {this.state.requested.map(
         (result=>
           <List.Item><List.Header><Image src={this.props.baseUrl+result.avatar.url} className='user-avatar' avatar />
-<span onClick={this.props.setViewingUser}>{result.displayname}</span><Button  floated='right' onClick={()=>this.requestFollow(result.id)} >Requested</Button></List.Header></List.Item>
+<Link to='/profile' onClick={()=>this.props.setViewingUser(result)}>{result.displayname}</Link><Button  floated='right' onClick={()=>this.requestFollow(result)} >Requested</Button></List.Header></List.Item>
       ))}
       </List>
 

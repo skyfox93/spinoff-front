@@ -141,3 +141,7 @@ text-align: left}
 #center-menu{
   margin-right:100px;
 }
+.splash{
+  background-image:url('http://localhost:3001/example.png');
+  height:100%;
+}

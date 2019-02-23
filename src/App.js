@@ -15,8 +15,9 @@ import Nav from './Nav'
 import Profile from './Profile'
 import adapter from './Adapter'
 import {Loader, Dimmer} from 'semantic-ui-react'
-const baseUrl='http://localhost:3000'
 
+const baseUrl=''
+// no longer needed due to api update
 class App extends Component {
 
   state={
@@ -147,7 +148,6 @@ class App extends Component {
 
 
   render() {
-
     const selected=this.getSelectedPhoto(this.state.selectedPhotoId)
     const profileSelected=this.getSelectedPhoto(this.state.sProfilePhotoId)
     const editing=this.getEditingPhoto()

@@ -20,7 +20,7 @@ class SignInForm extends React.Component {
     event.preventDefault()
     // console.log(this.state)
 
-    fetch(`http://localhost:3000/api/v1/login`, {
+    fetch(`https://spinoff.herokuapp.com/api/v1/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -55,40 +55,44 @@ class SignInForm extends React.Component {
 
 
   render() {
-
     return (
+      <React.Fragment>
+        <div> <h1>Welcome to Spinoff! </h1>
+          <Segment placeholder>
 
-  <Segment placeholder>
-    <Grid columns={2} relaxed='very' stackable>
-      <Grid.Column>
-      <Form onSubmit={this.handleLogin}>
-      <Message warn> {this.state.error} </Message>
+            <Grid columns={2} relaxed='very' stackable>
+              <Grid.Column>
+              <Form onSubmit={this.handleLogin}>
+              { this.state.error ? <Message warn> {this.state.error} </Message> : null}
 
-          <Form.Input icon='user' iconPosition='left' label='Username'
-            type="text"
-            name="username"
-            placeholder="Username"
-            onChange={this.handleChange}
-            value={this.state.username}/>
+                  <Form.Input icon='user' iconPosition='left' label='Username'
+                    type="text"
+                    name="username"
+                    placeholder="Username"
+                    onChange={this.handleChange}
+                    value={this.state.username}/>
 
-          <Form.Input icon='lock' iconPosition='left' label='Password'  type="password"
-            name="password"
-            placeholder="Password"
-            onChange={this.handleChange}
-            value={this.state.password} />
+                  <Form.Input icon='lock' iconPosition='left' label='Password'  type="password"
+                    name="password"
+                    placeholder="Password"
+                    onChange={this.handleChange}
+                    value={this.state.password} />
 
-          <Form.Button content='Login' primary  />
-          </Form>
-      </Grid.Column>
+                  <Form.Button content='Login' primary  />
+                  </Form>
+              </Grid.Column>
 
-      <Grid.Column verticalAlign='middle'>
-        <Button content='Sign up' icon='signup' size='big' onClick={this.handleRedirect} />
-      </Grid.Column>
-    </Grid>
+              <Grid.Column verticalAlign='middle'>
+                <Button content='Sign up' icon='signup' size='big' onClick={this.handleRedirect} />
+              </Grid.Column>
+            </Grid>
 
-    <Divider vertical>Or</Divider>
-  </Segment>
-)
+            <Divider vertical>Or</Divider>
+          </Segment>
+          <img src='/example.png'/>
+        </div>
+      </React.Fragment>
+    )
 
 
   }
