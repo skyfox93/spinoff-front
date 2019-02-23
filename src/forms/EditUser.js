@@ -30,7 +30,7 @@ class SignUpForm extends React.Component {
     event.preventDefault()
     // console.log(this.state)
 
-    fetch(`https://spinoff.herokuapp.com/api/v1/users/${this.props.user.id}`, {
+    fetch(`https://spinoff-back.herokuapp.com/api/v1/users/${this.props.user.id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

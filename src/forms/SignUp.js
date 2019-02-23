@@ -42,7 +42,7 @@ class SignUpForm extends React.Component {
       return
     }
 
-    fetch(`https://spinoff.herokuapp.com/api/v1/users`, {
+    fetch(`https://spinoff-back.herokuapp.com/api/v1/users`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

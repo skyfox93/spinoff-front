@@ -20,7 +20,7 @@ class SignInForm extends React.Component {
     event.preventDefault()
     // console.log(this.state)
 
-    fetch(`https://spinoff.herokuapp.com/api/v1/login`, {
+    fetch(`https://spinoff-back.herokuapp.com/api/v1/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
