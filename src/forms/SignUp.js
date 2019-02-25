@@ -1,11 +1,12 @@
 import React from 'react'
 import Avatar from 'react-avatar-edit'
 import { Button, Form, Message } from 'semantic-ui-react'
-
+import adapter from "../Adapter.js"
 class SignUpForm extends React.Component {
   state = {
     user:{username: '',
-    password: ''
+    password: '',
+    displayname: ''
   },
   error: null,
   preview: null,
@@ -42,16 +43,7 @@ class SignUpForm extends React.Component {
       return
     }
 
-    fetch(`https://spinoff-back.herokuapp.com/api/v1/users`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accepts: 'application/json',
-      },
-      body: JSON.stringify({
-        user:{...this.state.user, avatar:this.state.preview}
-      })
-    })
+  adapter.signup({...this.state.user, avatar:this.state.preview})
     .then(resp =>{
       resp.json().then(
         json => {
@@ -74,7 +66,6 @@ class SignUpForm extends React.Component {
 
 
   render() {
-    console.log('login rendereddd')
 
 
     return (

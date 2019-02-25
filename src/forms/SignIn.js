@@ -1,7 +1,7 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
-
-import { Button, Divider, Form, Grid, Segment, Message } from 'semantic-ui-react'
+import adapter from '../Adapter.js'
+import {List, Button, Divider, Form, Grid, Segment, Message } from 'semantic-ui-react'
 class SignInForm extends React.Component {
   state = {
     user:{username: 'Test User',
@@ -19,21 +19,12 @@ class SignInForm extends React.Component {
   handleLogin = event => {
     event.preventDefault()
     // console.log(this.state)
-
-    fetch(`https://spinoff-back.herokuapp.com/api/v1/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accepts: 'application/json',
-      },
-      body: JSON.stringify({user:this.state.user})
-    })
-    .then(resp =>{
+    let user=this.state.user
+    adapter.login({user}).then(resp =>{
       resp.json().then(
         json => {
           if(resp.ok){
             this.props.updateCurrentUser(json)
-            debugger
             //this.props.fetchMyStuff(json.id)
           }
           else{
@@ -58,6 +49,12 @@ class SignInForm extends React.Component {
     return (
       <React.Fragment>
         <div> <h1>Welcome to Spinoff! </h1>
+          <p> Here's How it works: </p>
+          <List>
+    <List.Item>You post photos</List.Item>
+    <List.Item>Your friends edit copies, called spinoffs</List.Item>
+    <List.Item>Those copies go on your profile</List.Item>
+    </List>
           <Segment placeholder>
 
             <Grid columns={2} relaxed='very' stackable>

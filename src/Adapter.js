@@ -1,6 +1,36 @@
 
 function Adapter(baseUrl){
-
+   function signup (user){
+     return fetch(baseUrl+ '/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accepts': 'application/json',
+      },
+      body: JSON.stringify(user)
+    })
+  }
+  function login(user){
+    return fetch(baseUrl+'/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accepts: 'application/json',
+      },
+      body: JSON.stringify(user)
+    })
+  }
+  function patchUser(user,userId,token){
+    return fetch(baseUrl+`/users/${userId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accepts': 'application/json',
+        'Authorization': token
+      },
+      body: JSON.stringify(user)
+    })
+  }
   function getFeed(userId,token){
     return fetch(`${baseUrl}/users/${userId}/feed`,{
       headers: {'Authorization' : token}
@@ -85,9 +115,16 @@ function Adapter(baseUrl){
    search: search,
    requestFollow: requestFollow,
    acceptFollow: acceptFollow,
-   getRequests: getRequests
+   getRequests: getRequests,
+   login: login,
+   signup: signup,
+   patchUser, patchUser
+
  }
 
 }
-const baseUrl='https://spinoff-back.herokuapp.com/api/v1'
+
+//const baseUrl='https://spinoff-back.herokuapp.com/api/v1'
+const baseUrl='http://localhost:3000/api/v1'
+
 export default Adapter(baseUrl)

@@ -1,6 +1,6 @@
 import React from 'react'
 import Avatar from 'react-avatar-edit'
-
+import adapter from '../Adapter.js'
 class SignUpForm extends React.Component {
   state = {
     user:{username: '',
@@ -30,17 +30,7 @@ class SignUpForm extends React.Component {
     event.preventDefault()
     // console.log(this.state)
 
-    fetch(`https://spinoff-back.herokuapp.com/api/v1/users/${this.props.user.id}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accepts': 'application/json',
-        'Authorization': this.props.token
-      },
-      body: JSON.stringify({
-        user:{...this.state.user, avatar:this.state.preview}
-      })
-    })
+    adapter.patchUser({...this.state.user, avatar:this.state.preview},this.props.user.id ,this.props.token)
     .then(resp =>{
       resp.json().then(
         json => {
