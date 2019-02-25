@@ -4,8 +4,8 @@ import { withRouter } from 'react-router-dom'
 import { Button, Divider, Form, Grid, Segment, Message } from 'semantic-ui-react'
 class SignInForm extends React.Component {
   state = {
-    user:{username: '',
-    password: ''
+    user:{username: 'Test User',
+    password: 'bla'
   },
   error: null,
   }
@@ -70,13 +70,13 @@ class SignInForm extends React.Component {
                     name="username"
                     placeholder="Username"
                     onChange={this.handleChange}
-                    value={this.state.username}/>
+                    value={this.state.user.username}/>
 
                   <Form.Input icon='lock' iconPosition='left' label='Password'  type="password"
                     name="password"
                     placeholder="Password"
                     onChange={this.handleChange}
-                    value={this.state.password} />
+                    value={this.state.user.password} />
 
                   <Form.Button content='Login' primary  />
                   </Form>
