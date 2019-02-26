@@ -30,6 +30,10 @@ class SignUpForm extends React.Component {
       this.setState({isMatch})
     }
     else{
+      if(event.target.name==='password'){
+        let isMatch= (this.state.user.password === event.target.value)
+        this.setState({isMatch})
+      }
       this.setState({
         user: {...this.state.user,[event.target.name]: event.target.value}
       })
