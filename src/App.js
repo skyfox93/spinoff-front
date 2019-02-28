@@ -132,7 +132,7 @@ class App extends Component {
     this.setState({loading:true})
      adapter.getFeed(this.state.user.id,this.state.token)
     .then(
-      photos => this.setState({photos, loading:false})
+      photos => this.setState({photos, loading:false, feedLoaded:true})
     )
   }
   profilePhotos=()=> {
@@ -175,7 +175,7 @@ class App extends Component {
                 : <SignIn updateCurrentUser={this.updateCurrentUser} />}
             />
             <Route path='/signup'
-              render={props=> this.state.user ? <Redirect to='./home'/> :<SignUp updateCurrentUser={this.updateCurrentUser}/>}
+              render={props=> this.state.user ? <Redirect to='/'/> :<SignUp updateCurrentUser={this.updateCurrentUser}/>}
             />
             <Route
               path='/'
@@ -194,6 +194,7 @@ class App extends Component {
                       canSpinOff={true}
                       showInfo={true}
                       fetchFeed={this.fetchFeed}
+                      loaded={this.state.feedLoaded}
                     />
                     </>
                 : null
