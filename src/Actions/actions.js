@@ -7,8 +7,7 @@ export const updateCurrentUser= (json)=> {
 
   export const clearCurrentUser= ()=> {return {type:'clearCurrentUser'}}
 
-  export const viewPhoto=(id,history)=> {
-    history.push('/photo');
+  export const viewPhoto=(id)=> {
     return {type:'viewPhoto', id:id}
   }
 
@@ -23,8 +22,7 @@ export const updateCurrentUser= (json)=> {
     }
   }
 
-  export const setProfilePhoto= (id,history) =>{
-    history.push('/profile/photo');
+  export const setProfilePhoto= (id) =>{
     return {type='setProfilePhoto', id: id}
   }
 
@@ -32,17 +30,6 @@ export const updateCurrentUser= (json)=> {
     return {type:'deSelectProfilePhoto'}
   }
 
-  export const getSpinoffs=()=> {
-    return {type: 'getSpinoffs'}
-  }
-
-  export const getPspinoffs= () => {
-    return {type: 'getPspinoffs'}
-  }
-
-  export const getEditingPhoto = () => {
-    return {type='getEditingPhoto'}
-  }
   export const addPhoto= ()=> {
     return { type:'addPhoto'}
   }

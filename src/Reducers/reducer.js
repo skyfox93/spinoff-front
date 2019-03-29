@@ -22,7 +22,7 @@ const reducer = (state=initial,action) =>{
       return {...state, selProfPhotoId: null}
     case: 'clearEditingPhoto'
       return {...state, editingPhotoid: null}
-    case: 'updateCurrentUser': 
+    case: 'updateCurrentUser':
       return {...state, currentUser:user}
     case: 'clearCurrentUser':
       return {...state,currentUser=null}
