@@ -17,7 +17,7 @@ class  FeedViewer extends React.Component{
     )}
 
   componentDidMount(){
-    this.props.fetchFeed()
+    this.fetchFeed()
   }
 
   render(){
