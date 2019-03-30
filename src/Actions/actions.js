@@ -1,6 +1,6 @@
-export const updateCurrentUser= (json)=> {
+export const setCurrentUser= (json)=> {
     return {
-      type:'updateCurrentUser'
+      type:'setCurrentUser'
       json:json
     }
   }
