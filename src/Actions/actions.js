@@ -1,14 +1,18 @@
-export const setCurrentUser= (json)=> {
+export const updateCurrentUser= (json)=> {
+  //sessionStorage.setItem('token',token)
+  //sessionStorage.setItem('user', JSON.stringify(json.user))
     return {
-      type:'setCurrentUser'
-      json:json
+      type:'setCurrentUser',
+      payload:{
+        user: json.user,
+        token:json.token
+      }
     }
   }
-
   export const clearCurrentUser= ()=> {return {type:'clearCurrentUser'}}
 
-  export const viewPhoto=(id)=> {
-    return {type:'viewPhoto', id:id}
+  export const selectPhoto=(id)=> {
+    return {type:'selectPhoto', id:id}
   }
 
   export const setViewingUser= (user)=>{
@@ -17,13 +21,13 @@ export const setCurrentUser= (json)=> {
 
   export const editPhoto=(id) =>{
     return {
-      type: 'editPhoto'
+      type: 'editPhoto',
       id: id
     }
   }
 
-  export const setProfilePhoto= (id) =>{
-    return {type='setProfilePhoto', id: id}
+  export const selectProfilePhoto= (id) =>{
+    return {type:'selectProfilePhoto', id: id}
   }
 
   export const deSelectProfilePhoto=(photo_id)=>{
@@ -31,13 +35,13 @@ export const setCurrentUser= (json)=> {
   }
 
   export const addPhoto= ()=> {
-    return { type:'addPhoto'}
+    return {type:'addPhoto'}
   }
 
   export const clearEditingPhoto=()=> {
     return {type: 'clearEditingPhoto'}
   }
 
-  const setPhotos = (photos)=> {
+  export const setPhotos = (photos)=> {
     return {type: 'setPhotos', photos}
   }
