@@ -1,16 +1,25 @@
 import React from 'react'
 import { Card, Icon, Image } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
-import { connect } from 'react-router-dom'
+import { connect } from 'react-redux'
 import { baseUrl } from './config'
+import { Link } from 'react-router-dom'
+import {editPhoto, setViewingUser } from './Actions/actions'
+import adapter from './Adapter'
 
 class Photo extends React.Component{
+
+toProfile = ()=> {
+  this.props.setViewingUser(this.props.user)
+  this.props.history.push('/profile')
+}
 
 render(){
   return <Card raised className='card' key={this.props.id} style={{width: '500px', margin: '20px, auto', display: 'inline-block',backgroundColor:'white'}}>
           <Card.Content>
             <img src={baseUrl+this.props.user.avatar.url} className='user-avatar'/>
-            <a  onClick={()=>{this.props.setViewingUser(this.props.user);this.props.history.push('./profile')}}>@{this.props.user.displayname}
+            <a onClick={this.toProfile}>
+            @{this.props.user.displayname}
             </a>
           </Card.Content>
           <div style={{width:'100%', backgroundColor:'rgb(75,75,75)', height:'100%'}} >
@@ -26,7 +35,9 @@ render(){
                     Original
                   </a>
                   by
-                  <a  onClick={()=>{this.props.setViewingUser(this.props.owner);this.props.history.push('./profile')}}>
+                  <a onClick={()=>{
+                    this.props.setViewingUser(this.props.owner);
+                    }}>
                     <img src={baseUrl+this.props.owner.avatar.url} className='user-avatar'/>
                     @{this.props.owner.displayname}
                   </a>
@@ -56,4 +67,4 @@ const mapDispatchToProps={
   setViewingUser,
 }
 
-export default connect(mapDispatchToProp)(withRouter(Photo))
+export default connect(null,mapDispatchToProps)(withRouter(Photo))

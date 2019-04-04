@@ -2,6 +2,8 @@ import React from 'react'
 import adapter from './Adapter'
 import {Popup, Image, List, Button} from 'semantic-ui-react'
 import {Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { setViewingUser} from './Actions/actions'
 class Friends extends React.Component{
 
   state= {
@@ -86,4 +88,16 @@ class Friends extends React.Component{
 
   }
 }
-export default Friends
+
+function mapStateToProps(state){
+  return {
+    userId: state.currentUser,
+    token : state.token
+
+  }
+}
+
+const mapDispatchToProps= {
+  setViewingUser
+}
+export default connect(mapStateToProps,mapDispatchToProps)(Friends)

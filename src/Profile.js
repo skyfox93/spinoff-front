@@ -1,24 +1,32 @@
 import React from 'react'
 import PhotoViewer from './PhotoViewer'
+import { connect } from 'react-redux'
 class Profile extends React.Component {
 
   componentDidMount(){
   }
 
-  render(){
-    return <PhotoViewer
-    profileView={true}
-    setViewingUser={this.props.setViewingUser}
-    viewingUser={this.props.viewingUser}
-    photos={this.props.photos}
-    baseUrl={this.props.baseUrl}
-    spinOffPhoto={this.spinoffPhoto}
-    viewPhoto={this.props.viewPhoto}
-    editPhoto={this.props.editPhoto}
-    showingOrig={false}
-    deSelect={this.props.deSelect}
-    />
+  profilePhotos=()=> {
+    return this.props.photos.filter(photo => (photo.user.id=== this.props.user.id||
+     photo.owner.id=== this.props.user.id)
+   )
+  }
 
+  render(){
+    return(
+    <PhotoViewer
+    view='Profile'
+    photos={this.profilePhotos()}
+    viewPhoto={this.props.viewPhoto}
+    user={this.props.user}
+    />
+  )
   }
 }
-export default Profile
+function mapStateToProps(state){
+  return {
+    photos:state.photos,
+    user: state.viewingUser
+  }
+}
+export default connect(mapStateToProps)(Profile)

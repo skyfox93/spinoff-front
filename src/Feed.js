@@ -2,19 +2,30 @@ import React from 'react'
 import PhotosContainer from './PhotosContainer'
 import {withRouter} from 'react-router-dom'
 import { Message } from 'semantic-ui-react'
-
+import adapter from './Adapter.js'
+import {Loader, Dimmer} from 'semantic-ui-react'
+import { connect } from 'react-redux'
+import { selectPhoto, setPhotos } from './Actions/actions'
 class  FeedViewer extends React.Component{
+
   state= {
-    loading:false;
+    loading:false
   }
+
+  viewPhoto=(id,history)=> {
+    this.props.selectPhoto(id)
+    history.push('/photo')
+  }
+
 
   fetchFeed= () => {
     this.setState({loading:true})
-    adapter.getFeed(this.props.user.id,this.token)
+    adapter.getFeed(this.props.user.id,this.props.token)
     .then(photos => {
       this.props.setPhotos(photos);
       this.setState({loading:false, feedLoaded:true})}
-    )}
+    )
+  }
 
   componentDidMount(){
     this.fetchFeed()
@@ -23,6 +34,10 @@ class  FeedViewer extends React.Component{
   render(){
 
   return(
+    <>
+    <Dimmer active={this.state.loading}>
+     <Loader size='big'> Loading Feed </Loader>
+   </Dimmer>
     <div
       style={this.props.match.isExact ? {
         top:'50px',
@@ -47,10 +62,27 @@ class  FeedViewer extends React.Component{
    You are not following anyone, or the people you are following haven't posted anything. Use the search bar above to find your friends. Once they accept your request, their photos will appear here.
    </Message> : null}
   <PhotosContainer
-        {...this.props}}
-        />
+    viewPhoto={this.props.viewPhoto}
+    photos={this.props.photos}
+    hideLink={false}
+    viewPhoto={this.viewPhoto}
+   />
       </div>
-    </div>)
+    </div>
+    </>
+  )
   }
 }
-export default withRouter(FeedViewer)
+ function mapStateToProps(state){
+   return {
+     photos: state.photos,
+     user: state.currentUser,
+     token: state.token
+   }
+ }
+
+ let mapDispatchToProps= {
+   selectPhoto,
+   setPhotos
+ }
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(FeedViewer))

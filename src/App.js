@@ -11,11 +11,12 @@ import EditUser from'./forms/EditUser'
 import Editor from './Editor'
 import Feed from './Feed'
 import PhotoViewer from './PhotoViewer'
+import Spinoffs from './Spinoffs'
 import Nav from './Nav'
 import Profile from './Profile'
 import adapter from './Adapter'
 import { connect } from 'react-redux'
-import { updateCurrentUser, selectPhoto, viewProfPhoto } from './Reducers/reducer'
+import { updateCurrentUser, selectPhoto, selectProfilePhoto } from './Actions/actions'
 
 class App extends Component {
 
@@ -24,21 +25,22 @@ class App extends Component {
   }
 // view photo from the feed
   viewPhoto=(id,history)=> {
-    props.selectPhoto(id)
-    history.push(''/photo')
+    this.props.selectPhoto(id)
+    history.push('/photo')
   }
 /* view photo from the profile page (opens a seperate component to avoid losing scroll position)
   (alternatively, store page state then restore).
  */
   viewProfPhoto=(id, history) => {
-    props.selectProfPhoto(id)
-    history.push(''/photo')
+    this.props.selectProfPhoto(id)
+    history.push('/photo')
   }
 
   render() {
     let user= this.props.user
     let editing=this.props.editing
     let profilePhoto= this.props.ProfilePhoto
+    let feedPhoto=this.props.feedPhoto
     return (
       <div className="App">
         <Router>
@@ -73,7 +75,8 @@ class App extends Component {
               path='/photo'
               render= {props=>
                 (this.props.user) ?
-                    <Spinoffs viewPhoto={this.viewPhoto}/>
+                    <Spinoffs viewPhoto={this.viewPhoto}
+                    id= {feedPhoto}/>
                 : <Redirect to= '/signin'/>
               }
             />
@@ -88,7 +91,7 @@ class App extends Component {
                      url={editing && editing.file.url}
                      id={editing && editing.id}
                     />
-                  : <Redirect to='/'/>)
+                  : <Redirect to='/'/>
                 : <Redirect to= '/signin'/>
               }
             />
@@ -109,7 +112,7 @@ class App extends Component {
               render= {props=>
                 user ?
                   profilePhoto ?
-                    <PhotoViewer viewPhoto={this.viewProfPhoto}
+                    <Spinoffs viewPhoto={this.viewProfPhoto}
                     id={props.selProfPhotoId}/>
                   : <Redirect to='/' />
                 : <Redirect to= '/signin'/>
@@ -134,8 +137,10 @@ class App extends Component {
 const mapStateToProps=(state)=> {
   return {
     user: state.currentUser,
-    editing: (state.editingPhotoId || state.createNew)
-    profilePhoto: state.selProfPhotoId
+    editing: (state.editingPhotoId || state.createNew),
+    profilePhoto: state.selProfPhotoId,
+    feedPhoto: state.selPhotoId,
+    viewingUser: !!state.viewingUser
   }
 }
 

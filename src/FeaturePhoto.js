@@ -4,12 +4,8 @@ import { Card, Icon, Image } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
 import { baseUrl } from './config'
 import { connect } from 'react-redux'
-const Comments=(props=>
-  props.comments.map((comment)=>
-    <Comment {...comment}
-      />
-  )
-)
+import { editPhoto, setViewingUser } from './Actions/actions'
+
 class FeaturePhoto extends React.Component{
   // hideLInk= link to the spinoff page is hidden on the spinoff page.
   // photo.photo_id=exists if the photo is not an original
@@ -30,7 +26,6 @@ render(){
             {this.props.photo_id ?
               null : <button onClick={()=>{this.props.editPhoto(this.props.id);this.props.history.push('/spinoff')}}>Spinoff </button>}
             </Card.Content>
-            <Comments comments={this.props.comments}/>
           </Card>
   }
 
@@ -40,4 +35,4 @@ const mapDispatchToProps={
   setViewingUser,
 }
 
-export default connect(mapDispatchToProp)(withRouter(FeaturePhoto))
+export default connect(null,mapDispatchToProps)(withRouter(FeaturePhoto))

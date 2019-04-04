@@ -1,49 +1,51 @@
 import React from 'react'
-import Photo from './Photo'
+import FeaturePhoto from './FeaturePhoto'
 import PhotosContainer from './PhotosContainer'
 import User from './User'
 import { withRouter } from 'react-router-dom'
-const PhotoViewer= (props)=>{
-  const path= 'http://localhost:3001/profile/photo'
-  console.log(window.location.href)
+import { baseUrl } from './config'
+// PhotoViewer is rendered by Profile, by SpinOffs
+// If rendered by Profile, it contains a users profile pic, along with photos from that user
+// If rendered by Spinoffs, it contains the original photo, along with spinoffs.
+
+// The PhotoViewer
+const PhotoViewer= (props)=> {
+
   return (
-    <div style={{width:'100%',height:'100%',left:'0px', top:'50px', display: 'inline-block',position:'fixed', zIndex:2 }}>
-      <div style={{height:'100%',width:'100%', display: 'inline-block' }}>
-        <div style={{padding:'20px',backgroundColor:'white'}}><span>{props.profileView ? `@${props.viewingUser.displayname}'s profile` : ' Viewing Original Photo'}</span><button onClick={()=> props.history.push('/')}> Back to Feed </button>
-      {window.location.href===path ? <button onClick={()=> props.history.push('/profile')}> Back to Profile </button> : null}
-        </div>
+      <div style={{width:'100%',height:'100%',left:'0px', top:'50px', display: 'inline-block',position:'fixed', zIndex:2 }}>
+        <div style={{height:'100%',width:'100%', display: 'inline-block' }}>
+          <div style={{padding:'20px',backgroundColor:'white'}}>
+            <span>{props.view==='profile' ?
+              `@${props.viewingUser.displayname}'s profile`
+            :' Viewing Original Photo'}
+            </span>
+
+            <button onClick={()=> props.history.push('/')}> Back to Feed </button>
+
+            {props.view==='Profile' ?
+            <button onClick={()=> props.history.push('/profile')}> Back to Profile </button>
+            : null
+            }
+          </div>
 
         <div style={{height:'100%',overflow: 'scroll',backgroundColor:'white'}}>
           <div>
-
-            {props.profileView ?
-              <User user={props.viewingUser} baseUrl={props.baseUrl} />
-
-              :<Photo
+            {props.view==='Profile' ?
+              <User user={props.user}/>
+              : <FeaturePhoto
                 owner={props.selected.owner}
                 id={props.selected.id}
                 url={props.selected.file.url}
-                comments={props.selected.comments}
-                baseUrl={props.baseUrl}
                 user={props.selected.user}
                 numSpinoffs={props.selected.spinoff_count}
-                canSpinOff={'yes'}
-                spinOffPhoto={props.spinoffPhoto}
                 viewPhoto={props.viewPhoto}
-                editPhoto={props.editPhoto}
-                showingOrig={props.showingOrig}
-                setViewingUser={props.setViewingUser}
               />}
           </div>
           <PhotosContainer
           photos={props.photos}
-          baseUrl={props.baseUrl}
-          spinOffPhoto={props.spinoffPhoto}
+          // hide link to original if viewing spinoffs
+          hideLink={props.view==='Spinoffs'}
           viewPhoto={props.viewPhoto}
-          editPhoto={props.editPhoto}
-          showingOrig={props.showingOrig}
-          setViewingUser={props.setViewingUser}
-
           />
       </div>
     </div>

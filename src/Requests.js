@@ -1,7 +1,8 @@
 import React from 'react'
 import adapter from './Adapter'
 import { Popup, Icon, Label } from 'semantic-ui-react'
-
+import { connect } from 'react-redux'
+import { setViewingUser } from './Actions/actions'
 class Requests extends React.Component{
 
   state = {
@@ -19,6 +20,7 @@ class Requests extends React.Component{
   componentDidMount(){
     adapter.getRequests(this.props.userId,this.props.token).then(
       requests=>{
+        debugger
         console.log(requests)
         this.setState({requesting:requests})
       }
@@ -45,4 +47,15 @@ class Requests extends React.Component{
 
  }
 }
- export default Requests
+function mapStateToProps(state){
+  return {
+    userId: state.currentUser.id,
+    token : state.token
+
+  }
+}
+
+const mapDispatchToProps= {
+  setViewingUser
+}
+export default connect(mapStateToProps,mapDispatchToProps)(Requests)

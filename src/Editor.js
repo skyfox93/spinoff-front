@@ -7,12 +7,30 @@ import adapter from './Adapter'
 import stackBlurImage from './blurFunction.js'
 import logo from './logo.svg';
 import initEditor from './editor_plugin_2.js'
-
+import { connect } from 'react-redux'
+import { baseUrl } from './config'
+import { clearEditingPhoto } from './Actions/actions'
 class Editor extends Component {
   constructor(props) {
     super(props);
     this.editorC = React.createRef();
     this.state = {file: null}
+  }
+
+  savePhoto=(data, removeListeners)=> {
+    const editing=this.props.editing
+    const editingId=editing.id
+    const photo_id= editingId && (editing.photo_id || editing.id)
+
+    const id=this.props.user_id
+    adapter.postPhoto(
+      id,{
+        photo:{file:data, user_id:id, like_count:0, photo_id: photo_id  }
+      },this.props.token)
+    .then((photo)=>{
+      this.props.clearEditingPhoto()
+    })
+    .catch((error)=> alert('sorry,something went wrong'))
   }
 
 
@@ -23,7 +41,7 @@ class Editor extends Component {
 
 
   componentDidMount(){
-initEditor(this.editorC.current,stackBlurImage,this.props.savePhoto,this.props.existingImg,this.enableLoader)
+initEditor(this.editorC.current,stackBlurImage,this.savePhoto,this.props.existingImg,this.enableLoader)
   }
 
   render() {
@@ -87,7 +105,7 @@ initEditor(this.editorC.current,stackBlurImage,this.props.savePhoto,this.props.e
             <canvas id='blurCanvas'></canvas>
             <canvas id='tempCanvas'></canvas>
             <div className='border'>
-              {this.props.url?	<img src={this.props.baseUrl+this.props.url} id='image' crossOrigin = "Anonymous"></img>: <img src='Guide.jpeg' id='image' crossOrigin = "Anonymous"></img> }
+              {this.props.url?	<img src={baseUrl+this.props.url} id='image' crossOrigin = "Anonymous"></img>: <img src='Guide.jpeg' id='image' crossOrigin = "Anonymous"></img> }
               	<canvas id={'canvas3'}></canvas>
                 <svg id='svg' height="200" width="200" style={{position:'fixed'}}>
         <circle id="br-guide" cx="100" cy="100" r="40" stroke="black" stroke-width="3" fill="none" />
@@ -108,4 +126,22 @@ initEditor(this.editorC.current,stackBlurImage,this.props.savePhoto,this.props.e
   }
 }
 
-export default Editor;
+function mapStateToProps(state){
+  let selected=state.photos.find(
+    photo=>{
+      return photo.id===state.editingPhotoId
+    }
+  )
+  return {
+  user_id: state.user.id,
+  editing: selected,
+  url: selected.url,
+  exitingImg: state.createNew
+  }
+}
+
+const mapDispatchToProps= {
+  clearEditingPhoto
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Editor);

@@ -2,6 +2,8 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 import adapter from '../Adapter.js'
 import {List, Button, Divider, Form, Grid, Segment, Message } from 'semantic-ui-react'
+import { connect } from 'react-redux'
+import { updateCurrentUser } from '../Actions/actions'
 class SignInForm extends React.Component {
   state = {
     user:{username: 'Test User',
@@ -24,8 +26,10 @@ class SignInForm extends React.Component {
       resp.json().then(
         json => {
           if(resp.ok){
+            console.log('sucessfully logged in', json)
             this.props.updateCurrentUser(json)
-            //this.props.fetchMyStuff(json.id)
+            sessionStorage.setItem('user', JSON.stringify(json.user))
+            sessionStorage.setItem('token', json.token)
           }
           else{
             console.log(json)
@@ -94,5 +98,8 @@ class SignInForm extends React.Component {
 
   }
 }
+let mapDispatchToProps= {
+  updateCurrentUser
+}
 
-export default withRouter(SignInForm)
+export default connect(null,mapDispatchToProps)(withRouter(SignInForm))

@@ -3,6 +3,14 @@ import Requests from './Requests'
 import Friends from './Friends'
 import {Link} from 'react-router-dom'
 import {Menu, Image, Label} from 'semantic-ui-react'
+import { connect } from 'react-redux'
+import { addPhoto, clearCurrentUser} from './Actions/actions'
+import { baseUrl } from './config'
+  function signOut(clearUser){
+    clearUser()
+    sessionStorage.removeItem('user')
+    sessionStorage.removeItem('token')
+  }
  const Nav= (props)=>{
  return <div style={{width:'100%',position:'absolute',zIndex:'1',}}>
 
@@ -11,17 +19,12 @@ import {Menu, Image, Label} from 'semantic-ui-react'
   <>
   <div id='center-menu'><Link className='menu-button' to='/spinoff'onClick={()=>{props.addPhoto();}}>
   <button> New Post</button> </Link>
-  <Friends
-    userId={props.user.id}
-    token={props.token}
-    baseUrl={props.baseUrl}
-    setViewingUser={props.setViewingUser}
-  />
+  <Friends/>
   </div>
-  <Requests userId={props.user.id} token={props.token}/>
+  <Requests/>
 
   <div className='signout'>
-    <Image avatar margin='20px' src={props.baseUrl+props.user.avatar.url}/><Link  to='/signin' onClick={props.signout}><span >{props.user.displayname}</span></Link>
+    <Image avatar margin='20px' src={baseUrl+props.user.avatar.url}/><Link  to='/signin' onClick={()=>signOut(props.clearCurrentUser)}><span >{props.user.displayname}</span></Link>
 
     </div>
   </>
@@ -29,4 +32,15 @@ import {Menu, Image, Label} from 'semantic-ui-react'
 </div>
 </div>
 }
-export default Nav
+
+const mapStateToProps=(state)=>{
+  return {
+    user: state.currentUser
+  }
+}
+
+const mapDispatchToProps={
+  addPhoto,
+  clearCurrentUser
+}
+export default connect(mapStateToProps,mapDispatchToProps)(Nav)
