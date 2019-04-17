@@ -12,6 +12,20 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+@media screen and (min-width:950px){
+.mobile-warning {display:none; }
+}
+
+@media screen and (max-width:950px){
+  .mobile-warning{ 
+   position:absolute;
+    height:100%;
+    width:100%;
+    background-color: white;
+    padding: 10em;
+    z-index: 5;
+  }
+}
 
 .tools-div{margin-bottom: 20px;padding:0;height:50px}
 .guide{margin:10px;color:white;border-radius:10px;padding:1em;}
@@ -21,7 +35,6 @@ code {
 	#controls{display:none;}
 	#canvas3{width:750px;float:left;position:absolute;margin-top:100px;;display:none;z-index:0;}
 	#c,#c2,#c3{float:left;position:absolute;opacity:1;margin-top:100px;}
-	.border {margin-left:50px;}
 	#c4{float:left;position:absolute;opacity:1;margin-top:100px;opacity:0;}
 	.border {margin-left:50px;}
 	.hide {display:none;}
@@ -116,7 +129,7 @@ input[type="range"]::-webkit-slider-thumb
   margin-right:10px;
 }
 .tool-wrapper{width:400px;margin:10px;background-color:darkslategray;height:90%;
-  position:fixed;z-index:3;left:800px;top:5%;
+  position:fixed;z-index:3;left:60%;top:5%;
 }
 .field {
 text-align: left}

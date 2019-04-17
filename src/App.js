@@ -19,6 +19,7 @@ import { connect } from 'react-redux'
 import { updateCurrentUser, selectPhoto, selectProfilePhoto } from './Actions/actions'
 
 class App extends Component {
+  state= {hideWarning:false}
 
   componentDidMount(){
     this.props.updateCurrentUser({token:sessionStorage.getItem('token'),user: JSON.parse(sessionStorage.getItem('user')) })
@@ -45,8 +46,9 @@ class App extends Component {
       <div className="App">
         <Router>
           <div>
+          <div className={this.state.hideWarning ? "mobile-warning hide" :'mobile-warning'} > Hi there! This site looks best on a computer. You may continue, but some things will not display correctly. An update for mobile is on its way.<button onClick={()=>this.setState({hideWarning:true})}>Dismiss</button> </div>
           <Nav/>
-          <div style={{height:'50px'}}></div> // for spacing
+          <div style={{height:'50px'}}></div>
             <Route
               path="/signin"
               render={(props)=> user ?
@@ -87,10 +89,7 @@ class App extends Component {
               render= {props=>
                 user ?
                   editing  ?
-                    <Editor
-                     url={editing && editing.file.url}
-                     id={editing && editing.id}
-                    />
+                    <Editor />
                   : <Redirect to='/'/>
                 : <Redirect to= '/signin'/>
               }
@@ -137,7 +136,7 @@ class App extends Component {
 const mapStateToProps=(state)=> {
   return {
     user: state.currentUser,
-    editing: (state.editingPhotoId || state.createNew),
+    editing: (state.editPhotoId || state.createNew),
     profilePhoto: state.selProfPhotoId,
     feedPhoto: state.selPhotoId,
     viewingUser: !!state.viewingUser
