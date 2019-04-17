@@ -34,7 +34,7 @@ class App extends Component {
   (alternatively, store page state then restore).
  */
   viewProfPhoto=(id, history) => {
-    this.props.selectProfPhoto(id)
+    this.props.selectProfilePhoto(id)
     history.push('/photo')
   }
 

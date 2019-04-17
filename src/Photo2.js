@@ -63,7 +63,7 @@ render(){
 
 const mapDispatchToProps={
   editPhoto,
-  setViewingUser,
+  setViewingUser
 }
 
 export default connect(null,mapDispatchToProps)(withRouter(Photo))

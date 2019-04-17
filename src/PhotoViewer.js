@@ -15,14 +15,14 @@ const PhotoViewer= (props)=> {
       <div style={{width:'100%',height:'100%',left:'0px', top:'50px', display: 'inline-block',position:'fixed', zIndex:2 }}>
         <div style={{height:'100%',width:'100%', display: 'inline-block' }}>
           <div style={{padding:'20px',backgroundColor:'white'}}>
-            <span>{props.view==='profile' ?
-              `@${props.viewingUser.displayname}'s profile`
+            <span>{props.location.pathname==='/profile' ?
+              `@${props.user.displayname}'s profile`
             :' Viewing Original Photo'}
             </span>
 
             <button onClick={()=> props.history.push('/')}> Back to Feed </button>
 
-            {props.location.pathName==='/profile/photo' ? <button onClick={()=> props.history.push('/profile')}> Back to Profile </button> : null 
+            {props.location.pathName==='/profile/photo' ? <button onClick={()=> props.history.push('/profile')}> Back to Profile </button> : null
 
             }
           </div>
