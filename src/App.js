@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
+import { Switch, BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 //import { Stage, Sprite, AppConsumer } from '@inlet/react-pixi'
 // import * as PIXI from 'pixi.js'
 // import { ConvolutionFilter } from '@pixi/filter-convolution';
@@ -15,6 +15,7 @@ import Spinoffs from './Spinoffs'
 import Nav from './Nav'
 import Profile from './Profile'
 import adapter from './Adapter'
+import Redirector from './Redirector'
 import { connect } from 'react-redux'
 import { updateCurrentUser, selectPhoto, selectProfilePhoto } from './Actions/actions'
 
@@ -49,6 +50,7 @@ class App extends Component {
           <div className={this.state.hideWarning ? "mobile-warning hide" :'mobile-warning'} > Hi there! This site looks best on wider screens. You may continue, but some things will not display correctly. A mobile-friendly update is on its way.<button onClick={()=>this.setState({hideWarning:true})}>Dismiss</button> </div>
           <Nav/>
           <div style={{height:'50px'}}></div>
+            <Switch>
             <Route
               path="/signin"
               render={(props)=> user ?
@@ -70,9 +72,10 @@ class App extends Component {
                   (!editing) ?
                     <Feed />
                     : null
-                : <Redirect to='/signin'/>
+                : <div><Redirect to='/signin'/> You've been logged out. Please reload the page</div>
               }
             />
+            </Switch>
             <Route
               path='/photo'
               render= {props=>
@@ -101,6 +104,7 @@ class App extends Component {
                 (this.props.user) ?
                   (this.props.viewingUser) ?
                     <Profile viewPhoto={this.viewProfPhoto}/>
+
                     : <Redirect to='/' />
                 : <Redirect to= '/signin'/>
               }

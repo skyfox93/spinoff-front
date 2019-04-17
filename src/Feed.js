@@ -32,7 +32,7 @@ class  FeedViewer extends React.Component{
   }
 
   render(){
-
+    
   return(
     <>
     <Dimmer active={this.state.loading}>
