@@ -1,4 +1,5 @@
 function initEditor(editorC, stackBlurImage,postPhoto,existingImg,enableLoader) {
+  console.log('initializing editor')
   var saveBtn = editorC.querySelector('#saveBtn');
   var sharp = editorC.querySelector('#sharpen');
   var erase = editorC.querySelector('#resize');
@@ -41,7 +42,7 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg,enableLoader) 
   }
    var imageObj = new Image();
   imageObj.crossOrigin = "Anonymous";
-  if (existingImg){imageObj.src = image.src;}
+  if (!existingImg){imageObj.src = image.src;}
 
   function handleFileSelect(evt) {
     var file = evt.target.files[0];
