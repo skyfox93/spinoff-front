@@ -22,9 +22,8 @@ const PhotoViewer= (props)=> {
 
             <button onClick={()=> props.history.push('/')}> Back to Feed </button>
 
-            {props.view==='Profile' ?
-            <button onClick={()=> props.history.push('/profile')}> Back to Profile </button>
-            : null
+            {props.location.pathName==='/profile/photo' ? <button onClick={()=> props.history.push('/profile')}> Back to Profile </button> : null 
+
             }
           </div>
 
