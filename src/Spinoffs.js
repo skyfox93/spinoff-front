@@ -4,11 +4,11 @@ import { connect } from 'react-redux'
 // rendered as a class function to prepare for a refactor
 class Spinoffs extends React.Component {
 
-  getSelectedPhoto= ()=>{
+  getSelectedPhoto= (getOrig)=>{
     const id=this.props.id
     let selected= this.props.photos.find(photo=> photo.id ===id)
     let original= this.props.photos.find(photo=> photo.id ===selected.photo_id)
-    return original
+    return (getOrig ? original : selected )
   }
 
   spinoffs = () => {
@@ -21,7 +21,7 @@ class Spinoffs extends React.Component {
       <PhotoViewer
         view='Spinoffs'
         photos={this.spinoffs()}
-        selected={this.getSelectedPhoto()}
+        selected={this.getSelectedPhoto(true)}
         viewPhoto={this.props.viewPhoto}
       />
     )
