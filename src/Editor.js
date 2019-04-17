@@ -127,15 +127,11 @@ initEditor(this.editorC.current,stackBlurImage,this.savePhoto,this.props.existin
 }
 
 function mapStateToProps(state){
-  let selected=state.photos.find(
-    photo=>{
-      return photo.id===state.editingPhotoId
-    }
-  )
+  let selected=state.photos.find(photo=>(photo.id===state.editPhotoId))
   return {
-  user_id: state.user.id,
+  user_id: state.currentUser.id,
   editing: selected,
-  url: selected.url,
+  url: selected.file.url,
   exitingImg: state.createNew
   }
 }

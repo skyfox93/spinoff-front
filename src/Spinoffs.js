@@ -6,7 +6,9 @@ class Spinoffs extends React.Component {
 
   getSelectedPhoto= ()=>{
     const id=this.props.id
-    return this.props.photos.find(photo=> photo.id ===id)
+    let selected= this.props.photos.find(photo=> photo.id ===id)
+    let original= this.props.photos.find(photo=> photo.id ===selected.photo_id)
+    return original
   }
 
   spinoffs = () => {
