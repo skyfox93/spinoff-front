@@ -21,6 +21,7 @@ class SignInForm extends React.Component {
   handleLogin = event => {
     event.preventDefault()
     // console.log(this.state)
+    this.setState({loading:true})
     let user=this.state.user
     adapter.login({user}).then(resp =>{
       resp.json().then(
@@ -65,7 +66,7 @@ class SignInForm extends React.Component {
               <Grid.Column>
               <Form onSubmit={this.handleLogin}>
               { this.state.error ? <Message warn> {this.state.error} </Message> : null}
-
+              {this.state.loading ? <Message > Connecting to server...please wait. </Message> : null}
                   <Form.Input icon='user' iconPosition='left' label='Username'
                     type="text"
                     name="username"
