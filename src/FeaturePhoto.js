@@ -16,15 +16,8 @@ render(){
           <Image src={baseUrl+this.props.url}
           />
             <Card.Content  className='photo-UI'>
-            <a onClick={()=>{this.props.viewPhoto(this.props.id,this.props.history)}}>{
-              this.props.photo_id ?
-                this.props.hideLink ?
-                  null
-                  : 'View Original'
-              : `${this.props.numSpinoffs} spinoffs`}
-                </a>
-            {this.props.photo_id ?
-              null : <button onClick={()=>{this.props.editPhoto(this.props.id);this.props.history.push('/spinoff')}}>Spinoff </button>}
+            {this.props.numSpinoffs} spinoffs
+            <button onClick={()=>{this.props.editPhoto(this.props.id);this.props.history.push('/spinoff')}}>Spinoff </button>
             </Card.Content>
           </Card>
   }

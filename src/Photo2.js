@@ -31,8 +31,7 @@ render(){
             <div style={{margin:'0,20px', display:'inline-block'}}>
               {(this.props.photo_id) ?
                 <>
-                  <a onClick={()=>{this.props.viewPhoto(this.props.id,this.props.history)}}>
-                    Original
+                  <a onClick={()=>{this.props.viewPhoto(this.props.id,this.props.history)}}>Original
                   </a>
                   by
                   <a onClick={()=>{

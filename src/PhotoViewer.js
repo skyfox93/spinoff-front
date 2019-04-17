@@ -33,6 +33,7 @@ const PhotoViewer= (props)=> {
             {props.view==='Profile' ?
               <User user={props.user}/>
               : <FeaturePhoto
+                hideLink={props.view==='Spinoffs'}
                 owner={props.selected.owner}
                 id={props.selected.id}
                 url={props.selected.file.url}

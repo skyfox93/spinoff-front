@@ -112,6 +112,9 @@ input[type="range"]::-webkit-slider-thumb
 .card{
   box-shadow: 5px;
 }
+.card a {
+  margin-right: .5em;
+}
 .collection{
   border-radius: 10px;
   width:300px;
