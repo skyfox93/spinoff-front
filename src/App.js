@@ -47,7 +47,7 @@ class App extends Component {
       <div className="App">
         <Router>
           <div>
-          <div className={this.state.hideWarning ? "mobile-warning hide" :'mobile-warning'} > Hi there! This site looks best on wider screens. You may continue, but some things will not display correctly. A mobile-friendly update is on its way.<button onClick={()=>this.setState({hideWarning:true})}>Dismiss</button> </div>
+          <div className={this.state.hideWarning ? "mobile-warning hide" :'mobile-warning'} > Hi there! This site looks best on wider screens. You may continue, but the content will not display correctly. A mobile-friendly update is on its way.<br/> <button onClick={()=>this.setState({hideWarning:true})}>Dismiss</button> </div>
           <Nav/>
           <div style={{height:'50px'}}></div>
             <Switch>

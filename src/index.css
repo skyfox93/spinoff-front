@@ -17,12 +17,14 @@ code {
 }
 
 @media screen and (max-width:950px){
-  .mobile-warning{ 
+  .mobile-warning{
+    font-size:1.6em;
+    line-height: normal;
    position:absolute;
     height:100%;
     width:100%;
     background-color: white;
-    padding: 10em;
+    padding: 1em;
     z-index: 5;
   }
 }
