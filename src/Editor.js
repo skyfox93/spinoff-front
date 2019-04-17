@@ -130,6 +130,7 @@ function mapStateToProps(state){
   let selected=state.photos.find(photo=>(photo.id===state.editPhotoId))
   return {
   user_id: state.currentUser.id,
+  token: state.token,
   editing: selected,
   url: selected.file.url,
   exitingImg: state.createNew

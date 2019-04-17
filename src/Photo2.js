@@ -9,8 +9,8 @@ import adapter from './Adapter'
 
 class Photo extends React.Component{
 
-toProfile = ()=> {
-  this.props.setViewingUser(this.props.user)
+toProfile = (user)=> {
+  this.props.setViewingUser(user)
   this.props.history.push('/profile')
 }
 
@@ -35,7 +35,7 @@ render(){
                   </a>
                   by
                   <a onClick={()=>{
-                    this.props.setViewingUser(this.props.owner);
+                    this.toProfile(this.props.owner);
                     }}>
                     <img src={baseUrl+this.props.owner.avatar.url} className='user-avatar'/>
                     @{this.props.owner.displayname}
