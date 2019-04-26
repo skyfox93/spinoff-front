@@ -32,7 +32,7 @@ class  FeedViewer extends React.Component{
   }
 
   render(){
-    
+
   return(
     <>
     <Dimmer active={this.state.loading}>
@@ -42,7 +42,8 @@ class  FeedViewer extends React.Component{
       style={this.props.match.isExact ? {
         top:'50px',
         width:'100%',
-        height:'90%',
+        height:'100%',
+        '-webkit-overflow-scrolling': 'touch',
         left:'0px',
         display: 'inline-block',
         position:'absolute',
