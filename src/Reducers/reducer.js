@@ -22,7 +22,7 @@ const initial={
     case 'deSelectProfilePhoto':
       return {...state, selProfPhotoId: null}
     case 'clearEditingPhoto':
-      return {...state, editingPhotoId: null}
+      return {...state, editingPhotoId: null, createNew: false }
     case 'setCurrentUser':
       return {...state, currentUser:action.payload.user, token: action.payload.token}
     case 'clearCurrentUser':

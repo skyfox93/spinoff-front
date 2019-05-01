@@ -286,6 +286,15 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg,enableLoader) 
       }, 300);
     }
 
+    function removeListeners(){
+      editorC.querySelector('#fill').removeEventListener('click', fillMask)
+      editorC.querySelector('#clear').removeEventListener('click', clearMask)
+      saveBtn.removeEventListener('click', saveimage)
+      eraseBTN.removeEventListener('click',toggleErase)
+      editorC.querySelector('#tools').removeEventListener('input', adjust)
+      brsize.removeEventListener('input',updateBrPreview)
+
+    }
     var saveimage = function() {
       enableLoader()
       postPhoto(canvas3.toDataURL("image/jpeg", 1.0),removeListeners)
@@ -599,9 +608,6 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg,enableLoader) 
   }
 ////////
 
-  editorC.querySelector('#help').addEventListener('click', function() {
-    editorC.querySelector('#guide').classList.toggle("hide");
-  });
 
   brsize.addEventListener('input',updateBrPreview)
 }

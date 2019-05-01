@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import {Dimmer, Loader} from 'semantic-ui-react'
-//import { Stage, Sprite, AppConsumer } from '@inlet/react-pixi'
-// import * as PIXI from 'pixi.js'
-// import { ConvolutionFilter } from '@pixi/filter-convolution';
+import { Redirect } from 'react-router-dom'
 import adapter from './Adapter'
 import stackBlurImage from './blurFunction.js'
 import logo from './logo.svg';
@@ -19,16 +17,17 @@ class Editor extends Component {
 
   savePhoto=(data, removeListeners)=> {
     const editing=this.props.editing
-    const editingId=editing.id
+    const editingId=editing.id || null
     const photo_id= editingId && (editing.photo_id || editing.id)
 
     const id=this.props.user_id
     adapter.postPhoto(
       id,{
-        photo:{file:data, user_id:id, like_count:0, photo_id: photo_id  }
+        photo:{file:data, user_id:id, like_count:0, photo_id: photo_id }
       },this.props.token)
     .then((photo)=>{
-      this.props.clearEditingPhoto()
+      this.props.clearEditingPhoto();
+      this.setState({uploaded:true})
     })
     .catch((error)=> alert('sorry,something went wrong'))
   }
@@ -47,7 +46,7 @@ initEditor(this.editorC.current,stackBlurImage,this.savePhoto,this.props.existin
   render() {
     console.log('RENDER EDITOR')
 
-    return (
+    return ( this.state.uploaded ? <Redirect to='/'/> :
 
         <div id="container" ref={this.editorC}>
           <Dimmer active={this.state.uploading}>
@@ -131,9 +130,9 @@ function mapStateToProps(state){
   return {
   user_id: state.currentUser.id,
   token: state.token,
-  editing: selected,
-  url: selected.file.url,
-  exitingImg: state.createNew
+  editing: state.createNew || selected,
+  url: selected ? selected.file.url : null,
+  existingImg: !state.createNew
   }
 }
 
