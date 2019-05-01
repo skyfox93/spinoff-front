@@ -42,7 +42,7 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg,enableLoader) 
   }
    var imageObj = new Image();
   imageObj.crossOrigin = "Anonymous";
-  if (!existingImg){imageObj.src = image.src;}
+  if (existingImg){imageObj.src = image.src;}
 
   function handleFileSelect(evt) {
     var file = evt.target.files[0];
