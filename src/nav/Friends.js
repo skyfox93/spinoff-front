@@ -22,7 +22,6 @@ class Friends extends React.Component{
     )
       this.setState({noRelation})
     adapter.requestFollow(this.props.userId,followeeId, this.props.token)
-
   }
 
   handleChange=(e)=> {
@@ -55,17 +54,17 @@ class Friends extends React.Component{
     let baseUrl=this.props.baseUrl
     return <List size='small'>
       {this.state.following.map(
-        (result=><List.Item><List.Header><Image src={baseUrl+result.avatar.url} className='user-avatar' avatar /><Link to='/profile' onClick={()=>this.props.setViewingUser(result)}>{result.displayname}</Link><Button disabled floated='right'>Friends</Button></List.Header></List.Item>)
+        (result=><List.Item><List.Header><Image src={result.avatar.url} className='user-avatar' avatar /><Link to='/profile' onClick={()=>this.props.setViewingUser(result)}>{result.displayname}</Link><Button disabled floated='right'>Friends</Button></List.Header></List.Item>)
       )}
       {this.state.noRelation.map(
         (result=>
-          <List.Item ><List.Header><Image src={this.props.baseUrl+result.avatar.url} className='user-avatar'  avatar />
+          <List.Item ><List.Header><Image src={result.avatar.url} className='user-avatar'  avatar />
 <Link to='/profile' onClick={()=>this.props.setViewingUser(result)}>{result.displayname}</Link><Button floated='right' onClick={()=>this.requestFollow(result.id)} >{result.requested ? "Requested": "Follow"}</Button></List.Header>
 </List.Item>
       ))}
       {this.state.requested.map(
         (result=>
-          <List.Item><List.Header><Image src={this.props.baseUrl+result.avatar.url} className='user-avatar' avatar />
+          <List.Item><List.Header><Image src={result.avatar.url} className='user-avatar' avatar />
 <Link to='/profile' onClick={()=>this.props.setViewingUser(result)}>{result.displayname}</Link><Button  floated='right' onClick={()=>this.requestFollow(result)} >Requested</Button></List.Header></List.Item>
       ))}
       </List>
@@ -91,7 +90,7 @@ class Friends extends React.Component{
 
 function mapStateToProps(state){
   return {
-    userId: state.currentUser,
+    userId: state.currentUser.id,
     token : state.token
 
   }
