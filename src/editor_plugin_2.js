@@ -285,15 +285,12 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg,enableLoader) 
         inprocess1 = 0;
       }, 300);
     }
-    function removeListeners(){
 
-    }
     var saveimage = function() {
       enableLoader()
-
       postPhoto(canvas3.toDataURL("image/jpeg", 1.0),removeListeners)
-
     }
+
     saveBtn.addEventListener('click', saveimage);
 
     /// FUNCTIONS FOR DRAWING
@@ -305,8 +302,6 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg,enableLoader) 
       return Math.atan2(point2.x - point1.x, point2.y - point1.y);
     }
 
-
-    ctx.lineJoin = ctx.lineCap = 'round';
     var isDrawing, lastPoint;
     let size = 80;
     //USING GLOBAL VARIABLES isDrawing and lastPoint
@@ -344,6 +339,7 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg,enableLoader) 
           ctx.fillStyle = radgrad;
           ctx2.fillStyle = radgrad2;
           ctx3.fillStyle = radgrad3;
+
           if (erase.checked) {
             ctx.globalCompositeOperation = 'destination-out';
             ctx2.globalCompositeOperation = 'destination-out';
@@ -365,7 +361,6 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg,enableLoader) 
           }
           lastPoint = currentPoint;
         }
-
       };
     }
     const rect = el.getBoundingClientRect();

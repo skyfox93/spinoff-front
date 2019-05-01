@@ -55,9 +55,8 @@ code {
 	#color{width:40px;}
 	#fill,#clear{float:right;margin:0 5px;font-size:1em}
 	#blur{margin-left:100px;}
-	input[type="range"]
 
-{
+	input[type="range"]{
     width: 100px;
     margin: 0px;
     padding: 5px;
@@ -101,9 +100,11 @@ input[type="range"]::-webkit-slider-thumb
     -webkit-appearance: none;
 }
 
-/*button {
+
+button {
+  padding:1em;
   margin: 1, 20px;
-}*/
+}
 /*span {margin:20px;}*/
 .search-bar{
   width:300px;
@@ -156,6 +157,11 @@ text-align: left}
   margin-right:50px;
   align-self:baseline;
 }
+.nav-button{
+  padding:1em;
+  font-family:sans-serif;
+}
+
 #center-menu{
   margin-right:100px;
 }

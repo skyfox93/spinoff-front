@@ -17,7 +17,7 @@ const PhotoViewer= (props)=> {
           <div style={{padding:'20px',backgroundColor:'white'}}>
             <span>{props.location.pathname==='/profile' ?
               `@${props.user.displayname}'s profile`
-            :' Viewing Original Photo'}
+            :' Viewing Original Photo '}
             </span>
 
             <button onClick={()=> props.history.push('/')}> Back to Feed </button>

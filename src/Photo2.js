@@ -18,7 +18,7 @@ render(){
   return <Card raised className='card' key={this.props.id} style={{width: '500px', margin: '20px, auto', display: 'inline-block',backgroundColor:'white'}}>
           <Card.Content>
             <img src={baseUrl+this.props.user.avatar.url} className='user-avatar'/>
-            <a onClick={this.toProfile}>
+            <a onClick={()=>this.toProfile(this.props.user)}>
             @{this.props.user.displayname}
             </a>
           </Card.Content>

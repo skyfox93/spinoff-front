@@ -2,7 +2,7 @@ import React from 'react'
 import Requests from './Requests'
 import Friends from './Friends'
 import {Link} from 'react-router-dom'
-import {Menu, Image, Label} from 'semantic-ui-react'
+import {Menu, Image, Label, Button } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { addPhoto, clearCurrentUser} from './Actions/actions'
 import { baseUrl } from './config'
@@ -17,8 +17,8 @@ import { baseUrl } from './config'
 <div style={{display:'flex',justifyContent:'center', alignItems:'baseline', margin:'0px,auto',backgroundColor:'white',width:'100%',height:'50px'}}>
 {props.user ?
   <>
-  <div id='center-menu'><Link className='menu-button' to='/spinoff'onClick={()=>{props.addPhoto();}}>
-  <button> New Post</button> </Link>
+  <div id='center-menu'><Link className='menu-button' to='/spinoff' onClick={()=>{props.addPhoto();}}>
+  <button class="nav-button"> New Post</button> </Link>
   <Friends/>
   </div>
   <Requests/>

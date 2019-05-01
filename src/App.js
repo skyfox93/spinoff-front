@@ -66,12 +66,10 @@ class App extends Component {
               }
             />
             <Route
-              path='/'
+              exact path={['/','/photo','/profile','/profile/photo']}
               render={props =>
                 user ?
-                  (!editing) ?
                     <Feed />
-                    : null
                 : <div><Redirect to='/signin'/> You've been logged out. Please reload the page</div>
               }
             />
