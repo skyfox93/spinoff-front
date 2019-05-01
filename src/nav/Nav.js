@@ -4,8 +4,8 @@ import Friends from './Friends'
 import {Link} from 'react-router-dom'
 import {Menu, Image, Label, Button } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import { addPhoto, clearCurrentUser} from './Actions/actions'
-import { baseUrl } from './config'
+import { addPhoto, clearCurrentUser} from '../Actions/actions'
+import { baseUrl } from '../config'
   function signOut(clearUser){
     clearUser()
     sessionStorage.removeItem('user')

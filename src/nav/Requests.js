@@ -1,8 +1,8 @@
 import React from 'react'
-import adapter from './Adapter'
+import adapter from '../Adapters/Adapter'
 import { Popup, Icon, Label } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import { setViewingUser } from './Actions/actions'
+import { setViewingUser } from '../Actions/actions'
 class Requests extends React.Component{
 
   state = {

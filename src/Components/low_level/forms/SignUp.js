@@ -1,7 +1,7 @@
 import React from 'react'
 import Avatar from 'react-avatar-edit'
 import { Button, Form, Message } from 'semantic-ui-react'
-import adapter from "../Adapter.js"
+import adapter from "../../../Adapters/Adapter.js"
 class SignUpForm extends React.Component {
   state = {
     user:{username: '',

@@ -1,9 +1,9 @@
 import React from 'react'
-import adapter from './Adapter'
+import adapter from '../Adapters/Adapter'
 import {Popup, Image, List, Button} from 'semantic-ui-react'
 import {Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { setViewingUser} from './Actions/actions'
+import { setViewingUser} from '../Actions/actions'
 class Friends extends React.Component{
 
   state= {

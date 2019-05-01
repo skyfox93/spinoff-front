@@ -1,5 +1,5 @@
 import React from 'react'
-import Photo from './Photo2.js'
+import Photo from '../low_level/Photo2.js'
 import { Message } from 'semantic-ui-react'
 // from parent: viewPhoto, hideLink, photos
 class PhotosContainer extends React.Component{

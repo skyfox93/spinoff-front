@@ -2,10 +2,10 @@ import React from 'react'
 import { Card, Icon, Image } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { baseUrl } from './config'
+import { baseUrl } from '../../config'
 import { Link } from 'react-router-dom'
-import {editPhoto, setViewingUser } from './Actions/actions'
-import adapter from './Adapter'
+import {editPhoto, setViewingUser } from '../../Actions/actions'
+import adapter from '../../Adapters/Adapter'
 
 class Photo extends React.Component{
 

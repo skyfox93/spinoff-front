@@ -1,8 +1,7 @@
 import React from 'react'
-import Comment from './Comments'
 import { Card, Icon, Image } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
-import { baseUrl} from './config'
+import { baseUrl} from '../../config'
 class User extends React.Component{
 
 render(){

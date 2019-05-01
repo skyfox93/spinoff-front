@@ -1,10 +1,9 @@
 import React from 'react'
-import Comment from './Comments'
 import { Card, Icon, Image } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
-import { baseUrl } from './config'
+import { baseUrl } from '../../config'
 import { connect } from 'react-redux'
-import { editPhoto, setViewingUser } from './Actions/actions'
+import { editPhoto, setViewingUser } from '../../Actions/actions'
 
 class FeaturePhoto extends React.Component{
   // hideLInk= link to the spinoff page is hidden on the spinoff page.

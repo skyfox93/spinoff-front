@@ -1,5 +1,5 @@
 import React from 'react'
-import PhotoViewer from './PhotoViewer'
+import PhotoViewer from '../mid_level/PhotoViewer'
 import { connect } from 'react-redux'
 // rendered as a class function to prepare for a refactor
 class Spinoffs extends React.Component {

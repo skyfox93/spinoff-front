@@ -1,6 +1,6 @@
 import React from 'react'
 import Avatar from 'react-avatar-edit'
-import adapter from '../Adapter.js'
+import adapter from '../../../Adapters/Adapter'
 class SignUpForm extends React.Component {
   state = {
     user:{username: '',

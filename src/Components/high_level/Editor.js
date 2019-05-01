@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import {Dimmer, Loader} from 'semantic-ui-react'
 import { Redirect } from 'react-router-dom'
-import adapter from './Adapter'
-import stackBlurImage from './blurFunction.js'
-import logo from './logo.svg';
-import initEditor from './editor_plugin_2.js'
+import adapter from '../../Adapters/Adapter'
+import stackBlurImage from '../../helper_scripts/blurFunction'
+import initEditor from '../../helper_scripts/editor_plugin_2.js'
 import { connect } from 'react-redux'
-import { baseUrl } from './config'
-import { clearEditingPhoto } from './Actions/actions'
+import { baseUrl } from '../../config'
+import { clearEditingPhoto } from '../../Actions/actions'
 class Editor extends Component {
   constructor(props) {
     super(props);

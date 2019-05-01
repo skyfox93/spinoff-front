@@ -1,9 +1,9 @@
 import React from 'react'
-import FeaturePhoto from './FeaturePhoto'
+import FeaturePhoto from '../low_level/FeaturePhoto'
 import PhotosContainer from './PhotosContainer'
 import User from './User'
 import { withRouter } from 'react-router-dom'
-import { baseUrl } from './config'
+import { baseUrl } from '../../config'
 // PhotoViewer is rendered by Profile, by SpinOffs
 // If rendered by Profile, it contains a users profile pic, along with photos from that user
 // If rendered by Spinoffs, it contains the original photo, along with spinoffs.

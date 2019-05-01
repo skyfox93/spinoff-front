@@ -1,11 +1,11 @@
 import React from 'react'
-import PhotosContainer from './PhotosContainer'
+import PhotosContainer from '../mid_level/PhotosContainer'
 import {withRouter} from 'react-router-dom'
 import { Message } from 'semantic-ui-react'
-import adapter from './Adapter.js'
+import adapter from '../../Adapters/Adapter'
 import {Loader, Dimmer} from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import { selectPhoto, setPhotos } from './Actions/actions'
+import { selectPhoto, setPhotos } from '../../Actions/actions'
 class  FeedViewer extends React.Component{
 
   state= {

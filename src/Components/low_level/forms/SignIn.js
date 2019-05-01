@@ -1,9 +1,9 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
-import adapter from '../Adapter.js'
+import adapter from '../../../Adapters/Adapter'
 import {List, Button, Divider, Form, Grid, Segment, Message } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import { updateCurrentUser } from '../Actions/actions'
+import { updateCurrentUser } from '../../../Actions/actions'
 class SignInForm extends React.Component {
   state = {
     user:{username: 'Test User',
