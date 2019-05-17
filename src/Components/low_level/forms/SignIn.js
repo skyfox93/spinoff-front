@@ -91,7 +91,7 @@ class SignInForm extends React.Component {
 
             <Divider vertical>Or</Divider>
           </Segment>
-          <img src='/example.png'/>
+          <img src='./example.png'/>
         </div>
       </React.Fragment>
     )
