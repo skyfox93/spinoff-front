@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
+import { Switch, Router, Route, Redirect } from 'react-router-dom'
 //import { Stage, Sprite, AppConsumer } from '@inlet/react-pixi'
 // import * as PIXI from 'pixi.js'
 // import { ConvolutionFilter } from '@pixi/filter-convolution';
@@ -16,6 +16,7 @@ import Nav from './nav/Nav'
 import Profile from './Components/high_level/Profile'
 import adapter from './Adapters/Adapter'
 import Redirector from './Redirector'
+import { history } from './history.js'
 import { connect } from 'react-redux'
 import { updateCurrentUser, selectPhoto, selectProfilePhoto } from './Actions/actions'
 
@@ -45,7 +46,7 @@ class App extends Component {
     let feedPhoto=this.props.feedPhoto
     return (
       <div className="App">
-        <Router>
+        <Router history={history}>
           <div>
           <div className={this.state.hideWarning ? "mobile-warning hide" :'mobile-warning'} > Hi there! This site looks best on wider screens. You may continue, but the content will not display correctly. A mobile-friendly update is on its way.<br/> <button onClick={()=>this.setState({hideWarning:true})}>Dismiss</button> </div>
           <Nav/>
