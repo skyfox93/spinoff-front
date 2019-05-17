@@ -2,8 +2,9 @@
   "name": "spinoff-front",
   "version": "0.1.0",
   "private": true,
-  "homepage":"http://localhost/spinoff",
+  "homepage": "http://localhost",
   "dependencies": {
+    "express": "^4.16.4",
     "react": "^16.7.0",
     "react-avatar-edit": "^0.7.1",
     "react-dom": "^16.7.0",
@@ -15,7 +16,7 @@
     "semantic-ui-react": "^0.85.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "node server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
