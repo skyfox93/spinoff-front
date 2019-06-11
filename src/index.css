@@ -29,15 +29,15 @@ code {
   }
 }
 
-.tools-div{margin-bottom: 20px;padding:0;height:50px}
+.tools-div{display:flex;margin-bottom: 20px;padding:0;height:50px}
 .guide{margin:10px;color:white;border-radius:10px;padding:1em;}
 	#hiddenInputs{display:none;}
 	#blurCanvas,#tempCanvas {width:750px;float:left;position:absolute;margin-top:100px;z-index:0;display:none;}
-	#image {width:750px;border:solid green 10px;float:left;position:absolute;margin-top:100px;;display:none;z-index:0;}
+	#image {width:750px;border:solid green 10px;float:left;position:absolute;display:none;z-index:0;}
 	#controls{display:none;}
-	#canvas3{width:750px;float:left;position:absolute;margin-top:100px;;display:none;z-index:0;}
-	#c,#c2,#c3{float:left;position:absolute;opacity:1;margin-top:100px;}
-	#c4{float:left;position:absolute;opacity:1;margin-top:100px;opacity:0;}
+	#canvas3{width:750px;float:left;position:absolute;display:none;z-index:0;}
+	#c,#c2,#c3{float:left;position:absolute;opacity:1;}
+	#c4{float:left;position:absolute;opacity:1;opacity:0;}
 	.border {margin-left:50px;}
 	.hide {display:none;}
 	#strengthtext{width:500px;background-color:lightgray;height:50px;border-style:solid; border-radius:10px;}

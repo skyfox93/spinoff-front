@@ -124,7 +124,6 @@ function Adapter(baseUrl){
 
 }
 
-//const baseUrl='https://spinoff-back.herokuapp.com/api/v1'
 const baseUrl='http://localhost:3002/spinoff/api/v1'
 
 export default Adapter(baseUrl)
