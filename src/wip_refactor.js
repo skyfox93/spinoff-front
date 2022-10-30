@@ -25,8 +25,6 @@ function initEditor(editorC, stackBlurImage,postPhoto,existingImg,enableLoader) 
     }
 }
 
-
-
   const getBlendEffectFromMaskName = (maskName) =>{
     const maskType = maskName
     return blendEffects[maskType]
@@ -109,47 +107,7 @@ class UnsharpMask extends EffectMask {
         super(originalCanvas,editingCanvas, editingContext, canvasContainerRef)
       }
 
-      initializeBlurCanvas = () {
-        
+      initializeBlurCanvas = () => {
+         return null
       }
 }
-
-
-class EffectApplier {
-
-    colorOverlay = (blendMode, opacity, blendColor) =>{
-        this.editingContext.globalCompositeOperation = blendMode;
-        this.editingContext.fillStyle = blendColor
-        this.editingContext.globalAlpha =opacity ;
-        this.editingContext.fillRect(0, 0, editingCanvas.width, editingCanvas.height);
-        // clean up
-        this.editingContext.globalCompositeOperation = 'source-over';
-        this.editingContext.globalAlpha = 1;
-    }
-}
-
-    applyEffects () {
-      applyUnsharp({
-        sourceImage: this.originalCanvas,
-        destinationCanvas: this.tempCanvas,
-        ctx: this.tempCanvas.getContext('2d'),
-        blurCanvas: this.blurCanvas,
-        greyScaleCanvas: this.greyScaleCanvas,
-        strength: this.state.unsharpStrength
-      });
-      
-      // apply the mask to restore the parts we don't want to change
-      applyMask(editingCanvas, mainCanvas, editingContext, unsharpMask);
-
-      // maintain an "original" for the next round
-      mainContext.drawImage(editingCanvas, 0,0, mainCanvas.width, mainCanvas.height);
-      applyBrightness(alertedCanvas, editingContext, this.state.brightness.effectStrength, opacity);
-      applyMask(editingCanvas, mainCanvas, editingContext, brightnessMask);
-      // maintain an "original" for the next round
-      mainContext.drawImage(editingCanvas, 0,0, mainCanvas.width, mainCanvas.height);
-      applyTint(editingCanvas, tintCanvas, editingContext, this.state.tintEffectStrength);
-      applyMask(editingCanvas, mainCanvas, editingContext, tintMask);
-      // maintain an "original" for the next round
-      mainContext.drawImage(editingCanvas, 0,0, mainCanvas.width, mainCanvas.height);
-    }
-  }
