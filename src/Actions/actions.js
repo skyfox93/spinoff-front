@@ -1,6 +1,9 @@
 export const updateCurrentUser= (json)=> {
-  //sessionStorage.setItem('token',token)
-  //sessionStorage.setItem('user', JSON.stringify(json.user))
+  if(json.token){
+    sessionStorage.setItem('token',json.token)
+    sessionStorage.setItem('user', JSON.stringify(json.user))
+  }
+
     return {
       type:'setCurrentUser',
       payload:{
