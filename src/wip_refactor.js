@@ -1,88 +1,132 @@
+import { rgbToHex, toggleButtonGroupClasses } from "@mui/material";
 
 function initEditor(editorC, stackBlurImage,postPhoto,existingImg,enableLoader) {
 
+  const BasicOverlays = {
+
+    applyColorOverlay: (canvas, context, overlayColor, blendMode, opacity) => {
+      context.globalCompositeOperation = blendMode;
+      context.fillStyle = overlayColor
+      context.globalAlpha =opacity ;
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      // clean up
+      context.globalCompositeOperation = 'source-over';
+      context.globalAlpha = 1;
+    },
+
+    applyCanvasOverlay: (canvas, context, overlayCanvas, blendMode, opacity) => {
+      context.globalCompositeOperation = blendMode;
+      context.globalAlpha =opacity ;
+      context.drawImage(overlayCanvas,canvas.width, canvas.height)
+
+      // clean up
+      context.globalCompositeOperation = 'source-over';
+      context.globalAlpha = 1;
+    }
+}
+
+
+
+  const getBlendEffectFromMaskName = (maskName) =>{
+    const maskType = maskName
+    return blendEffects[maskType]
+  } 
 
   const blendEffects = {
+    // blend effects are built from combining basicOverlays
 
-    mask: ({editingCanvas, editingContext, originalCanvas, blendCanvas}) => { 
-      // KEEP ONLY THE PLACES MARKED WITH THE MASK
-      editingContext.globalCompositeOperation = 'destination-in';
-      editingContext.drawImage(blendCanvas, 0, 0, editingCanvas.width, editingCanvas.height);
-      editingContext.globalCompositeOperation = 'destination-atop';
-      editingContext.drawImage(originalCanvas, 0, 0, editingCanvas.width, editingCanvas.height);
-      //  clean up 
-      editingContext.globalCompositeOperation ='source-over'
+    effectMask: (editingCanvas, editingContext, originalCanvas, maskCanvas) => { 
+      // "Undo" the portions of the effect that the user cleared with the eraser
+
+      // By using "destination-in", we only keep places where the mask and edited image overlap
+      BasicOverlays.applyCanvasOverlay(editingCanvas, editingContext, maskCanvas, 'destination-in', 1)
+      // By adding clipped image "atop" the original image, the original is restored where the edited version is absent
+      BasicOverlays.applyCanvasOverlay(editingCanvas, editingContext, originalCanvas, 'destination-atop', 1)
     },
     
-    tint: ({editingCanvas,editingContext, blendCanvas, opacity}) => {
-      // apply a tint to the canvas        
-      editingContext.globalAlpha = opacity
-      editingContext.globalCompositeOperation ='color';
-      editingContext.drawImage(blendCanvas, 0, 0, editingCanvas.width, editingCanvas.height);
-      
-      //cleanUp
-      editingContext.globalCompositeOperation ='source-over';
-      editingContext.globalAlpha =1 
+    colorOver: ({editingCanvas, editingContext, maskCanvas}, {opacity}, ) => {
+      // apply the color of the blend canvas to the editing canvas
+      BasicOverlays.applyCanvasOverlay(editingCanvas, editingContext, blendCanvas, 'color', opacity)
     },
   
-    brightness: ({editingCanvas, editingContext, blendColor, opacity}) => {
-      editingContext.globalCompositeOperation = "overlay";
-      editingContext.fillStyle = blendColor
-      editingContext.globalAlpha =opacity ;
-      editingContext.fillRect(0, 0, editingCanvas.width, editingCanvas.height);
-  
-      // clean up
-      editingContext.globalCompositeOperation = 'source-over';
-      editingContext.globalAlpha = 1;
+    brightness: ({editingCanvas, editingContext}, {opacity, brightness} ) => {
+      const brightnessColor = `rgb(${brightness}, ${brightness}, ${brightness})`
+      BasicOverlays.applyColorOverlay(canvas, context, brighnessColor , 'overlay', opacity)
     },
   
-    unsharp: ({editingCanvas, originalCanvas, editingContext, blendCanvas, greyScaleCanvas, opacity}) => {
+    unsharp: ({editingCanvas, editingContext, blurCanvas, greyScaleCanvas}, {opacity}) => {
+      // by overlaying an inverted blured image with the original, this produces something similar to a "unsharp" effect
+      BasicOverlays.applyCanvasOverlay(editingCanvas, editingContext, blurCanvas, "overlay", opacity)
+      BasicOverlays.applyCanvasOverlay(editingCanvas, editingContext, greyScaleCanvas, "overlay", opacity * 0.7)
         // this method uses a blured "negative", combines it with a position to produce an unsharp effect
-        ctx.globalCompositeOperation = "source-over";
-        ctx.drawImage(sourceImage, 0, 0, destinationCanvas.width, destinationCanvas.height);
-        ctx.globalCompositeOperation = "overlay";
-        ctx.globalAlpha = 1;
-        ctx.drawImage(blurCanvas, 0, 0, destinationCanvas.width, destinationCanvas.height);
-  
-        // we've now selectively lost global contrast, lets restore it
-        ctx.globalAlpha = 0.7;
-        ctx.drawImage(greyScaleCanvas, 0, 0, destinationCanvas.width, destinationCanvas.height);
-  
-        // revert based on effect strength
-        ctx.globalAlpha = 1 - opacity
-        ctx.globalCompositeOperation = 'source-over' 
-        ctx.drawImage(sourceImage, destinationCanvas.width, destinationCanvas.height)
-        //clean up
-        ctx.globalAlpha = 1
     }
   }
 }
+
+const imageRefs = {
+  originalImage: null,
+  mainCanvas: null,
+  mainContext: null,
+  workingCanvas: null,
+}
+
 class EffectMask {
-    // an effectMask bound to the editing canvas instance
 
-    constructor(type, editingCanvas, editingContext){
-        this.editingCanvas = editingCanvas
-        this.editingContext =editingContext
-        this.originalCanvas =originalCanvas,
-        this.originalContext = originalContext
-        this.maskCanvas = inializeMask(type)
-        this.maskContext = maskContext[type]
-   
+      constructor(originalCanvas, editingCanvas, editingContext, canvasContainerRef) {
+          this.canvases = {
+            editingCanvas: editingCanvas,
+            editingContext: editingContext,
+            maskCanvas: this.initializeMaskCanvas()
+          }
+          this.canvasContainerRef = canvasContainerRef
+      }
+
+      initializeMaskCanvas = () => {
+        maskCanvas = document.createElement('canvas')
+        maskCanvas.width = canvasContainerRef.current.offsetWidth
+        maskCanvas.height = canvasContainerRef.current.offsetHeight
+        maskCanvas.style.height = '100%'
+        maskCanvas.style.height = '100%'
+        this.canvasContainerRef.appendChild(canvas)
+        return maskCanvas
+      }
+
+      applyEffect = (effectType, settings) => {
+        const effect = blendEffects[effectType]
+        if (effect) {
+          effect(this.canvases, settings)
+        }
+      }
+
+      drawToCanvas(coordinates, color, opacity){
+
+      }
+}
+
+class UnsharpMask extends EffectMask {
+
+      constructor(){
+        super(originalCanvas,editingCanvas, editingContext, canvasContainerRef)
+      }
+
+      initializeBlurCanvas = () {
+        
+      }
+}
+
+
+class EffectApplier {
+
+    colorOverlay = (blendMode, opacity, blendColor) =>{
+        this.editingContext.globalCompositeOperation = blendMode;
+        this.editingContext.fillStyle = blendColor
+        this.editingContext.globalAlpha =opacity ;
+        this.editingContext.fillRect(0, 0, editingCanvas.width, editingCanvas.height);
+        // clean up
+        this.editingContext.globalCompositeOperation = 'source-over';
+        this.editingContext.globalAlpha = 1;
     }
-
-    additionalInit() {
-      return 
-      // child classes will implement this
-    }
-
-    initializeMask = (container) => {
-      let mask = document.createElement('canvas')
-      const ratio = originalCanvas.height / originalCanvas.width;
-      mask.width = 750
-      mask.height = 750 * ratio
-      mask.className = 'blending-mask'
-      this.additionalInit()
-    }    
+}
 
     applyEffects () {
       applyUnsharp({
@@ -93,9 +137,9 @@ class EffectMask {
         greyScaleCanvas: this.greyScaleCanvas,
         strength: this.state.unsharpStrength
       });
+      
       // apply the mask to restore the parts we don't want to change
       applyMask(editingCanvas, mainCanvas, editingContext, unsharpMask);
-
 
       // maintain an "original" for the next round
       mainContext.drawImage(editingCanvas, 0,0, mainCanvas.width, mainCanvas.height);
@@ -108,5 +152,4 @@ class EffectMask {
       // maintain an "original" for the next round
       mainContext.drawImage(editingCanvas, 0,0, mainCanvas.width, mainCanvas.height);
     }
-}
-
+  }
