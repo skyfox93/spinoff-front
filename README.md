@@ -3,7 +3,6 @@
   The Backend repository can be found here:
   https://github.com/skyfox93/spinoff
  ### Demos
-  Live Demo: http://spinoff.herokuapp.com  
   Video Demo: https://www.youtube.com/watch?v=t1KYujIiABA&t=81s
  ### Features
   + Post Photos  
