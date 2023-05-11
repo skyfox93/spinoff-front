@@ -10,6 +10,12 @@ function Adapter(baseUrl){
       body: JSON.stringify({user})
     })
   }
+
+  function getPhotos(){
+    return fetch(`${baseUrl}/photos`)
+    .then(resp=> resp.ok ? resp.json(): Promise.reject(resp.json()))
+  }
+
   function login(user){
     return fetch(baseUrl+'/login', {
       method: 'POST',
@@ -118,13 +124,13 @@ function Adapter(baseUrl){
    getRequests: getRequests,
    login: login,
    signup: signup,
-   patchUser, patchUser
-
+   patchUser: patchUser,
+   getPhotos: getPhotos
  }
 
 }
 
-const baseUrl='https://spinoff-back.herokuapp.com/api/v1'
-//const baseUrl='http://localhost:3000/api/v1'
+//const baseUrl='https://spinoff-back.herokuapp.com/api/v1'
+const baseUrl='http://localhost:3000/api/v1'
 
 export default Adapter(baseUrl)

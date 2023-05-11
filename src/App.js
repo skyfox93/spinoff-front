@@ -30,13 +30,8 @@ class App extends Component {
     editingPhotoId: null,
     sProfilePhotoId: null,
     createNew: false,
+
   }
-
-  /*updateProfileId= (id)=> {
-    this.setState({profileId:id})
-  }*/
-
-
 
   updateCurrentUser=(json=>{
     this.setState({user:json.user,token:json.token})
@@ -44,6 +39,7 @@ class App extends Component {
     sessionStorage.setItem('user', JSON.stringify(json.user))
   }
   )
+  
   clearCurrentUser=()=> {
     this.setState({user:null})
       sessionStorage.removeItem('user')
@@ -69,20 +65,21 @@ class App extends Component {
     this.setState({sProfilePhotoId:photo_id})
     history.push('/profile/photo')
   }
-  deSelectProfilePhoto=(photo_id)=>{
-    this.setState({sProfilePhotoId:null})
+
+  deSelectProfilePhoto= (photo_id) => {
+    this.setState({ sProfilePhotoId:null })
   }
 
-  getSpinoffs=()=>{
+  getSpinoffs=() => {
     let selected=this.getSelectedPhoto(this.state.selectedPhotoId)
     let id=selected.id
-  return this.state.photos.filter(photo=> photo.photo_id === id)
+    return this.state.photos.filter(photo=> photo.photo_id === id)
   }
 
   getPSpinoffs=()=>{
     let selected=this.getSelectedPhoto(this.state.sProfilePhotoId)
     let id=selected.id
-  return this.state.photos.filter(photo=> photo.photo_id === id)
+    return this.state.photos.filter(photo=> photo.photo_id === id)
   }
 
   getSelectedPhoto=(id)=>{
@@ -102,7 +99,6 @@ class App extends Component {
     return this.state.photos.find((photo)=>
       photo.id===this.state.editingPhotoId
     )
-    debugger
   }
 
 
@@ -121,7 +117,6 @@ class App extends Component {
       },this.state.token)
     .then((photo)=>{
       removeListeners()
-      let newPhotos=[photo, ...this.state.photos]
       this.setState({editingPhotoId:null,createNew:null})
     })
     .catch((error)=> alert('sorry,something went wrong'))
@@ -130,7 +125,7 @@ class App extends Component {
 
   fetchFeed= ()=>{
     this.setState({loading:true})
-     adapter.getFeed(this.state.user.id,this.state.token)
+     adapter.getPhotos()
     .then(
       photos => this.setState({photos, loading:false, feedLoaded:true})
     )
@@ -164,7 +159,6 @@ class App extends Component {
           user={this.state.user}
           token={this.state.token}
           baseUrl={baseUrl}
-          user={this.state.user}
           signout={this.clearCurrentUser}
           />
           <div style={{height:'50px'}}>
@@ -227,14 +221,12 @@ class App extends Component {
                 (this.state.user) ?
                   ((editing || this.state.createNew)  ?
                     <Editor
-                     url={editing && editing.file.url}
-                     id={editing && editing.id}
-                     baseUrl={baseUrl}
-                     //photo will save as belonging to currentUser
-                     currentUserID={this.state.user.id}
-                     baseUrl={baseUrl}
-                     savePhoto={this.savePhoto}
-                     existingImg={!this.state.createNew}
+                      url={editing && editing.file.url}
+                      id={editing && editing.id}
+                      baseUrl={baseUrl}
+                      currentUserID={this.state.user.id}
+                      savePhoto={this.savePhoto}
+                      existingImg={!this.state.createNew}
                     />
                   : <Redirect to='/'/>)
                 : <Redirect to= '/signin'/>

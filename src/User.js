@@ -6,13 +6,11 @@ import { withRouter } from 'react-router-dom'
 class User extends React.Component{
 
 render(){
-  return <Card raised className='card' style={{width:'500px', margin: '20px, auto', display: 'inline-block'}}>
-          <Image src={this.props.baseUrl+this.props.user.avatar.url}
+  return <span>
+          <Image style={{width:'50px', margin: '1em', display: 'inline-block'}} src={this.props.baseUrl+this.props.user.avatar.url}
           />
-          <Card.Content>{this.props.user.displayname}</Card.Content>
-        {this.props.user.bio ? <Card.Content> Bio: {this.props.user.bio}</Card.Content> : null}
-
-          </Card>
+          <span>@{this.props.user.displayname}</span>
+          </span>
   }
 
 }

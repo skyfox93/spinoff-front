@@ -9,16 +9,21 @@ const PhotoViewer= (props)=>{
   return (
     <div style={{width:'100%',height:'100%',left:'0px', top:'50px', display: 'inline-block',position:'fixed', zIndex:2 }}>
       <div style={{height:'100%',width:'100%', display: 'inline-block' }}>
-        <div style={{padding:'20px',backgroundColor:'white'}}><span>{props.profileView ? `@${props.viewingUser.displayname}'s profile` : ' Viewing Original Photo'}</span><button onClick={()=> props.history.push('/')}> Back to Feed </button>
+        <div style={{padding:'20px',backgroundColor:'white'}}>
       {window.location.href===path ? <button onClick={()=> props.history.push('/profile')}> Back to Profile </button> : null}
+          {props.profileView ?
+          <span>
+            Photos by
+            <User user={props.viewingUser}  baseUrl={props.baseUrl}/>
+          </span>
+          : null
+        }
         </div>
 
-        <div style={{height:'100%',overflow: 'scroll',backgroundColor:'white'}}>
+        <div style={{height:'calc(100% - 120px)',overflow: 'scroll',backgroundColor:'white'}}>
           <div>
 
-            {props.profileView ?
-              <User user={props.viewingUser} baseUrl={props.baseUrl} />
-
+           {props.profileView? null
               :<Photo
                 owner={props.selected.owner}
                 id={props.selected.id}
@@ -38,6 +43,7 @@ const PhotoViewer= (props)=>{
           <PhotosContainer
           photos={props.photos}
           baseUrl={props.baseUrl}
+          hideOriginal = {true}
           spinOffPhoto={props.spinoffPhoto}
           viewPhoto={props.viewPhoto}
           editPhoto={props.editPhoto}
